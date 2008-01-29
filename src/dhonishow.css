@@ -1,0 +1,126 @@
+.dhonishow {
+	overflow: hidden;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
+	position: relative;
+}           
+
+.dhonishow * {
+	padding:  0;
+	margin: 0;
+	border:  none;
+	list-style: none;
+}                  
+
+.dhonishow-preloader {
+	margin-right: 2em;
+	background: #defb00;
+	overflow: hidden;
+	width: auto;
+	padding: 2em;
+	z-index: 1000;
+	position: absolute;
+	left: 2em;
+	top: 2em;
+}
+
+.dhonishow-preloader li {
+	float: left;
+	display: block;
+	line-height: 2em;
+	padding: 0 1em;
+	margin-right: .3em;
+	background: #000;
+	margin-bottom: .3em;
+}
+
+.dhonishow-preloader li.loaded {
+	background: #00AAEF;
+}
+
+.dhonishow-preloader .dhonishow-preloader-loading {
+	float: none;
+	background: none;
+	padding: 0;
+	color: #000;
+}
+
+.dhonishow-preloader .dhonishow-preloader-loading span {}
+
+.dhonishow-images {
+	display: block;
+	overflow: hidden;
+	text-align: left;
+	position: relative;
+}     
+
+.dhonishow-images li {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.dhonishow-navi {  
+	margin-bottom: 2px;
+	color: #fff;
+	overflow: hidden;
+	width: 100%;
+	padding: 5px 0 5px 0;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+                  
+.dhonishow-picture-alt {
+	font-weight: bold;
+	text-align: left;
+	float: left;
+	font-size: 11px;
+	line-height: 16px;
+	padding-left: 5px;
+}          
+
+.dhonishow-navi .dhonishow-next-picture,
+.dhonishow-navi .dhonishow-previous-picture {
+	text-indent: -999px;
+	width: 16px;
+	height: 18px;
+	float: right;
+	margin: 0;
+	cursor:  pointer;
+	-moz-outline: none;
+}
+                     
+.dhonishow-navi .dhonishow-next-picture {
+	margin-right: 15px;
+	background: url("next.gif") no-repeat;
+}
+
+.dhonishow-previous-picture {
+	background: url("previous.gif") no-repeat;	
+}
+
+.dhonishow-next-picture:hover {
+	background: url("next_hover.gif") no-repeat;
+}
+
+.dhonishow-previous-picture:hover {
+	background: url("previous_hover.gif") no-repeat;	
+}
+
+.dhonishow-navi .paging {
+	float: right;
+	font-size: 22px;
+	margin: 0 10px;
+	line-height:  20px;
+}
+
+.dhonishow .error {
+	background: #ea2032;
+	width: 300px; 
+	height: 5em;
+	padding-top:1em;
+	text-align: center;
+	font-size: 10px;
+	line-height: 18px;
+}
