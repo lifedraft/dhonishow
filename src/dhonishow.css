@@ -53,12 +53,14 @@
 	position: relative;
 }     
 
-.dhonishow-images li {
-	position: absolute;
-	left: 0;
-	top: 0;
+.element {
+	height: 100%;
 	margin: 0;
 	padding: 0;
+	overflow: visible;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .dhonishow-navi {  
@@ -108,7 +110,7 @@
 	background: url("previous_hover.gif") no-repeat;	
 }
 
-.dhonishow-navi .paging {
+.dhonishow-navi .dhonishow-paging {
 	float: right;
 	font-size: 22px;
 	margin: 0 10px;
