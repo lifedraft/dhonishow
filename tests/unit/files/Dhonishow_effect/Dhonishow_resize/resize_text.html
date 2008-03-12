@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<title>vertical</title>	
+	<title>resize_true</title>	
 	<link rel="stylesheet" href="../../tests.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
 	<!--[if lt IE 8]>
 		<link rel="stylesheet" href="../../tests_ie.css" type="text/css" media="screen" title="no title" charset="utf-8" />
@@ -13,16 +13,24 @@
 	<link rel="stylesheet" href="../../../src/dhonishow.css" type="text/css" media="screen" title="no title" charset="utf-8" />
 	<script src="../../../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../../src/jquery.dhonishow.js" type="text/javascript" charset="utf-8"></script>
+	<!--<script src="../../../src/jquery.dhonishow_noEffects.js" type="text/javascript" charset="utf-8"></script>-->
+	<style type="text/css" media="screen">
+		body {
+			text-align: center;
+		}
+		.dhonishow {
+			margin: 0 auto;
+		}
+	</style>
 
 </head>
-
 <body>
-	<h1>Vertical test</h1>
+	<h1>resize_true test</h1>
 	
-	<div class="dhonishow effect_vertical">
-		<img src="../../images/1.jpg" />
+	<div class="dhonishow effect_resize">
+		<img src="../../images/1_small.jpg" />
 		<img src="../../images/2.jpg" />
-		<img src="../../images/3.jpg" />
+		<img src="../../images/3_small.jpg" />
 		<img src="../../images/4.jpg" />
 	</div>
 </body>

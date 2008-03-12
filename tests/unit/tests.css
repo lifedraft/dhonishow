@@ -32,11 +32,21 @@ h1 {
 	width: 260px;	
 }
 
-#navigation a {
+#navigation a,
+#navigation li li h2 a {
 	display: block;
 	text-decoration: none;
 	color: #fff;
 	-moz-outline: none;
+	background: none;
+}
+
+#navigation li li h2 a {
+  padding-left: 0;
+  text-decoration: underline;
+}
+#navigation li li h2 a:hover {
+  text-decoration: none;
 }
 
 #navigation a:hover {
@@ -48,7 +58,8 @@ h1 {
 	margin-bottom: 2px;
 }
 
-#navigation h2 {
+#navigation h2,
+#navigation li li h2 {
 	background: #454545;
 	color: #fff;	
 	font-weight: normal;
@@ -56,10 +67,23 @@ h1 {
 	padding-left: 2px;
 	line-height: 1.8em;
 	display: block;
+	font-weight: bold;
+}
+
+#navigation li li h2 {
+  background: none;
+  font-weight: normal;
+  border-bottom: 1px solid #fff;
+  margin-left: 10px;
+  padding-left: 0;
 }
 
 #navigation li ul {
 	padding-bottom: 1em;
+}
+
+#navigation li ul ul {
+  padding-bottom: 2px;
 }
 
 #navigation li li {
@@ -67,10 +91,17 @@ h1 {
 	display: block;
 }
 
-#navigation li li a{
+#navigation li li a {
 	background: #fff;
 	color: #00AAEF;
 	padding-left: 2px;
+}
+
+#navigation li li li {
+  padding-left: 10px;
+}
+
+#navigation li li li a {
 }
 
 

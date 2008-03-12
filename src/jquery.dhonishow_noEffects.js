@@ -327,7 +327,7 @@
 					this.previous_button.bind("click", function ( e ) {
 						if(!changingImages) {
 							Dom.elements.changeImage(dhonishowCurrentElement--, dhonishowCurrentElement);
-							Autoplay.reset(); 							
+							Autoplay.reset(); 
 						}
 					});
 				},
@@ -369,7 +369,11 @@
 				
 				periodical: function(){
 					if(!changingImages) {
-						(dhonishowCurrentElement+1 == dhonishowCurrentElement.length) ? dhonishowCurrentElement-- : dhonishowCurrentElement++;
+						if(dhonishowCurrentElement+1 == dhonishowCurrentElement.length){
+							dhonishowCurrentElement--;
+						}else{ 
+							dhonishowCurrentElement++;
+						};
 
 						if(dhonishowCurrentElement == dhonishowElements.length) {
 							Dom.elements.changeImage(dhonishowElements.length-1, dhonishowCurrentElement = 0);

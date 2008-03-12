@@ -46,7 +46,7 @@
 
 .dhonishow-preloader .dhonishow-preloader-loading span {}
 
-.dhonishow-images {
+.dhonishow-elements {
 	display: block;
 	overflow: hidden;
 	text-align: left;
@@ -82,8 +82,8 @@
 	padding-left: 5px;
 }          
 
-.dhonishow-navi .dhonishow-next-picture,
-.dhonishow-navi .dhonishow-previous-picture {
+.dhonishow-navi .dhonishow-next-button,
+.dhonishow-navi .dhonishow-previous-button {
 	text-indent: -999px;
 	width: 16px;
 	height: 18px;
@@ -93,20 +93,20 @@
 	-moz-outline: none;
 }
                      
-.dhonishow-navi .dhonishow-next-picture {
+.dhonishow-navi .dhonishow-next-button {
 	margin-right: 15px;
 	background: url("next.gif") no-repeat;
 }
 
-.dhonishow-previous-picture {
+.dhonishow-previous-button {
 	background: url("previous.gif") no-repeat;	
 }
 
-.dhonishow-next-picture:hover {
+.dhonishow-next-button:hover {
 	background: url("next_hover.gif") no-repeat;
 }
 
-.dhonishow-previous-picture:hover {
+.dhonishow-previous-button:hover {
 	background: url("previous_hover.gif") no-repeat;	
 }
 
