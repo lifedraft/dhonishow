@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Link in alt attribute</title>	
+	<link rel="stylesheet" href="../../tests.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
+	<!--[if lt IE 8]>
+		<link rel="stylesheet" href="../../tests_ie.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+	<![endif]-->
+
+	<link rel="stylesheet" href="../../../../src/dhonishow.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+	<script src="../../../../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../../../src/jquery.dhonishow.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>
+	<h1>Link in alt attribute test</h1>
+	
+	<div class="dhonishow effect_appear">
+		<img src="../../assets/1.jpg" alt="Lorem ipsum dolor sit <a href='http://dhonishow.de/'>amet</a>, consectetur adipisicing elit" />
+		<img src="../../assets/2.jpg" alt="Lorem ipsum dolor sit consectetur adipisicing <a href='http://dhonishow.de/'>amet</a> elit" />
+		<img src="../../assets/3.jpg" alt="<a href='http://dhonishow.de/'>Amet</a> lorem ipsum dolor sit consectetur adipisicing elit" />
+		<img src="../../assets/4.jpg" alt="Lorem ipsum dolor sit consectetur adipisicing elit <a href='http://dhonishow.de/'>amet</a>" />
+	</div>
+</body>
+</html>
