@@ -1,47 +1,47 @@
 .dhonishow {
-	overflow: hidden;
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
-	position: relative;
-}           
+overflow: hidden;
+font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
+position: relative;
+}
 
 .dhonishow * {
-	padding:  0;
-	margin: 0;
-	border:  none;
 	list-style: none;
-}                  
+	border:  none;
+	padding: 0;
+	margin: 0;
+}
 
 .dhonishow-preloader {
-	margin-right: 2em;
 	background: #defb00;
-	overflow: hidden;
-	width: auto;
-	padding: 2em;
-	z-index: 1000;
 	position: absolute;
+	margin-right: 2em;
+	overflow: hidden;
+	z-index: 1000;
+	padding: 2em;
+	width: auto;
 	left: 2em;
 	top: 2em;
 }
 
 .dhonishow-preloader li {
-	float: left;
-	display: block;
-	line-height: 2em;
-	padding: 0 1em;
-	margin-right: .3em;
-	background: #000;
 	margin-bottom: .3em;
+	margin-right: .3em;
+	line-height: 2em;
+	background: #000;
+	display: block;
+	padding: 0 1em;
+	float: left;
 }
-
+  
 .dhonishow-preloader li.loaded {
 	background: #00AAEF;
 }
 
 .dhonishow-preloader .dhonishow-preloader-loading {
-	float: none;
 	background: none;
-	padding: 0;
 	color: #000;
+	float: none;
+	padding: 0;
 }
 
 .dhonishow-preloader .dhonishow-preloader-loading span {}
@@ -51,55 +51,63 @@
 	overflow: hidden;
 	text-align: left;
 	position: relative;
-}     
+}
 
 .element {
-	height: 100%;
-	margin: 0;
-	padding: 0;
+	position: absolute;  
 	overflow: visible;
-	position: absolute;
-	top: 0;
+	line-height: 1px;
+	padding: 0;
+	margin: 0;
 	left: 0;
+	top: 0;
+}
+
+.element * {
+  line-height: 1px;
+}
+
+.element p {
+  line-height: 1.2em;
 }
 
 .dhonishow-navi {  
-	margin-bottom: 2px;
-	color: #fff;
-	overflow: hidden;
-	width: 100%;
-	padding: 5px 0 5px 0;
+	border-bottom: 1px solid #fff;  
 	border-top: 1px solid #fff;
-	border-bottom: 1px solid #fff;
+	padding: 5px 0 5px 0;
+	margin-bottom: 2px;
+	overflow: hidden;
+	color: #fff;
+	width: 100%;
+
 }
-                  
+
 .dhonishow-picture-alt {
 	font-weight: bold;
+	line-height: 16px;	
 	text-align: left;
-	float: left;
 	font-size: 11px;
-	line-height: 16px;
-	padding-left: 5px;
+	float: left;
 }          
 
 .dhonishow-navi .dhonishow-next-button,
 .dhonishow-navi .dhonishow-previous-button {
-	text-indent: -999px;
-	width: 16px;
-	height: 18px;
-	float: right;
-	margin: 0;
-	cursor:  pointer;
+	text-indent: -10000em;
 	-moz-outline: none;
+	cursor:  pointer;
+	float: right;
+	height: 18px;
+	width: 16px;
+	margin: 0;
 }
-                     
+                   
 .dhonishow-navi .dhonishow-next-button {
-	margin-right: 15px;
 	background: url("next.gif") no-repeat;
+	margin-left: 10px;
 }
 
 .dhonishow-previous-button {
-	background: url("previous.gif") no-repeat;	
+	background: url("previous.gif") no-repeat;
 }
 
 .dhonishow-next-button:hover {
@@ -107,22 +115,22 @@
 }
 
 .dhonishow-previous-button:hover {
-	background: url("previous_hover.gif") no-repeat;	
+	background: url("previous_hover.gif") no-repeat;
 }
 
 .dhonishow-navi .dhonishow-paging {
-	float: right;
+	margin-left: 10px;
+	line-height: 20px;
 	font-size: 22px;
-	margin: 0 10px;
-	line-height:  20px;
+	float: right;
 }
 
 .dhonishow .error {
 	background: #ea2032;
-	width: 300px; 
-	height: 5em;
-	padding-top:1em;
 	text-align: center;
-	font-size: 10px;
 	line-height: 18px;
+	padding-top: 1em;
+	font-size: 10px;	
+	width: 300px;
+	height: 5em;
 }
