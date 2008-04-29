@@ -45,22 +45,22 @@ Dhonishow.prototype.elementsSet = function(element){
 };
 
 Dhonishow.extend = function(subClass, superClass){
-	
-	/*
-		THX to Dustin Diaz and Ross Harmes for this great book:
-		Pro JavaScript Design Patterns
-		:)
-	*/
 
-	var F = function(){};
-	F.prototype = superClass.prototype;
-	subClass.prototype = new F();
-	subClass.prototype.constructor = subClass;
+  /*
+    THX to Dustin Diaz and Ross Harmes for this great book:
+    Pro JavaScript Design Patterns
+    :)
+  */
 
-	subClass.superclass = superClass.prototype;
-	if (superClass.prototype.constructor == Object.prototype.constructor) {
-		superClass.prototype.constructor = superClass;
-	};
+  var F = function(){};
+  F.prototype = superClass.prototype;
+  subClass.prototype = new F();
+  subClass.prototype.constructor = subClass;
+
+  subClass.superclass = superClass.prototype;
+  if (superClass.prototype.constructor == Object.prototype.constructor) {
+    superClass.prototype.constructor = superClass;
+  };
 };
 
 // ###########################################################################
@@ -135,8 +135,7 @@ jQuery.extend(Dhonishow.helper = {}, {
         
         arg.push({width: jQuery(window).width(), height: 500});
         func.apply(scope, arg);
-      };
-      //alert(jQuery(scope.firstChild).width());
+      }
     }
   },
 
@@ -178,7 +177,7 @@ var DhonishowOptions = function(element){
       value = Number( value.replace(/dot/, ".") );
     }
 
-    if (suboption = option[1].match(/(\w+)-(\w+)/) ) {		  
+    if (suboption = option[1].match(/(\w+)-(\w+)/) ) {
       if(typeof this[suboption[1].toLowerCase()] != "object") this[suboption[1].toLowerCase()] = {};
       this[suboption[1].toLowerCase()][suboption[2].toLowerCase()] = value;
     } else {
