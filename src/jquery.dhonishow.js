@@ -13,11 +13,14 @@ var Dhonishow = function(element, options, index) {
     this.current_index = 0;
     this.queue = new this.queue();
     
-    this.dom = new DhonishowDomTemplate(element, this);
+    this.dom = new this.dom.template(element, this);
 
-    for(var option in (this.options = new DhonishowOptions(element))) // invokes constructor class of each option
+    for(var option in (this.options = new this.options(element))) // invokes constructor class of each option
       if (this[option] != false) this[option] = new window["Dhonishow_"+option](this.options[option], this);
 
+    /*
+      TODO Kick this
+    */
     jQuery(window).bind('load', function(event) { if(!_this.options.hide.navigation) jQuery(".dhonishow-navi", element).show(); });
   }
 };
@@ -38,11 +41,11 @@ Dhonishow.prototype.queue.prototype.invokeAll = function(type){
     this.queues[type][i].scope[this.queues[type][i].func_name].apply(this.queues[type][i].scope, this.queues[type][i].args);
 };
 
-Dhonishow.prototype.animating = function(){
+Dhonishow.prototype.animating = function() {
   return jQuery(this.dom.element).find("*:animated").length;
 };
 
-Dhonishow.prototype.elementsSet = function(element){
+Dhonishow.prototype.elementsSet = function(element) {
   if ( jQuery( element ).children().length > 0 ) return true;
 
   jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
@@ -71,8 +74,8 @@ Dhonishow.extend = function(subClass, superClass) {
 
 // ###########################################################################
 
-var DhonishowOptions = function(element){
-  
+Dhonishow.prototype.options = function(element){
+
   var suboption;
   this.preloader = true;
   this.duration = 0.6;
@@ -100,7 +103,7 @@ var DhonishowOptions = function(element){
       suboption[1] = suboption[1].toLowerCase();
       if(this[suboption[1]].constructor != Object)
         this[suboption[1]] = {};
-      
+
       this[suboption[1].toLowerCase()][suboption[2].toLowerCase()] = value;
     } else {
       this[option[1].toLowerCase()] = value;
@@ -112,7 +115,7 @@ var DhonishowOptions = function(element){
 
 // ###########################################################################
 
-jQuery.extend(Dhonishow.helper = {}, {
+Dhonishow.helper = {
   
   image: function ( element  ) {
     
@@ -190,11 +193,12 @@ jQuery.extend(Dhonishow.helper = {}, {
     });
     return to;
   }
-});
+};
 
 // ###########################################################################
 
-var DhonishowDomTemplate = function(element, parent){
+Dhonishow.prototype.dom = {};
+Dhonishow.prototype.dom.template = function(element, parent){
   this.parent = parent;
   this.element = jQuery(element);
   this.saveChildren();
@@ -206,9 +210,8 @@ var DhonishowDomTemplate = function(element, parent){
   this.parent.queue.register("updaters", this, "allpages", this.giveModluePlaceholder("allpages"));
   
 };
-Dhonishow.extend(DhonishowDomTemplate, Dhonishow);
 
-DhonishowDomTemplate.prototype.template =
+Dhonishow.prototype.dom.template.prototype.template =
 ['<ol class="dhonishow-elements">@images</ol>',
 '<div class="dhonishow-navi" style="display:none;">',
   '<p class="dhonishow-picture-alt">@alt</p>',
@@ -219,14 +222,14 @@ DhonishowDomTemplate.prototype.template =
   "</div>",
 '</div>'].join("");
 
-DhonishowDomTemplate.prototype.elementWrapper = "<li class='element'></li>";
+Dhonishow.prototype.dom.template.prototype.elementWrapper = "<li class='element'></li>";
 
-DhonishowDomTemplate.prototype.saveChildren = function(){
+Dhonishow.prototype.dom.template.prototype.saveChildren = function(){
   this.children = jQuery(this.element).children();
   this.element.innerHTML = "";
 };
 
-DhonishowDomTemplate.prototype.placeholders = function(element){
+Dhonishow.prototype.dom.template.prototype.placeholders = function(element){
   var modulePlaceholders = {};
   jQuery(this.element).append(this.template.replace(/@(\w*)/g, function(searchResultWithExpression, searchResult){
     modulePlaceholders[searchResult] = ".dhonishow_module_"+searchResult;
@@ -235,16 +238,16 @@ DhonishowDomTemplate.prototype.placeholders = function(element){
   return this.modulePlaceholders = modulePlaceholders;
 };
 
-DhonishowDomTemplate.prototype.invokeModules = function(){
+Dhonishow.prototype.dom.template.prototype.invokeModules = function(){
   for(var module in this.modulePlaceholders)
     this[module](this.giveModluePlaceholder(module));
 };
 
-DhonishowDomTemplate.prototype.giveModluePlaceholder = function(name){
+Dhonishow.prototype.dom.template.prototype.giveModluePlaceholder = function(name){
   return jQuery(this.element).find(this.modulePlaceholders[name]);
 };
 
-DhonishowDomTemplate.prototype.images = function(placeholder){
+Dhonishow.prototype.dom.template.prototype.images = function(placeholder){
   var _this = this;
   this.children || [];
 
@@ -252,7 +255,7 @@ DhonishowDomTemplate.prototype.images = function(placeholder){
   this.elements = jQuery(this.children).wrap(this.elementWrapper).parent();
 };
 
-DhonishowDomTemplate.prototype.alt = function(placeholder){
+Dhonishow.prototype.dom.template.prototype.alt = function(placeholder){
   var alt, title, src;
   if(alt = jQuery(this.elements[this.parent.current_index]).find("*[alt]").attr("alt")){
     if(jQuery(alt).filter("*").length){ placeholder.each(function(){ this.innerHTML = alt; }); return; }
@@ -270,11 +273,11 @@ DhonishowDomTemplate.prototype.alt = function(placeholder){
   }
 };
 
-DhonishowDomTemplate.prototype.current = function(placeholder){
+Dhonishow.prototype.dom.template.prototype.current = function(placeholder){
   placeholder.text(this.parent.current_index+1);
 };
 
-DhonishowDomTemplate.prototype.allpages = function(placeholder){
+Dhonishow.prototype.dom.template.prototype.allpages = function(placeholder){
   placeholder.text(this.elements.length);
 };
 
