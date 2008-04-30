@@ -11,6 +11,8 @@ var Dhonishow = function(element, options, index) {
   if(!element.id) element.id = "dhonishow_"+index;
   if(this.elementsSet(element)){
     this.current_index = 0;
+    this.queue = new this.queue();
+    
     this.dom = new DhonishowDomTemplate(element, this);
 
     for(var option in (this.options = new DhonishowOptions(element))) // invokes constructor class of each option
@@ -20,16 +22,20 @@ var Dhonishow = function(element, options, index) {
   }
 };
 
-Dhonishow.prototype.registerUpdater = function(scope, func_name){
-  this.updaters = this.updaters || [];
-  var args = []; for (var i = 2; i < arguments.length; i++) args.push(arguments[i]);
-  this.updaters.push({scope: scope, func_name: func_name, args: args});
+Dhonishow.prototype.queue = function(){
+  this.queues = {};
+};
+
+Dhonishow.prototype.queue.prototype.register = function(type, scope, func_name){
+  this.queues[type] = this.queues[type] || [];
+  var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
+  this.queues[type].push({scope: scope, func_name: func_name, args: args});
   return scope[func_name];
 };
 
-Dhonishow.prototype.callUpdaters = function(){
-  for (var i=0; i < this.updaters.length; i++)
-    this.updaters[i].scope[this.updaters[i].func_name].apply(this.updaters[i].scope, this.updaters[i].args);
+Dhonishow.prototype.queue.prototype.invokeAll = function(type){
+  for (var i=0; i < this.queues[type].length; i++)
+    this.queues[type][i].scope[this.queues[type][i].func_name].apply(this.queues[type][i].scope, this.queues[type][i].args);
 };
 
 Dhonishow.prototype.animating = function(){
@@ -40,11 +46,11 @@ Dhonishow.prototype.elementsSet = function(element){
   if ( jQuery( element ).children().length > 0 ) return true;
 
   jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
-    "<a href='http://dhonishow.de' style='color:#fff' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
+    "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
   return false;
 };
 
-Dhonishow.extend = function(subClass, superClass){
+Dhonishow.extend = function(subClass, superClass) {
 
   /*
     THX to Dustin Diaz and Ross Harmes for this great book:
@@ -62,6 +68,47 @@ Dhonishow.extend = function(subClass, superClass){
     superClass.prototype.constructor = superClass;
   };
 };
+
+// ###########################################################################
+
+var DhonishowOptions = function(element){
+  
+  var suboption;
+  this.preloader = true;
+  this.duration = 0.6;
+  this.center = true;
+  this.hide = {
+   paging: false,
+   alt: false,
+   navigation: false,
+   buttons: false
+  };
+  this.effect = 'appear';
+
+  var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
+  for (var i=0; i < names.length; i++) {
+    var option = /(\w+|\w+-\w+)_(\w+)/.exec(names[i]), suboption;
+    var value = option[2];
+
+    if( /true|false/.test(value) ){
+      value = !!( value.replace(/false/, "") ); // Wild hack
+    } else if( (/dot/).test(value) ){
+      value = Number( value.replace(/dot/, ".") );
+    }
+
+    if (suboption = option[1].match(/(\w+)-(\w+)/) ) {
+      suboption[1] = suboption[1].toLowerCase();
+      if(this[suboption[1]].constructor != Object)
+        this[suboption[1]] = {};
+      
+      this[suboption[1].toLowerCase()][suboption[2].toLowerCase()] = value;
+    } else {
+      this[option[1].toLowerCase()] = value;
+    }
+  };
+  if( this.resize && this.center ) this.center = false;
+};
+
 
 // ###########################################################################
 
@@ -147,56 +194,16 @@ jQuery.extend(Dhonishow.helper = {}, {
 
 // ###########################################################################
 
-var DhonishowOptions = function(element){
-  
-  var suboption;
-  this.preloader = true;
-  this.duration = 0.6;
-  this.center = true;
-  this.hide = {
-   paging: false,
-   alt: false,
-   navigation: false,
-   buttons: false
-  };
-  this.effect = 'appear';
-
-  var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
-  for (var i=0; i < names.length; i++) {
-    var option = /(\w+|\w+-\w+)_(\w+)/.exec(names[i]), suboption;
-    var value = option[2];
-
-    if( /true|false/.test(value) ){
-      value = !!( value.replace(/false/, "") ); // Wild hack
-    } else if( (/dot/).test(value) ){
-      value = Number( value.replace(/dot/, ".") );
-    }
-
-    if (suboption = option[1].match(/(\w+)-(\w+)/) ) {
-      suboption[1] = suboption[1].toLowerCase();
-      if(this[suboption[1]].constructor != Object)
-        this[suboption[1]] = {};
-      
-      this[suboption[1].toLowerCase()][suboption[2].toLowerCase()] = value;
-    } else {
-      this[option[1].toLowerCase()] = value;
-    }
-  };
-  if( this.resize && this.center ) this.center = false;
-};
-
-// ###########################################################################
-
 var DhonishowDomTemplate = function(element, parent){
   this.parent = parent;
   this.element = jQuery(element);
   this.saveChildren();
   this.placeholders();
   this.invokeModules();
-  
-  this.parent.registerUpdater(this, "alt", this.giveModluePlaceholder("alt"));
-  this.parent.registerUpdater(this, "current", this.giveModluePlaceholder("current"));
-  this.parent.registerUpdater(this, "allpages", this.giveModluePlaceholder("allpages"));
+
+  this.parent.queue.register("updaters", this, "alt", this.giveModluePlaceholder("alt"));
+  this.parent.queue.register("updaters", this, "current", this.giveModluePlaceholder("current"));
+  this.parent.queue.register("updaters", this, "allpages", this.giveModluePlaceholder("allpages"));
   
 };
 Dhonishow.extend(DhonishowDomTemplate, Dhonishow);
@@ -289,7 +296,6 @@ Dhonishow_effect.prototype.addObservers = function(){
 Dhonishow_effect.prototype.next = function(event){
   var _this = event.data;
   if(!_this.parent.animating()){
-    console.log(_this.parent.autoplay);
     _this.update(_this.parent.current_index, ++_this.parent.current_index);
   }
 };
@@ -302,7 +308,7 @@ Dhonishow_effect.prototype.previous = function(event){
 };
 
 Dhonishow_effect.prototype.update = function(next, current){
-  this.parent.callUpdaters();
+  this.parent.queue.invokeAll("updaters");
   this.effect.update(
       jQuery(this.parent.dom.elements[next]), 
       jQuery(this.parent.dom.elements[current]),
@@ -363,8 +369,8 @@ var Dhonishow_hide = function(value, parent){
   var previous_button = this.parent.dom.element.find(".dhonishow-previous-button");
   var next_button = this.parent.dom.element.find(".dhonishow-next-button");
 
-  this.parent.registerUpdater(this, "previous_button", previous_button).call(this, previous_button);
-  this.parent.registerUpdater(this, "next_button", next_button).call(this, next_button);
+  this.parent.queue.register("updaters", this, "previous_button", previous_button).call(this, previous_button);
+  this.parent.queue.register("updaters", this, "next_button", next_button).call(this, next_button);
 };
 Dhonishow.extend(Dhonishow_hide, Dhonishow);
 
@@ -553,7 +559,7 @@ Dhonishow_autoplay.prototype.create = function(duration) {
         _this.parent.options.duration
       );
     }
-    _this.parent.callUpdaters();
+    _this.parent.queue.invokeAll("updaters");
   }, duration*1000);
 };
 
