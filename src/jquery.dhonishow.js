@@ -12,8 +12,7 @@ var Dhonishow = function(element, options, index) {
   if(this.elementsSet(element)){
     this.current_index = 0;
     this.queue = new this.queue();
-    
-    this.dom = new this.dom.template(element, this);
+    this.dom = new this.template(element, this);
 
     for(var option in (this.options = new this.options(element))) // invokes constructor class of each option
       if (this[option] != false) this[option] = new window["Dhonishow_"+option](this.options[option], this);
@@ -25,35 +24,37 @@ var Dhonishow = function(element, options, index) {
   }
 };
 
-Dhonishow.prototype.queue = function(){
-  this.queues = {};
-};
+Dhonishow.prototype = {
+  queue : function(){
+    this.queues = {};
+  },
+  animating : function() {
+    return this.dom.element.find("*:animated").length;
+  },
 
-Dhonishow.prototype.queue.prototype.register = function(type, scope, func){
-  this.queues[type] = this.queues[type] || [];
-  var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
-  this.queues[type].push({scope: scope, func: func, args: args});
-  return func;
-};
+  elementsSet : function(element) {
+    if ( jQuery( element ).children().length > 0 ) return true;
 
-Dhonishow.prototype.queue.prototype.invokeAll = function(type) {
-  for (var i=0; i < this.queues[type].length; i++){
-    this.queues[type][i].func.apply(this.queues[type][i].scope, this.queues[type][i].args);    
+    jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
+      "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
+    return false;
   }
 };
 
-Dhonishow.prototype.animating = function() {
-  return jQuery(this.dom.element).find("*:animated").length;
+Dhonishow.prototype.queue.prototype = {
+  register : function(type, scope, func){
+    this.queues[type] = this.queues[type] || [];
+    var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
+    this.queues[type].push({scope: scope, func: func, args: args});
+    return func;
+  },
+
+  invokeAll : function(type) {
+    for (var i=0; i < this.queues[type].length; i++){
+      this.queues[type][i].func.apply(this.queues[type][i].scope, this.queues[type][i].args);    
+    }
+  }
 };
-
-Dhonishow.prototype.elementsSet = function(element) {
-  if ( jQuery( element ).children().length > 0 ) return true;
-
-  jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
-    "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
-  return false;
-};
-
 // ###########################################################################
 
 Dhonishow.prototype.options = function(element){
@@ -178,8 +179,7 @@ Dhonishow.helper = {
 
 // ###########################################################################
 
-Dhonishow.prototype.dom = {};
-Dhonishow.prototype.dom.template = function(element, parent){
+Dhonishow.prototype.template = function(element, parent){
   this.parent = parent;
   this.element = jQuery(element);
   this.saveChildren();
@@ -192,74 +192,75 @@ Dhonishow.prototype.dom.template = function(element, parent){
 
 };
 
-Dhonishow.prototype.dom.template.prototype.template =
-['<ol class="dhonishow-elements">@images</ol>',
-'<div class="dhonishow-navi" style="display:none;">',
-  '<p class="dhonishow-picture-alt">@alt</p>',
-  '<div class="dhonishow-paging-buttons">',
-    '<a class="dhonishow-next-button" title="Next">Next</a>',
-    '<p class="dhonishow-paging">@current of @allpages</p>',
-    '<a class="dhonishow-previous-button" title="Previous">Back</a>',
-  "</div>",
-'</div>'].join("");
+Dhonishow.prototype.template.prototype = {
+  template : ['<ol class="dhonishow-elements">@images</ol>',
+  '<div class="dhonishow-navi" style="display:none;">',
+    '<p class="dhonishow-picture-alt">@alt</p>',
+    '<div class="dhonishow-paging-buttons">',
+      '<a class="dhonishow-next-button" title="Next">Next</a>',
+      '<p class="dhonishow-paging">@current of @allpages</p>',
+      '<a class="dhonishow-previous-button" title="Previous">Back</a>',
+    "</div>",
+  '</div>'].join(""),
 
-Dhonishow.prototype.dom.template.prototype.elementWrapper = "<li class='element'></li>";
+  elementWrapper : "<li class='element'></li>",
 
-Dhonishow.prototype.dom.template.prototype.saveChildren = function(){
-  this.children = jQuery(this.element).children();
-  this.element.text("");
-};
+  saveChildren : function(){
+    this.children = jQuery(this.element).children();
+    this.element.text("");
+  },
 
-Dhonishow.prototype.dom.template.prototype.placeholders = function(element){
-  var modulePlaceholders = {};
-  jQuery(this.element).append(this.template.replace(/@(\w*)/g, function(searchResultWithExpression, searchResult){
-    modulePlaceholders[searchResult] = ".dhonishow_module_"+searchResult;
-    return '<span class="dhonishow_module_'+searchResult+'"></span>';
-  }));
-  return this.modulePlaceholders = modulePlaceholders;
-};
+  placeholders : function(element){
+    var modulePlaceholders = {};
+    jQuery(this.element).append(this.template.replace(/@(\w*)/g, function(searchResultWithExpression, searchResult){
+      modulePlaceholders[searchResult] = ".dhonishow_module_"+searchResult;
+      return '<span class="dhonishow_module_'+searchResult+'"></span>';
+    }));
+    return this.modulePlaceholders = modulePlaceholders;
+  },
 
-Dhonishow.prototype.dom.template.prototype.invokeModules = function(){
-  for(var module in this.modulePlaceholders)
-    this[module](this.giveModluePlaceholder(module));
-};
+  invokeModules : function(){
+    for(var module in this.modulePlaceholders)
+      this[module](this.giveModluePlaceholder(module));
+  },
 
-Dhonishow.prototype.dom.template.prototype.giveModluePlaceholder = function(name){
-  return jQuery(this.element).find(this.modulePlaceholders[name]);
-};
+  giveModluePlaceholder : function(name){
+    return jQuery(this.element).find(this.modulePlaceholders[name]);
+  },
 
-Dhonishow.prototype.dom.template.prototype.images = function(placeholder){
-  var _this = this;
-  this.children || [];
+  images : function(placeholder){
+    var _this = this;
+    this.children || [];
 
-  placeholder.replaceWith(this.children);
-  this.elements = jQuery(this.children).wrap(this.elementWrapper).parent();
-};
+    placeholder.replaceWith(this.children);
+    this.elements = jQuery(this.children).wrap(this.elementWrapper).parent();
+  },
 
-Dhonishow.prototype.dom.template.prototype.alt = function(placeholder){
-  var alt, title, src;
-  if(alt = jQuery(this.elements[this.parent.current_index]).find("*[alt]").attr("alt")){
-    if(jQuery(alt).filter("*").length){ placeholder.each(function(){ this.innerHTML = alt; }); return; }
-    placeholder.text(alt);
-    return;
+  alt : function(placeholder){
+    var alt, title, src;
+    if(alt = jQuery(this.elements[this.parent.current_index]).find("*[alt]").attr("alt")){
+      if(jQuery(alt).filter("*").length){ placeholder.each(function(){ this.innerHTML = alt; }); return; }
+      placeholder.text(alt);
+      return;
+    }
+    if(title = jQuery(this.elements[this.parent.current_index]).find("*[title]").attr("title")){
+      placeholder.text(title);
+      return;
+    }
+    if(src = jQuery(this.elements[this.parent.current_index]).find("*[src]").attr("src")){
+      var src = src.split('/');
+      placeholder.text(src[src.length-1]);
+      return;
+    }
+  },
+
+  current : function(placeholder){
+    placeholder.text(this.parent.current_index+1);
+  },
+
+  allpages : function(placeholder){
+    placeholder.text(this.elements.length);
   }
-  if(title = jQuery(this.elements[this.parent.current_index]).find("*[title]").attr("title")){
-    placeholder.text(title);
-    return;
-  }
-  if(src = jQuery(this.elements[this.parent.current_index]).find("*[src]").attr("src")){
-    var src = src.split('/');
-    placeholder.text(src[src.length-1]);
-    return;
-  }
-};
-
-Dhonishow.prototype.dom.template.prototype.current = function(placeholder){
-  placeholder.text(this.parent.current_index+1);
-};
-
-Dhonishow.prototype.dom.template.prototype.allpages = function(placeholder){
-  placeholder.text(this.elements.length);
 };
 
 // ###########################################################################
@@ -270,39 +271,39 @@ var Dhonishow_effect = function(effectName, parent){
   this.addObservers();
 };
 
-Dhonishow_effect.prototype.addObservers = function(){
-  var parentElement = this.parent.dom.element;
-
-  /*
-    TODO Rewrite the way events are binded to button elements
-    it is to obstrusive
-  */
+Dhonishow_effect.prototype = {
+  addObservers : function(){
+    /*
+      TODO Rewrite the way events are binded to button elements
+      it is to obstrusive
+    */
   
-  parentElement.find(".dhonishow-previous-button").bind("click", this, this.previous);
-  parentElement.find(".dhonishow-next-button").bind("click", this, this.next);
-};
+    this.parent.dom.element.find(".dhonishow-previous-button").bind("click", this, this.previous);
+    this.parent.dom.element.find(".dhonishow-next-button").bind("click", this, this.next);
+  },
 
-Dhonishow_effect.prototype.next = function(event){
-  var _this = event.data;
-  if(!_this.parent.animating()){
-    _this.update(_this.parent.current_index, ++_this.parent.current_index);
+  next : function(event){
+    var _this = event.data;
+    if(!_this.parent.animating()){
+      _this.update(_this.parent.current_index, ++_this.parent.current_index);
+    }
+  },
+
+  previous : function(event){
+    var _this = event.data;
+    if(!_this.parent.animating()){
+      _this.update(_this.parent.current_index, --_this.parent.current_index);
+    }
+  },
+
+  update : function(next, current){
+    this.parent.queue.invokeAll("updaters");
+    this.effect.update(
+        jQuery(this.parent.dom.elements[next]), 
+        jQuery(this.parent.dom.elements[current]),
+        this.parent.options.duration
+    );
   }
-};
-
-Dhonishow_effect.prototype.previous = function(event){
-  var _this = event.data;
-  if(!_this.parent.animating()){
-    _this.update(_this.parent.current_index, --_this.parent.current_index);
-  }
-};
-
-Dhonishow_effect.prototype.update = function(next, current){
-  this.parent.queue.invokeAll("updaters");
-  this.effect.update(
-      jQuery(this.parent.dom.elements[next]), 
-      jQuery(this.parent.dom.elements[current]),
-      this.parent.options.duration
-  );
 };
 
 // ###########################################################################
@@ -312,9 +313,11 @@ Dhonishow_effect_appear = function(parent){
   this.parent.parent.hide.not_current();
 };
 
-Dhonishow_effect_appear.prototype.update = function(next_element, current_element, duration){
-  current_element.animate({ opacity: "toggle" }, duration*1000);
-  next_element.animate({ opacity: "toggle" }, duration*1000);
+Dhonishow_effect_appear.prototype = {
+  update : function(next_element, current_element, duration){
+    current_element.animate({ opacity: "toggle" }, duration*1000);
+    next_element.animate({ opacity: "toggle" }, duration*1000);
+  }
 };
 
 // ###########################################################################
@@ -330,15 +333,17 @@ Dhonishow_effect_resize = function(parent){
 
 };
 
-Dhonishow_effect_resize.prototype.update = function(next_element, current_element, duration){
-  var dimensions = Dhonishow.helper.dimensions_give(next_element);
+Dhonishow_effect_resize.prototype = {
+  update : function(next_element, current_element, duration){
+    var dimensions = Dhonishow.helper.dimensions_give(next_element);
 
-  this.parent.parent.dom.element.find(".dhonishow-elements").animate( { height: dimensions.height }, duration * 1000 );
+    this.parent.parent.dom.element.find(".dhonishow-elements").animate( { height: dimensions.height }, duration * 1000 );
 
-  this.parent.parent.dom.element.animate( { width: dimensions.width }, duration * 1000 );
+    this.parent.parent.dom.element.animate( { width: dimensions.width }, duration * 1000 );
 
-  current_element.fadeOut( duration * 1000 );
-  next_element.fadeIn( duration * 1000 );
+    current_element.fadeOut( duration * 1000 );
+    next_element.fadeIn( duration * 1000 );
+  }
 };
 
 // ###########################################################################
@@ -360,46 +365,48 @@ var Dhonishow_hide = function(value, parent){
   this.parent.queue.register("updaters", this, this.next_button, next_button).call(this, next_button);
 };
 
-Dhonishow_hide.prototype.paging = function(hide){
-  if(hide) jQuery(".dhonishow-paging", this.parent.dom.element).hide();
-};
+Dhonishow_hide.prototype = {
+  paging : function(hide){
+    if(hide) jQuery(".dhonishow-paging", this.parent.dom.element).hide();
+  },
 
-Dhonishow_hide.prototype.alt = function(hide){
-  if(hide) jQuery(".dhonishow-picture-alt", this.parent.dom.element).hide();
-};
+  alt : function(hide){
+    if(hide) jQuery(".dhonishow-picture-alt", this.parent.dom.element).hide();
+  },
 
-Dhonishow_hide.prototype.navigation = function(hide){
-  if(hide) jQuery(".dhonishow-navi", this.parent.dom.element).hide();
-};
+  navigation : function(hide){
+    if(hide) jQuery(".dhonishow-navi", this.parent.dom.element).hide();
+  },
 
-Dhonishow_hide.prototype.buttons = function(hide){
-  if(hide) {
-    jQuery(".dhonishow-previous-button", this.parent.dom.element).hide();
-    jQuery(".dhonishow-next-button", this.parent.dom.element).hide();
+  buttons : function(hide){
+    if(hide) {
+      jQuery(".dhonishow-previous-button", this.parent.dom.element).hide();
+      jQuery(".dhonishow-next-button", this.parent.dom.element).hide();
+    }
+  },
+
+  previous_button : function(button){
+    button.hide();
+    if( this.parent.current_index != 0 && !this.parent.options.hide.buttons ) button.show();
+  },
+
+  next_button : function(button){
+    button.hide();
+    if( this.parent.current_index != (this.parent.dom.elements.length - 1) && !this.parent.options.hide.buttons) button.show();
+  },
+
+  not_current : function(){
+    var element, current = this.parent.current_index;
+  
+    jQuery(this.parent.dom.elements).each(function(index){
+      if(index != current)
+        jQuery(this).hide();
+      else
+        element = jQuery(this);
+    });
+  
+    return element;
   }
-};
-
-Dhonishow_hide.prototype.previous_button = function(button){
-  button.hide();
-  if( this.parent.current_index != 0 && !this.parent.options.hide.buttons ) button.show();
-};
-
-Dhonishow_hide.prototype.next_button = function(button){
-  button.hide();
-  if( this.parent.current_index != (this.parent.dom.elements.length - 1) && !this.parent.options.hide.buttons) button.show();
-};
-
-Dhonishow_hide.prototype.not_current = function(){
-  var element, current = this.parent.current_index;
-  
-  jQuery(this.parent.dom.elements).each(function(index){
-    if(index != current)
-      jQuery(this).hide();
-    else
-      element = jQuery(this);
-  });
-  
-  return element;
 };
 
 // ###########################################################################
@@ -417,104 +424,106 @@ var Dhonishow_center = function(value, parent){
   }
 };
 
-Dhonishow_center.prototype.center = function () {
-  var _this = this;
-  var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
+Dhonishow_center.prototype = {
+  center : function () {
+    var _this = this;
+    var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
 
-  this.parent.dom.elements.each(function (index) {
+    this.parent.dom.elements.each(function (index) {
     
-    var dimensions = arguments[2] ? arguments[2] : Dhonishow.helper.dimensions_give(this);
+      var dimensions = arguments[2] ? arguments[2] : Dhonishow.helper.dimensions_give(this);
 
-    Dhonishow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
+      Dhonishow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
 
-    if(!dimensions.width || !dimensions.height) return;
+      if(!dimensions.width || !dimensions.height) return;
 
-    _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
-    _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
+      _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
+      _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
 
     
-    jQuery(elements_wraper).css({ height: _this.max.height });
-    _this.parent.dom.element.css({ width: _this.max.width });
+      jQuery(elements_wraper).css({ height: _this.max.height });
+      _this.parent.dom.element.css({ width: _this.max.width });
     
-    _this.parent.dom.elements.each(function(index){
-      var element_dimensions = Dhonishow.helper.dimensions_give(this, "hund");
+      _this.parent.dom.elements.each(function(index){
+        var element_dimensions = Dhonishow.helper.dimensions_give(this, "hund");
       
-      jQuery(this).css({
-        paddingLeft: ( (_this.max.width - element_dimensions.width) / 2 )+"px",
-        paddingTop: ( (_this.max.height - element_dimensions.height) / 2 )+"px"
+        jQuery(this).css({
+          paddingLeft: ( (_this.max.width - element_dimensions.width) / 2 )+"px",
+          paddingTop: ( (_this.max.height - element_dimensions.height) / 2 )+"px"
+        });
       });
+
+      _this.parent.preloader.loadedOne(index);
+
+      if(index != _this.parent.current_index) jQuery(this).hide();
+    });
+  },
+
+  update_max : function () {
+    var _this = this;
+    var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
+
+    this.parent.dom.elements.each(function (index) {
+
+      var dimensions = (arguments[2]) ? arguments[2] : Dhonishow.helper.dimensions_give(this);
+
+      Dhonishow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
+
+      if(!dimensions.width || !dimensions.height) return;
+
+      _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
+      _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
+
+      jQuery(elements_wraper).css({ height: _this.max.height });
+      _this.parent.dom.element.css({ width: _this.max.width });
+
+      _this.parent.preloader.loadedOne(index);
+    
+      if(index != _this.parent.current_index) jQuery(this).hide();
     });
 
-    _this.parent.preloader.loadedOne(index);
+    if(this.parent.options.effect == "resize") jQuery(window).bind("load", function(){
+      var dimensions = Dhonishow.helper.dimensions_give(_this.parent.dom.elements[_this.parent.current_index]);
 
-    if(index != _this.parent.current_index) jQuery(this).hide();
-  });
-};
+      _this.parent.dom.element.find(".dhonishow-elements").css({height: dimensions.height});
+      _this.parent.dom.element.css({width: dimensions.width});
+    });
+  },
 
-Dhonishow_center.prototype.update_max = function () {
-  var _this = this;
-  var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
+  dimensions_set : function(event){
+    var _this = event.data;
+    var value = _this.parent.options.center;
 
-  this.parent.dom.elements.each(function (index) {
-
-    var dimensions = (arguments[2]) ? arguments[2] : Dhonishow.helper.dimensions_give(this);
-
-    Dhonishow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
-
-    if(!dimensions.width || !dimensions.height) return;
-
-    _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
-    _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
-
-    jQuery(elements_wraper).css({ height: _this.max.height });
-    _this.parent.dom.element.css({ width: _this.max.width });
-
-    _this.parent.preloader.loadedOne(index);
-    
-    if(index != _this.parent.current_index) jQuery(this).hide();
-  });
-
-  if(this.parent.options.effect == "resize") jQuery(window).bind("load", function(){
-    var dimensions = Dhonishow.helper.dimensions_give(_this.parent.dom.elements[_this.parent.current_index]);
-
-    _this.parent.dom.element.find(".dhonishow-elements").css({height: dimensions.height});
-    _this.parent.dom.element.css({width: dimensions.width});
-  });
-};
-
-Dhonishow_center.prototype.dimensions_set = function(event){
-  var _this = event.data;
-  var value = _this.parent.options.center;
-
-  if(value.width) _this.parent.dom.element.css({ width:  value.width+"px" });
-  if(value.height) _this.parent.dom.element.find(".dhonishow-elements").css({ height:  value.height+"px" });
+    if(value.width) _this.parent.dom.element.css({ width:  value.width+"px" });
+    if(value.height) _this.parent.dom.element.find(".dhonishow-elements").css({ height:  value.height+"px" });
   
-  var element_dimensions = {
-    width: new Number(value.width || _this.parent.dom.element.css("width").replace("px", "")),
-    height: new Number(value.height || _this.parent.dom.element.find(".dhonishow-elements").css("height").replace("px", ""))
-  };
+    var element_dimensions = {
+      width: new Number(value.width || _this.parent.dom.element.css("width").replace("px", "")),
+      height: new Number(value.height || _this.parent.dom.element.find(".dhonishow-elements").css("height").replace("px", ""))
+    };
 
-  _this.parent.dom.elements.each(function(){
-    var width = jQuery(this).width();
-    var height = jQuery(this).height();
+    _this.parent.dom.elements.each(function(){
+      var width = jQuery(this).width();
+      var height = jQuery(this).height();
 
-    var css = {};
-    var offsetWidth = ( width - element_dimensions.width ) / 2;
-    var offsetHeight = ( height - element_dimensions.height ) / 2;
+      var css = {};
+      var offsetWidth = ( width - element_dimensions.width ) / 2;
+      var offsetHeight = ( height - element_dimensions.height ) / 2;
     
-    if(offsetWidth > 0) {
-      css.paddingLeft = 0;
-      css.marginLeft = offsetWidth - offsetWidth - offsetWidth + "px";
-    } else css.paddingLeft = offsetWidth - offsetWidth - offsetWidth + "px";
+      if(offsetWidth > 0) {
+        css.paddingLeft = 0;
+        css.marginLeft = offsetWidth - offsetWidth - offsetWidth + "px";
+      } else css.paddingLeft = offsetWidth - offsetWidth - offsetWidth + "px";
 
 
-    if(offsetHeight > 0){
-      css.paddingTop = 0;
-      css.marginTop = offsetHeight - offsetHeight - offsetHeight + "px";
-    } else css.paddingTop = offsetHeight - offsetHeight - offsetHeight + "px";
+      if(offsetHeight > 0){
+        css.paddingTop = 0;
+        css.marginTop = offsetHeight - offsetHeight - offsetHeight + "px";
+      } else css.paddingTop = offsetHeight - offsetHeight - offsetHeight + "px";
 
-    jQuery(this).css(css);
-  });
+      jQuery(this).css(css);
+    });
+  }
 };
 
 // ###########################################################################
@@ -525,32 +534,34 @@ var Dhonishow_autoplay = function(value, parent){
 	this.parent.queue.register("updaters", this, this.reset);
 };
 
-Dhonishow_autoplay.prototype.create = function(duration) {
-  var _this = this;
-  this.executer = setInterval(function(){
-    _this.parent.current_index++;
+Dhonishow_autoplay.prototype = {
+  create : function(duration) {
+    var _this = this;
+    this.executer = setInterval(function(){
+      _this.parent.current_index++;
 
-    if(_this.parent.current_index == _this.parent.dom.elements.length) {
-      _this.parent.effect.effect.update(
-        jQuery(_this.parent.dom.elements[_this.parent.current_index = 0]), 
-        jQuery(_this.parent.dom.elements[_this.parent.dom.elements.length-1]),
-        _this.parent.options.duration
-      );
-    } else {
-      _this.parent.effect.effect.update(
-        jQuery(_this.parent.dom.elements[_this.parent.current_index]),
-        jQuery(_this.parent.dom.elements[_this.parent.current_index-1]),
-        _this.parent.options.duration
-      );
-    }
-    _this.parent.queue.invokeAll("updaters");
-  }, duration*1000);
-};
+      if(_this.parent.current_index == _this.parent.dom.elements.length) {
+        _this.parent.effect.effect.update(
+          jQuery(_this.parent.dom.elements[_this.parent.current_index = 0]), 
+          jQuery(_this.parent.dom.elements[_this.parent.dom.elements.length-1]),
+          _this.parent.options.duration
+        );
+      } else {
+        _this.parent.effect.effect.update(
+          jQuery(_this.parent.dom.elements[_this.parent.current_index]),
+          jQuery(_this.parent.dom.elements[_this.parent.current_index-1]),
+          _this.parent.options.duration
+        );
+      }
+      _this.parent.queue.invokeAll("updaters");
+    }, duration*1000);
+  },
 
-Dhonishow_autoplay.prototype.reset = function () {
-  clearInterval(this.executer);
-  this.executer = null;
-  this.create(this.parent.options.autoplay);
+  reset : function () {
+    clearInterval(this.executer);
+    this.executer = null;
+    this.create(this.parent.options.autoplay);
+  }
 };
 
 // ###########################################################################
@@ -564,45 +575,47 @@ var Dhonishow_preloader = function(value, parent){
   }
 };
 
-Dhonishow_preloader.prototype.collection = [];
+Dhonishow_preloader.prototype = {
+  collection : [],
 
-Dhonishow_preloader.prototype.build = function ( quantity ) {
-  this.template = jQuery(['<ul class="dhonishow-preloader">',
-    '<li class="dhonishow-preloader-loading">Loading <span>...</span></li>',
-      (function () {
-        var str = "";
-        for(var i = 1; i<=quantity; i++) {
-          str+=("<li>"+i+"</li>");
-        }
-        return str;
-        })(),
-        '</ul>'].join("") );
-    return this.parent.dom.element.find(".dhonishow-elements").before(this.template);
-};
+  build : function ( quantity ) {
+    this.template = jQuery(['<ul class="dhonishow-preloader">',
+      '<li class="dhonishow-preloader-loading">Loading <span>...</span></li>',
+        (function () {
+          var str = "";
+          for(var i = 1; i<=quantity; i++) {
+            str+=("<li>"+i+"</li>");
+          }
+          return str;
+          })(),
+          '</ul>'].join("") );
+      return this.parent.dom.element.find(".dhonishow-elements").before(this.template);
+  },
 
-Dhonishow_preloader.prototype.setLoading = function () {
-  var span = this.template.find("span")[0];
-  return setInterval(function () {
-    var length = span.innerHTML.length;
-    (length == 3) ? span.innerHTML = "" : span.innerHTML += ".";
-  }, 500);
-};
+  setLoading : function () {
+    var span = this.template.find("span")[0];
+    return setInterval(function () {
+      var length = span.innerHTML.length;
+      (length == 3) ? span.innerHTML = "" : span.innerHTML += ".";
+    }, 500);
+  },
 
-Dhonishow_preloader.prototype.unsetLoading = function () {
-  return clearInterval(this.loadingInterval);
-};
+  unsetLoading : function () {
+    return clearInterval(this.loadingInterval);
+  },
 
-Dhonishow_preloader.prototype.loadedOne = function ( position ) {
-  if(this.parent.options.preloader){
-    this.template.find("li").eq(position+1).addClass("loaded");
-    this.loadedAll();
-  }
-};
+  loadedOne : function ( position ) {
+    if(this.parent.options.preloader){
+      this.template.find("li").eq(position+1).addClass("loaded");
+      this.loadedAll();
+    }
+  },
 
-Dhonishow_preloader.prototype.loadedAll = function () {
-  if(this.parent.dom.element.find(".loaded").size() == this.parent.dom.elements.length) {
-    this.unsetLoading();
-    this.parent.dom.element.find(".dhonishow-preloader").fadeOut(600);
+  loadedAll : function () {
+    if(this.parent.dom.element.find(".loaded").size() == this.parent.dom.elements.length) {
+      this.unsetLoading();
+      this.parent.dom.element.find(".dhonishow-preloader").fadeOut(600);
+    }
   }
 };
 
