@@ -29,18 +29,17 @@ Dhonishow.prototype.queue = function(){
   this.queues = {};
 };
 
-Dhonishow.prototype.queue.prototype.register = function(type, scope, func_name){
+Dhonishow.prototype.queue.prototype.register = function(type, scope, func){
   this.queues[type] = this.queues[type] || [];
   var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
-  this.queues[type].push({scope: scope, func_name: func_name, args: args});
-  return scope[func_name];
+  this.queues[type].push({scope: scope, func: func, args: args});
+  return func;
 };
 
 Dhonishow.prototype.queue.prototype.invokeAll = function(type) {
-  for (var i=0; i < this.queues[type].length; i++)
-    this.queues[type][i].
-    scope[this.queues[type][i].func_name].
-    apply(this.queues[type][i].scope, this.queues[type][i].args);
+  for (var i=0; i < this.queues[type].length; i++){
+    this.queues[type][i].func.apply(this.queues[type][i].scope, this.queues[type][i].args);    
+  }
 };
 
 Dhonishow.prototype.animating = function() {
@@ -187,9 +186,9 @@ Dhonishow.prototype.dom.template = function(element, parent){
   this.placeholders();
   this.invokeModules();
 
-  this.parent.queue.register("updaters", this, "alt", this.giveModluePlaceholder("alt"));
-  this.parent.queue.register("updaters", this, "current", this.giveModluePlaceholder("current"));
-  this.parent.queue.register("updaters", this, "allpages", this.giveModluePlaceholder("allpages"));
+  this.parent.queue.register("updaters", this, this.alt, this.giveModluePlaceholder("alt"));
+  this.parent.queue.register("updaters", this, this.current, this.giveModluePlaceholder("current"));
+  this.parent.queue.register("updaters", this, this.allpages, this.giveModluePlaceholder("allpages"));
 
 };
 
@@ -357,8 +356,8 @@ var Dhonishow_hide = function(value, parent){
   var previous_button = this.parent.dom.element.find(".dhonishow-previous-button");
   var next_button = this.parent.dom.element.find(".dhonishow-next-button");
 
-  this.parent.queue.register("updaters", this, "previous_button", previous_button).call(this, previous_button);
-  this.parent.queue.register("updaters", this, "next_button", next_button).call(this, next_button);
+  this.parent.queue.register("updaters", this, this.previous_button, previous_button).call(this, previous_button);
+  this.parent.queue.register("updaters", this, this.next_button, next_button).call(this, next_button);
 };
 
 Dhonishow_hide.prototype.paging = function(hide){
@@ -523,7 +522,7 @@ Dhonishow_center.prototype.dimensions_set = function(event){
 var Dhonishow_autoplay = function(value, parent){
 	this.parent = parent;
 	this.create(value);
-	this.parent.queue.register("updaters", this, "reset");
+	this.parent.queue.register("updaters", this, this.reset);
 };
 
 Dhonishow_autoplay.prototype.create = function(duration) {
