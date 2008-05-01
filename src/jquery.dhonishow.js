@@ -55,25 +55,6 @@ Dhonishow.prototype.elementsSet = function(element) {
   return false;
 };
 
-Dhonishow.extend = function(subClass, superClass) {
-
-  /*
-    THX to Dustin Diaz and Ross Harmes for this great book:
-    Pro JavaScript Design Patterns
-    :)
-  */
-
-  var F = function(){};
-  F.prototype = superClass.prototype;
-  subClass.prototype = new F();
-  subClass.prototype.constructor = subClass;
-
-  subClass.superclass = superClass.prototype;
-  if (superClass.prototype.constructor == Object.prototype.constructor) {
-    superClass.prototype.constructor = superClass;
-  }
-};
-
 // ###########################################################################
 
 Dhonishow.prototype.options = function(element){
@@ -155,14 +136,13 @@ Dhonishow.helper = {
 
   delayed_image_load: function ( image, func, scope, args ) {
     var preloaderImage = jQuery("<img>").load(function (){
-      this.onload = null;
       if(args) {
         var arg = jQuery.makeArray(args);
         arg.push({width: this.width, height: this.height});
       }
 
       func.apply(scope, arg || []);
-
+      this.onload = null;
       jQuery(this).unbind("onload");
     });
     
@@ -291,7 +271,6 @@ var Dhonishow_effect = function(effectName, parent){
   this.addObservers();
 };
 
-Dhonishow.extend(Dhonishow_effect, Dhonishow);
 Dhonishow_effect.prototype.addObservers = function(){
   var parentElement = this.parent.dom.element;
 
@@ -299,6 +278,7 @@ Dhonishow_effect.prototype.addObservers = function(){
     TODO Rewrite the way events are binded to button elements
     it is to obstrusive
   */
+  
   parentElement.find(".dhonishow-previous-button").bind("click", this, this.previous);
   parentElement.find(".dhonishow-next-button").bind("click", this, this.next);
 };
@@ -341,9 +321,10 @@ Dhonishow_effect_appear.prototype.update = function(next_element, current_elemen
 // ###########################################################################
 
 Dhonishow_effect_resize = function(parent){
+  /*
+    FIXME resize doesn't work properly anymore
+  */
   this.parent = parent;
-
-  var lenght = this.parent.parent.dom.elements.length;
   jQuery(this.parent.parent.dom.elements.get().reverse()).each(function(index){
     jQuery(this).css( "z-index", index + 1 );
   });
@@ -353,9 +334,9 @@ Dhonishow_effect_resize = function(parent){
 Dhonishow_effect_resize.prototype.update = function(next_element, current_element, duration){
   var dimensions = Dhonishow.helper.dimensions_give(next_element);
 
-  jQuery(this.parent.parent.dom.element).find(".dhonishow-elements").animate( { height: dimensions.height }, duration * 1000 );
+  this.parent.parent.dom.element.find(".dhonishow-elements").animate( { height: dimensions.height }, duration * 1000 );
 
-  jQuery(this.parent.parent.dom.element).animate( { width: dimensions.width }, duration * 1000 );
+  this.parent.parent.dom.element.animate( { width: dimensions.width }, duration * 1000 );
 
   current_element.fadeOut( duration * 1000 );
   next_element.fadeIn( duration * 1000 );
@@ -379,7 +360,6 @@ var Dhonishow_hide = function(value, parent){
   this.parent.queue.register("updaters", this, "previous_button", previous_button).call(this, previous_button);
   this.parent.queue.register("updaters", this, "next_button", next_button).call(this, next_button);
 };
-Dhonishow.extend(Dhonishow_hide, Dhonishow);
 
 Dhonishow_hide.prototype.paging = function(hide){
   if(hide) jQuery(".dhonishow-paging", this.parent.dom.element).hide();
@@ -437,7 +417,6 @@ var Dhonishow_center = function(value, parent){
     this.update_max();
   }
 };
-Dhonishow.extend(Dhonishow_center, Dhonishow);
 
 Dhonishow_center.prototype.center = function () {
   var _this = this;
@@ -569,14 +548,7 @@ Dhonishow_autoplay.prototype.create = function(duration) {
   }, duration*1000);
 };
 
-
-/*
-  TODO Does it realy work? 
-  Where does options.autoplay came from?
-*/
-
 Dhonishow_autoplay.prototype.reset = function () {
-  console.log(this);
   clearInterval(this.executer);
   this.executer = null;
   this.create(this.parent.options.autoplay);
@@ -592,7 +564,6 @@ var Dhonishow_preloader = function(value, parent){
     this.loadingInterval = this.setLoading();
   }
 };
-Dhonishow.extend(Dhonishow_preloader, Dhonishow);
 
 Dhonishow_preloader.prototype.collection = [];
 
