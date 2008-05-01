@@ -36,9 +36,11 @@ Dhonishow.prototype.queue.prototype.register = function(type, scope, func_name){
   return scope[func_name];
 };
 
-Dhonishow.prototype.queue.prototype.invokeAll = function(type){
+Dhonishow.prototype.queue.prototype.invokeAll = function(type) {
   for (var i=0; i < this.queues[type].length; i++)
-    this.queues[type][i].scope[this.queues[type][i].func_name].apply(this.queues[type][i].scope, this.queues[type][i].args);
+    this.queues[type][i].
+    scope[this.queues[type][i].func_name].
+    apply(this.queues[type][i].scope, this.queues[type][i].args);
 };
 
 Dhonishow.prototype.animating = function() {
@@ -69,7 +71,7 @@ Dhonishow.extend = function(subClass, superClass) {
   subClass.superclass = superClass.prototype;
   if (superClass.prototype.constructor == Object.prototype.constructor) {
     superClass.prototype.constructor = superClass;
-  };
+  }
 };
 
 // ###########################################################################
@@ -208,7 +210,7 @@ Dhonishow.prototype.dom.template = function(element, parent){
   this.parent.queue.register("updaters", this, "alt", this.giveModluePlaceholder("alt"));
   this.parent.queue.register("updaters", this, "current", this.giveModluePlaceholder("current"));
   this.parent.queue.register("updaters", this, "allpages", this.giveModluePlaceholder("allpages"));
-  
+
 };
 
 Dhonishow.prototype.dom.template.prototype.template =
@@ -226,7 +228,7 @@ Dhonishow.prototype.dom.template.prototype.elementWrapper = "<li class='element'
 
 Dhonishow.prototype.dom.template.prototype.saveChildren = function(){
   this.children = jQuery(this.element).children();
-  this.element.innerHTML = "";
+  this.element.text("");
 };
 
 Dhonishow.prototype.dom.template.prototype.placeholders = function(element){
@@ -292,6 +294,11 @@ var Dhonishow_effect = function(effectName, parent){
 Dhonishow.extend(Dhonishow_effect, Dhonishow);
 Dhonishow_effect.prototype.addObservers = function(){
   var parentElement = this.parent.dom.element;
+
+  /*
+    TODO Rewrite the way events are binded to button elements
+    it is to obstrusive
+  */
   parentElement.find(".dhonishow-previous-button").bind("click", this, this.previous);
   parentElement.find(".dhonishow-next-button").bind("click", this, this.next);
 };
@@ -326,7 +333,6 @@ Dhonishow_effect_appear = function(parent){
   this.parent.parent.hide.not_current();
 };
 
-Dhonishow.extend(Dhonishow_effect_appear, Dhonishow_effect);
 Dhonishow_effect_appear.prototype.update = function(next_element, current_element, duration){
   current_element.animate({ opacity: "toggle" }, duration*1000);
   next_element.animate({ opacity: "toggle" }, duration*1000);
@@ -343,7 +349,6 @@ Dhonishow_effect_resize = function(parent){
   });
 
 };
-Dhonishow.extend(Dhonishow_effect_resize, Dhonishow_effect);
 
 Dhonishow_effect_resize.prototype.update = function(next_element, current_element, duration){
   var dimensions = Dhonishow.helper.dimensions_give(next_element);
@@ -358,10 +363,9 @@ Dhonishow_effect_resize.prototype.update = function(next_element, current_elemen
 
 // ###########################################################################
 
-var Dhonishow_duration = function(value, parent){
-  if(value == 0){ parent.options.duration = 0.01;}
+var Dhonishow_duration = function (value, parent) {
+  if(value == 0) { parent.options.duration = 0.01; }
 };
-Dhonishow.extend(Dhonishow_duration, Dhonishow);
 
 // ###########################################################################
 
@@ -540,9 +544,8 @@ Dhonishow_center.prototype.dimensions_set = function(event){
 var Dhonishow_autoplay = function(value, parent){
 	this.parent = parent;
 	this.create(value);
+	this.parent.queue.register("updaters", this, "reset");
 };
-
-Dhonishow.extend(Dhonishow_autoplay, Dhonishow);
 
 Dhonishow_autoplay.prototype.create = function(duration) {
   var _this = this;
@@ -555,7 +558,7 @@ Dhonishow_autoplay.prototype.create = function(duration) {
         jQuery(_this.parent.dom.elements[_this.parent.dom.elements.length-1]),
         _this.parent.options.duration
       );
-    }else{
+    } else {
       _this.parent.effect.effect.update(
         jQuery(_this.parent.dom.elements[_this.parent.current_index]),
         jQuery(_this.parent.dom.elements[_this.parent.current_index-1]),
@@ -573,11 +576,10 @@ Dhonishow_autoplay.prototype.create = function(duration) {
 */
 
 Dhonishow_autoplay.prototype.reset = function () {
-  if(options.autoplay) {
-    clearInterval(this.executer);
-    this.executer = null;
-    this.create(this.parent.options.autoplay);
-  }
+  console.log(this);
+  clearInterval(this.executer);
+  this.executer = null;
+  this.create(this.parent.options.autoplay);
 };
 
 // ###########################################################################
