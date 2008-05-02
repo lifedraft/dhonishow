@@ -96,20 +96,16 @@ DhoniShow.prototype.queue.prototype = {
 };*/
 
 DhoniShow.prototype.options = function(element) {
-  
+
   var suboption;
   this.preloader = true;
   this.duration = 0.6;
   this.center = true;
-  this.hide = {
-   paging: false,
-   alt: false,
-   navigation: false,
-   buttons: false
-  };
+  this.hide = {};
   this.effect = 'appear';
 
   var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
+
   for (var i = 0; i < names.length; i++) {
     var option = /(\w+|\w+-\w+)_(\w+)/.exec(names[i]), suboption;
     var value = option[2];
@@ -133,7 +129,7 @@ DhoniShow.prototype.options = function(element) {
 
 };
 
-DhoniShow.prototype.options.queue = "queue_*.dom_*.preloader_*.duration_*.center_*.hide_*.effect_*";
+DhoniShow.prototype.options.queue = "preloader.duration.center.hide.effect";
 
 // ###########################################################################
 
@@ -225,19 +221,13 @@ DhoniShow.prototype.dom = function(element, parent){
 
 };
 
-/*
-  TODO Specify placeholder inoking modules;
-  @placeholder_module_module_module
-  module_* is the queue of invoke calls.
-*/
-
 DhoniShow.prototype.dom.prototype = {
   template : ['<ol class="dhonishow-elements">@images</ol>',
-  '<div class="dhonishow-navi" style="display:none;">',
-    '<p class="dhonishow-picture-alt">@alt</p>',
-    '<div class="dhonishow-paging-buttons">',
+  '<div class="dhonishow-navi hideable-navigation" style="display:none;">',
+    '<p class="dhonishow-picture-alt hideable_alt">@alt</p>',
+    '<div class="dhonishow-paging-buttons hideable-buttons">',
       '<a class="dhonishow-next-button" title="Next">Next</a>',
-      '<p class="dhonishow-paging">@current of @allpages</p>',
+      '<p class="dhonishow-paging hideable-paging">@current of @allpages</p>',
       '<a class="dhonishow-previous-button" title="Previous">Back</a>',
     "</div>",
   '</div>'].join(""),
@@ -310,7 +300,7 @@ DhoniShow.fn = {};
 
 DhoniShow.fn.effect = function(effectName, parent){
   this.parent = parent;
-  this.effect = new DhoniShow.fn.effect.fn[effectName](this);
+  this.effect = new DhoniShow.fn.effect.fx[effectName](this);
   this.addObservers();
 };
 
@@ -352,16 +342,16 @@ DhoniShow.fn.effect.prototype = {
 
 // ###########################################################################
 
-DhoniShow.fn.effect.fn = {};
+DhoniShow.fn.effect.fx = {};
 
 // ###########################################################################
 
-DhoniShow.fn.effect.fn.appear = function(parent){
+DhoniShow.fn.effect.fx.appear = function(parent){
   this.parent = parent;
   this.parent.parent.hide.not_current();
 };
 
-DhoniShow.fn.effect.fn.appear.prototype = {
+DhoniShow.fn.effect.fx.appear.prototype = {
   update: function(next_element, current_element, duration){
     current_element.animate({ opacity: "toggle" }, duration*1000);
     next_element.animate({ opacity: "toggle" }, duration*1000);
@@ -370,7 +360,7 @@ DhoniShow.fn.effect.fn.appear.prototype = {
 
 // ###########################################################################
 
-DhoniShow.fn.effect.fn.resize = function(parent){
+DhoniShow.fn.effect.fx.resize = function(parent){
   /*
     FIXME resize doesn't work properly anymore
   */
@@ -381,7 +371,7 @@ DhoniShow.fn.effect.fn.resize = function(parent){
 
 };
 
-DhoniShow.fn.effect.fn.resize.prototype = {
+DhoniShow.fn.effect.fx.resize.prototype = {
   update: function(next_element, current_element, duration){
     var dimensions = DhoniShow.helper.dimensions_give(next_element);
 
@@ -403,29 +393,29 @@ DhoniShow.fn.duration = function (value, parent) {
 // ###########################################################################
 
 DhoniShow.fn.hide = function(value, parent){
+  var _this = this;
   this.parent = parent;
-  for(var hide in value) this[hide](value[hide]);
 
-  var previous_button = this.parent.dom.element.find(".dhonishow-previous-button");
-  var next_button = this.parent.dom.element.find(".dhonishow-next-button");
 
-  this.parent.queue.register("updaters", this, this.previous_button, previous_button).call(this, previous_button);
-  this.parent.queue.register("updaters", this, this.next_button, next_button).call(this, next_button);
+  this.parent.dom.element.find("*").each(function(index, element){
+    var hideable = /hideable-(\w*)/.exec(this.className);
+    if(hideable){
+      _this[hideable[1]] = function(value){
+        if(hide) jQuery(element).hide();
+      };
+    }
+  });
+
+  for(var hide in value){ this[hide](value[hide]); }
+  
+  if(!value.buttons){
+    this.parent.queue.register("updaters", this, this.previous_button).call(this);
+    this.parent.queue.register("updaters", this, this.next_button).call(this);
+  }
 };
 
 DhoniShow.fn.hide.prototype = {
-  paging: function(hide){
-    if(hide) jQuery(".dhonishow-paging", this.parent.dom.element).hide();
-  },
-
-  alt: function(hide){
-    if(hide) jQuery(".dhonishow-picture-alt", this.parent.dom.element).hide();
-  },
-
-  navigation: function(hide){
-    if(hide) jQuery(".dhonishow-navi", this.parent.dom.element).hide();
-  },
-
+  
   buttons: function(hide){
     if(hide) {
       jQuery(".dhonishow-previous-button", this.parent.dom.element).hide();
@@ -433,16 +423,20 @@ DhoniShow.fn.hide.prototype = {
     }
   },
 
-  previous_button: function(button){
-    button.hide();
-    if( this.parent.current_index != 0 
-    && !this.parent.options.hide.buttons ) button.show();
+  previous_button: function(){
+    if(!this.parent.dom.previous_button)  
+      this.parent.dom.previous_button =  this.parent.dom.element.find(".dhonishow-previous-button");
+    
+    this.parent.dom.previous_button.hide();
+    if( this.parent.current_index != 0) this.parent.dom.previous_button.show();
   },
 
-  next_button: function(button){
-    button.hide();
-    if( this.parent.current_index != (this.parent.dom.elements.length - 1) 
-    && !this.parent.options.hide.buttons) button.show();
+  next_button: function() {
+    if(!this.parent.dom.next_button)  
+      this.parent.dom.next_button = this.parent.dom.element.find(".dhonishow-next-button");
+    
+    this.parent.dom.next_button.hide();
+    if( this.parent.current_index != (this.parent.dom.elements.length - 1)) this.parent.dom.next_button.show();
   },
 
   not_current: function(){
