@@ -5,23 +5,40 @@ http://lifedraft.de
 
 */
 
-var DhoniShow = function(element, options, index) {
+var DhoniShow = function(element, options) {
   var _this = this;
   
-  if(!element.id) element.id = "dhonishow_"+index;
   if(this.elementsSet(element)){
     this.current_index = 0;
     this.queue = new this.queue();
     this.dom = new this.dom(element, this);
+    
+    this.options = jQuery.extend(
+      new this.options(element), 
+      jQuery.extend(DhoniShow.defaultOptions, options)
+    );
 
-    for(var option in (this.options = new this.options(element))) // invokes constructor class of each option
-      if (this[option] != false) this[option] = new DhoniShow.fn[option](this.options[option], this);
+    var optionsQueue = this.options.constructor.queue.split(".");
 
+    for (var i=0; i < optionsQueue.length; i++) {
+      this[optionsQueue[i]] = new DhoniShow.fn[optionsQueue[i]](this.options[optionsQueue[i]], this);
+    };
+      
     /*
       TODO Kick this
     */
-    jQuery(window).bind('load', function(event) { if(!_this.options.hide.navigation) jQuery(".dhonishow-navi", element).fadeIn(); });
+    
+    jQuery(window).bind('load', function(event) { 
+      if(_this.options.hide && !_this.options.hide.navigation) jQuery(".dhonishow-navi", element).fadeIn(); 
+    });
   }
+};
+
+DhoniShow.defaultOptions = {
+  preloader : true,
+  duration : 0.6,
+  center : true,
+  effect : 'appear'
 };
 
 DhoniShow.prototype = {
@@ -57,52 +74,10 @@ DhoniShow.prototype.queue.prototype = {
 };
 // ###########################################################################
 
-/*DhoniShow.prototype.options = function(element) {
-  
-  var suboption;
-  this.preloader = true;
-  this.duration = 0.6;
-  this.center = true;
-  this.hide = {
-   paging: false,
-   alt: false,
-   navigation: false,
-   buttons: false
-  };
-  this.effect = 'appear';
-
-  var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
-  for (var i = 0; i < names.length; i++) {
-    var option = /(\w+|\w+-\w+)_(\w+)/.exec(names[i]), suboption;
-    var value = option[2];
-
-    if( /true|false/.test(value) ){
-      value = !!( value.replace(/false/, "") ); // Wild hack
-    } else if( (/dot/).test(value) ){
-      value = Number( value.replace(/dot/, ".") );
-    }
-
-    if (suboption = option[1].match(/(\w+)-(\w+)/) ) {
-      suboption[1] = suboption[1].toLowerCase();
-      if(this[suboption[1]].constructor != Object)
-        this[suboption[1]] = {};
-
-      this[suboption[1].toLowerCase()][suboption[2].toLowerCase()] = value;
-    } else {
-      this[option[1].toLowerCase()] = value;
-    }
-  }
-
-};*/
-
 DhoniShow.prototype.options = function(element) {
 
   var suboption;
-  this.preloader = true;
-  this.duration = 0.6;
-  this.center = true;
-  this.hide = {};
-  this.effect = 'appear';
+
 
   var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
 
@@ -177,7 +152,7 @@ DhoniShow.helper = {
       }
 
       func.apply(scope, arg || []);
-      this.onload = null;
+      this.onload = null; // prevent IE memory leaks
       jQuery(this).unbind("onload");
     });
     
@@ -223,7 +198,7 @@ DhoniShow.prototype.dom = function(element, parent){
 
 DhoniShow.prototype.dom.prototype = {
   template : ['<ol class="dhonishow-elements">@images</ol>',
-  '<div class="dhonishow-navi hideable-navigation" style="display:none;">',
+  '<div class="dhonishow-navi hideable-navigation">',
     '<p class="dhonishow-picture-alt hideable_alt">@alt</p>',
     '<div class="dhonishow-paging-buttons hideable-buttons">',
       '<a class="dhonishow-next-button" title="Next">Next</a>',
@@ -300,6 +275,7 @@ DhoniShow.fn = {};
 
 DhoniShow.fn.effect = function(effectName, parent){
   this.parent = parent;
+
   this.effect = new DhoniShow.fn.effect.fx[effectName](this);
   this.addObservers();
 };
@@ -393,10 +369,10 @@ DhoniShow.fn.duration = function (value, parent) {
 // ###########################################################################
 
 DhoniShow.fn.hide = function(value, parent){
-  var _this = this;
+
   this.parent = parent;
 
-
+  var _this = this;
   this.parent.dom.element.find("*").each(function(index, element){
     var hideable = /hideable-(\w*)/.exec(this.className);
     if(hideable){
@@ -408,7 +384,7 @@ DhoniShow.fn.hide = function(value, parent){
 
   for(var hide in value){ this[hide](value[hide]); }
   
-  if(!value.buttons){
+  if(value && !value.buttons){
     this.parent.queue.register("updaters", this, this.previous_button).call(this);
     this.parent.queue.register("updaters", this, this.next_button).call(this);
   }
@@ -669,4 +645,4 @@ jQuery.fn.dhonishow = function(options){
   });
 };
 
-jQuery(function(){jQuery(".dhonishow").dhonishow();});
+jQuery(function(){jQuery(".dhonishow").dhonishow({duration: 3});});
