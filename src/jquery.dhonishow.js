@@ -75,7 +75,6 @@ DhoniShow.prototype.options = function(element) {
 
   var suboption;
 
-
   var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
 
   for (var i = 0; i < names.length; i++) {
@@ -279,12 +278,6 @@ DhoniShow.fn.effect = function(effectName, parent){
 
 DhoniShow.fn.effect.prototype = {
   addObservers: function(){
-    
-    /*
-      TODO Rewrite the way events are binded to button elements
-      it is to obstrusive
-    */
-  
     this.parent.dom.element.find(".dhonishow-previous-button").bind("click", this, this.previous);
     this.parent.dom.element.find(".dhonishow-next-button").bind("click", this, this.next);
   },
@@ -398,7 +391,7 @@ DhoniShow.fn.hide.prototype = {
 
   previous_button: function(){
     if(!this.parent.dom.previous_button)  
-      this.parent.dom.previous_button =  this.parent.dom.element.find(".dhonishow-previous-button");
+      this.parent.dom.previous_button = this.parent.dom.element.find(".dhonishow-previous-button");
     
     this.parent.dom.previous_button.hide();
     if( this.parent.current_index != 0) this.parent.dom.previous_button.show();
@@ -430,7 +423,7 @@ DhoniShow.fn.hide.prototype = {
 
 DhoniShow.fn.center = function(value, parent){
   this.parent = parent;
-  this.max = { width:0, height:0 };
+  this.max = { width: 0, height: 0 };
 
   if (value && this.parent.options.effect != "resize"){
     this.center();
@@ -462,7 +455,7 @@ DhoniShow.fn.center.prototype = {
       _this.parent.dom.element.css({ width: _this.max.width });
     
       _this.parent.dom.elements.each(function(index){
-        var element_dimensions = DhoniShow.helper.dimensions_give(this, "hund");
+        var element_dimensions = DhoniShow.helper.dimensions_give(this);
       
         jQuery(this).css({
           paddingLeft: ( (_this.max.width - element_dimensions.width) / 2 )+"px",
