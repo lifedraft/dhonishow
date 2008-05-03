@@ -11,19 +11,9 @@ var DhoniShow = function(element, options) {
   if(this.elementsSet(element)){
     this.current_index = 0;
     this.queue = new this.queue();
-
-    this.dom = new this.dom(element, this);
-    
-    this.options = jQuery.extend(
-      new this.options(element), 
-      jQuery.extend(DhoniShow.defaultOptions, options)
-    );
-    var optionsQueue = this.options.constructor.queue.split(".");
-
-    for (var i=0; i < optionsQueue.length; i++) {
-      this[optionsQueue[i]] = new DhoniShow.fn[optionsQueue[i]](this.options[optionsQueue[i]], this);
-    }
-
+    this.dom = new this.dom(element, this);    
+    this.options = jQuery.extend(new this.options(element), jQuery.extend(DhoniShow.defaultOptions, options));
+    this.invokeOptionsQueue(this.options.constructor.queue);
   }
 };
 
@@ -35,9 +25,6 @@ DhoniShow.defaultOptions = {
 };
 
 DhoniShow.prototype = {
-  queue: function(){
-    this.queues = {};
-  },
   animating: function() {
     return this.dom.element.find("*:animated").length;
   },
@@ -48,6 +35,18 @@ DhoniShow.prototype = {
     jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
       "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
     return false;
+  },
+  
+  invokeOptionsQueue: function(optionsQueue){
+    var optionsQueue = optionsQueue.split(".");
+
+    for (var i=0; i < optionsQueue.length; i++) {
+      this[optionsQueue[i]] = new DhoniShow.fn[optionsQueue[i]](this.options[optionsQueue[i]], this);
+    }
+  },
+  
+  queue: function(){
+    this.queues = {};
   }
 };
 
