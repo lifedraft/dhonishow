@@ -7,13 +7,14 @@ http://lifedraft.de
 
 var DhoniShow = function(element, options) {
   var _this = this;
-  
+
   if(this.elementsSet(element)){
     this.current_index = 0;
     this.queue = new this.queue();
-    this.dom = new this.dom(element, this);    
-    this.options = jQuery.extend(new this.options(element), jQuery.extend(DhoniShow.defaultOptions, options));
-    this.invokeOptionsQueue(this.options.constructor.queue);
+    this.dom = new this.dom(element, this);
+
+    this.options = jQuery.extend(jQuery.extend(DhoniShow.defaultOptions, options), new this.options(element));
+    this.invokeOptionsQueue(DhoniShow.queue);
   }
 };
 
@@ -23,6 +24,8 @@ DhoniShow.defaultOptions = {
   center : true,
   effect : 'appear'
 };
+
+DhoniShow.queue = "preloader.duration.center.hide.effect";
 
 DhoniShow.prototype = {
   animating: function() {
@@ -73,35 +76,36 @@ DhoniShow.prototype.queue.prototype = {
 
 DhoniShow.prototype.options = function(element) {
 
-  var suboption;
-
-  var names = element.className.match(/(\w+|\w+-\w+)_(\w+)/g) || [];
+  var names = element.className.match(/((\w*)-(\w*)|\w*)_(\w*)/g) || [];
 
   for (var i = 0; i < names.length; i++) {
-    var option = /(\w+|\w+-\w+)_(\w+)/.exec(names[i]), suboption;
-    var value = option[2];
 
-    if( /true|false/.test(value) ){
-      value = !!( value.replace(/false/, "") ); // Wild hack
-    } else if( (/dot/).test(value) ){
-      value = Number( value.replace(/dot/, ".") );
-    }
+    var option = /((\w*)-(\w*)|\w*)_(\d*)/.exec(names[i]);
+    var value = this.recognizeValue(option[4]);
+    
+    switch(typeof option[3]){
+      case "undefined": // Matches (option_value)
+        this[option[1]] = value;
+      break;
+      case "string": // Matches (option-suboption_value)
+        if(!this[option[2]] || this[option[2]].constructor != Object){ this[option[2]] = {};}
+        this[option[2]][option[3]] = value;
+      break;
+    };
 
-    if (suboption = option[1].match(/(\w+)-(\w+)/) ) {
-      suboption[1] = suboption[1].toLowerCase();
-      if(this[suboption[1]].constructor != Object)
-        this[suboption[1]] = {};
-
-      this[suboption[1].toLowerCase()][suboption[2].toLowerCase()] = value;
-    } else {
-      this[option[1].toLowerCase()] = value;
-    }
   }
 
 };
 
-DhoniShow.prototype.options.queue = "preloader.duration.center.hide.effect";
-
+DhoniShow.prototype.options.prototype.recognizeValue = function(value){
+  if( /true|false/.test(value) ){
+    return value = !!( value.replace(/false/, "") ); // Wild hack
+  } 
+  if( (/dot/).test(value) ){
+    return value = Number( value.replace(/dot/, ".") );
+  }
+  return value;
+};
 // ###########################################################################
 
 DhoniShow.helper = {
@@ -440,7 +444,7 @@ DhoniShow.fn.center.prototype = {
     var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
 
     this.parent.dom.elements.each(function (index) {
-    
+
       var dimensions = arguments[2] ? arguments[2] : DhoniShow.helper.dimensions_give(this);
 
       DhoniShow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
@@ -450,13 +454,12 @@ DhoniShow.fn.center.prototype = {
       _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
       _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
 
-    
       jQuery(elements_wraper).css({ height: _this.max.height });
       _this.parent.dom.element.css({ width: _this.max.width });
-    
+
       _this.parent.dom.elements.each(function(index){
         var element_dimensions = DhoniShow.helper.dimensions_give(this);
-      
+
         jQuery(this).css({
           paddingLeft: ( (_this.max.width - element_dimensions.width) / 2 )+"px",
           paddingTop: ( (_this.max.height - element_dimensions.height) / 2 )+"px"
