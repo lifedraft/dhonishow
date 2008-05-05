@@ -80,9 +80,9 @@ DhoniShow.prototype.options = function(element) {
 
   for (var i = 0; i < names.length; i++) {
 
-    var option = /((\w*)-(\w*)|\w*)_(\d*)/.exec(names[i]);
+    var option = /((\w*)-(\w*)|\w*)_(\w*)/.exec(names[i]);
     var value = this.recognizeValue(option[4]);
-    
+
     switch(typeof option[3]){
       case "undefined": // Matches (option_value)
         this[option[1]] = value;
@@ -277,6 +277,7 @@ DhoniShow.fn.effect = function(effectName, parent){
   this.parent = parent;
 
   this.effect = new DhoniShow.fn.effect.fx[effectName](this);
+  this.parent.queue.register("loaded_all", this.effect, this.effect.center, this.parent.center);
   this.addObservers();
 };
 
@@ -325,6 +326,21 @@ DhoniShow.fn.effect.fx.appear.prototype = {
   update: function(next_element, current_element, duration){
     current_element.animate({ opacity: "toggle" }, duration*1000);
     next_element.animate({ opacity: "toggle" }, duration*1000);
+  },
+  center: function(center){
+    
+    this.parent.parent.dom.element.css({width: center.dimensions.max.width+"px"});
+    this.parent.parent.dom.elements.parent().css({height: center.dimensions.max.height+"px"});
+      
+    if(center.value){
+      this.parent.parent.dom.elements.each(function(index){
+        jQuery(this).css(center.dimensions[index].center);
+      });
+      
+      if(center.value.width) this.parent.parent.dom.element.css({width: center.value.width+"px"});
+      if(center.value.height) this.parent.parent.dom.elements.parent().css({height: center.value.height+"px"});
+    }
+
   }
 };
 
@@ -343,14 +359,18 @@ DhoniShow.fn.effect.fx.resize = function(parent){
 
 DhoniShow.fn.effect.fx.resize.prototype = {
   update: function(next_element, current_element, duration){
-    var dimensions = DhoniShow.helper.dimensions_give(next_element);
+    var dimensions = this.parent.parent.center.dimensions[this.parent.parent.current_index];
 
-    this.parent.parent.dom.element.find(".dhonishow-elements").animate( { height: dimensions.height }, duration * 1000 );
+    this.parent.parent.dom.elements.parent().animate( { height: dimensions.height }, duration * 1000 );
 
     this.parent.parent.dom.element.animate( { width: dimensions.width }, duration * 1000 );
 
     current_element.fadeOut( duration * 1000 );
     next_element.fadeIn( duration * 1000 );
+  },
+  center: function(center){
+    this.parent.parent.dom.element.css({width: center.dimensions[this.parent.parent.current_index].width+"px"});
+    this.parent.parent.dom.elements.parent().css({height: center.dimensions[this.parent.parent.current_index].height+"px"});
   }
 };
 
@@ -378,7 +398,8 @@ DhoniShow.fn.hide = function(value, parent){
 
   for(var hide in value){ this[hide](value[hide]); }
   
-  if(value && !value.buttons){
+
+  if(value == undefined || (value && !value.buttons)){
     this.parent.queue.register("updaters", this, this.previous_button).call(this);
     this.parent.queue.register("updaters", this, this.next_button).call(this);
   }
@@ -427,21 +448,19 @@ DhoniShow.fn.hide.prototype = {
 
 DhoniShow.fn.center = function(value, parent){
   this.parent = parent;
-  this.max = { width: 0, height: 0 };
-
-  if (value && this.parent.options.effect != "resize"){
-    this.center();
-    if (value.width || value.height) jQuery(window).bind("load", this, this.dimensions_set);
-
-  } else {
-    this.update_max();
-  }
+  this.value = value;
+  this.set_dimensions();
 };
 
 DhoniShow.fn.center.prototype = {
-  center: function () {
+  set_dimensions: function(){
     var _this = this;
-    var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
+    this.dimensions = {
+      max: {
+        width: 0,
+        height: 0
+      }
+    };
 
     this.parent.dom.elements.each(function (index) {
 
@@ -451,90 +470,51 @@ DhoniShow.fn.center.prototype = {
 
       if(!dimensions.width || !dimensions.height) return;
 
-      _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
-      _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
+      _this.dimensions.max.height = (dimensions.height > _this.dimensions.max.height) ? dimensions.height : _this.dimensions.max.height;
+      _this.dimensions.max.width = (dimensions.width > _this.dimensions.max.width) ? dimensions.width : _this.dimensions.max.width;
+      
+      _this.dimensions[index] = {
+        width: dimensions.width,
+        height: dimensions.height
+      };
+      
+      if(_this.value == true) {
+        for(var index in _this.dimensions){
+          if(index != "max"){
+            _this.dimensions[index].center = {
+              paddingLeft: ( (_this.dimensions.max.width - _this.dimensions[index].width) / 2 )+"px",
+              paddingTop: ( (_this.dimensions.max.height - _this.dimensions[index].height) / 2 )+"px"
+            };
+          }
+        }
+      } else if(_this.value.width || _this.value.height) {
+        for(var index in _this.dimensions){
+          var element_dimensions = {
+            width : new Number((_this.value.width) ? _this.value.width : _this.dimensions.max.width),
+            height : new Number((_this.value.height) ? _this.value.height : _this.dimensions.max.height)
+          };
 
-      jQuery(elements_wraper).css({ height: _this.max.height });
-      _this.parent.dom.element.css({ width: _this.max.width });
+          var css = {};
+          var offsetWidth = ( _this.dimensions[index].width - element_dimensions.width ) / 2;
+          var offsetHeight = ( _this.dimensions[index].height - element_dimensions.height ) / 2;
 
-      _this.parent.dom.elements.each(function(index){
-        var element_dimensions = DhoniShow.helper.dimensions_give(this);
-
-        jQuery(this).css({
-          paddingLeft: ( (_this.max.width - element_dimensions.width) / 2 )+"px",
-          paddingTop: ( (_this.max.height - element_dimensions.height) / 2 )+"px"
-        });
-      });
-
-      _this.parent.queue.invokeAll("loaded", index);
-
-      if(index != _this.parent.current_index) jQuery(this).hide();
-    });
-  },
-
-  update_max: function () {
-    var _this = this;
-    var elements_wraper = this.parent.dom.element.find(".dhonishow-elements");
-
-    this.parent.dom.elements.each(function (index) {
-
-      var dimensions = (arguments[2]) ? arguments[2] : DhoniShow.helper.dimensions_give(this);
-
-      DhoniShow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
-
-      if(!dimensions.width || !dimensions.height) return;
-
-      _this.max.height = (dimensions.height > _this.max.height) ? dimensions.height : _this.max.height;
-      _this.max.width = (dimensions.width > _this.max.width) ? dimensions.width : _this.max.width;
-
-      jQuery(elements_wraper).css({ height: _this.max.height });
-      _this.parent.dom.element.css({ width: _this.max.width });
-
-      _this.parent.queue.invokeAll("loaded", index);
-    
-      if(index != _this.parent.current_index) jQuery(this).hide();
-    });
-
-    if(this.parent.options.effect == "resize") jQuery(window).bind("load", function(){
-      var dimensions = DhoniShow.helper.dimensions_give(_this.parent.dom.elements[_this.parent.current_index]);
-
-      _this.parent.dom.element.find(".dhonishow-elements").css({height: dimensions.height});
-      _this.parent.dom.element.css({width: dimensions.width});
-    });
-  },
-
-  dimensions_set: function(event){
-    var _this = event.data;
-    var value = _this.parent.options.center;
-
-    if(value.width) _this.parent.dom.element.css({ width:  value.width+"px" });
-    if(value.height) _this.parent.dom.element.find(".dhonishow-elements").css({ height:  value.height+"px" });
-  
-    var element_dimensions = {
-      width: new Number(value.width || _this.parent.dom.element.css("width").replace("px", "")),
-      height: new Number(value.height || _this.parent.dom.element.find(".dhonishow-elements").css("height").replace("px", ""))
-    };
-
-    _this.parent.dom.elements.each(function(){
-      var width = jQuery(this).width();
-      var height = jQuery(this).height();
-
-      var css = {};
-      var offsetWidth = ( width - element_dimensions.width ) / 2;
-      var offsetHeight = ( height - element_dimensions.height ) / 2;
-    
-      if(offsetWidth > 0) {
-        css.paddingLeft = 0;
-        css.marginLeft = offsetWidth - offsetWidth - offsetWidth + "px";
-      } else css.paddingLeft = offsetWidth - offsetWidth - offsetWidth + "px";
+          if(offsetWidth > 0) {
+            css.paddingLeft = 0;
+            css.marginLeft = offsetWidth - offsetWidth - offsetWidth + "px";
+          } else css.paddingLeft = offsetWidth - offsetWidth - offsetWidth + "px";
 
 
-      if(offsetHeight > 0){
-        css.paddingTop = 0;
-        css.marginTop = offsetHeight - offsetHeight - offsetHeight + "px";
-      } else css.paddingTop = offsetHeight - offsetHeight - offsetHeight + "px";
+          if(offsetHeight > 0){
+            css.paddingTop = 0;
+            css.marginTop = offsetHeight - offsetHeight - offsetHeight + "px";
+          } else css.paddingTop = offsetHeight - offsetHeight - offsetHeight + "px";
+        
+          _this.dimensions[index].center = css;
+        }
+      }
+      
+      _this.parent.queue.invokeAll("loaded_one", index);
 
-      jQuery(this).css(css);
     });
   }
 };
@@ -581,18 +561,20 @@ DhoniShow.fn.autoplay.prototype = {
 
 DhoniShow.fn.preloader = function(value, parent){
   this.parent = parent;
-  this.show_preloader = value;
+  this.value = value;
   
-  this.parent.queue.register("loaded", this, this.loadedOne);
+  this.parent.queue.register("loaded_one", this, this.loadedOne);
+  this.parent.queue.register("loaded_all", this, this.loadedAll);
   
-  if(this.show_preloader){
+  if(this.value){
     this.build(this.parent.dom.elements.length);
     this.loadingInterval = this.setLoading();
   }
 };
 
 DhoniShow.fn.preloader.prototype = {
-
+  elements: [],
+  
   build: function ( quantity ) {
     this.template = jQuery(['<ul class="dhonishow-preloader">',
       '<li class="dhonishow-preloader-loading">Loading <span>...</span></li>',
@@ -620,15 +602,15 @@ DhoniShow.fn.preloader.prototype = {
   },
 
   loadedOne: function ( position ) {
-    if(this.show_preloader){
-      this.template.find("li").eq(position+1).addClass("loaded");
-      this.loadedAll();
-      return;
-    }
+    if(this.elements.push(position) == this.parent.dom.elements.length) 
+      this.parent.queue.invokeAll("loaded_all");
+
+    if(this.value) this.template.find("li").eq(position+1).addClass("loaded");
+
   },
 
   loadedAll: function () {
-    if(this.parent.dom.element.find(".loaded").size() == this.parent.dom.elements.length) {
+    if(this.value){
       this.unsetLoading();
       this.parent.dom.element.find(".dhonishow-preloader").fadeOut(600);
     }
