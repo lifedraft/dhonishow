@@ -34,15 +34,8 @@ DhoniShow.prototype = {
     jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
       "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
     return false;
-  },
-
-  invokeOptionsQueue: function(optionsQueue){
-    var optionsQueue = optionsQueue.split(".");
-
-    for (var i=0; i < optionsQueue.length; i++) {
-      this[optionsQueue[i]] = new DhoniShow.fn[optionsQueue[i]](this.options[optionsQueue[i]], this);
-    }
   }
+
 };
 
 DhoniShow.prototype.queue = function(){
@@ -298,7 +291,7 @@ DhoniShow.fn = {};
 
 DhoniShow.fn.effect = function(effectName, parent){
   this.parent = parent;
-
+  if(effectName == undefined) effectName = "appear";
   this.effect = new DhoniShow.fn.effect.fx[effectName](this);
   this.parent.queue.register("loaded_all", this.effect, this.effect.center);
 
