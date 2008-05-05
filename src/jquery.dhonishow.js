@@ -347,9 +347,6 @@ DhoniShow.fn.effect.fx.appear.prototype = {
 // ###########################################################################
 
 DhoniShow.fn.effect.fx.resize = function(parent){
-  /*
-    FIXME resize doesn't work properly anymore
-  */
   this.parent = parent;
   jQuery(this.parent.parent.dom.elements.get().reverse()).each(function(index){
     jQuery(this).css( "z-index", index + 1 );
@@ -365,8 +362,8 @@ DhoniShow.fn.effect.fx.resize.prototype = {
 
     this.parent.parent.dom.element.animate( { width: dimensions.width }, duration * 1000 );
 
-    current_element.fadeOut( duration * 1000 );
-    next_element.fadeIn( duration * 1000 );
+    next_element.fadeOut( duration * 1000 );
+    current_element.fadeIn( duration * 1000 );
   },
   center: function(center){
     this.parent.parent.dom.element.css({width: center.dimensions[this.parent.parent.current_index].width+"px"});
