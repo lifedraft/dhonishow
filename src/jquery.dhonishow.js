@@ -25,7 +25,7 @@ DhoniShow.defaultOptions = {
   effect : 'appear'
 };
 
-DhoniShow.queue = "preloader.duration.center.hide.effect";
+DhoniShow.queue = "preloader.duration.center.hide.effect.autoplay";
 
 DhoniShow.prototype = {
   animating: function() {
@@ -199,7 +199,7 @@ DhoniShow.prototype.dom = function(element, parent){
 DhoniShow.prototype.dom.prototype = {
   template : ['<ol class="dhonishow-elements">@images</ol>',
   '<div class="dhonishow-navi hideable-navigation">',
-    '<p class="dhonishow-picture-alt hideable_alt">@alt</p>',
+    '<p class="dhonishow-picture-alt hideable-alt">@alt</p>',
     '<div class="dhonishow-paging-buttons hideable-buttons">',
       '<a class="dhonishow-next-button" title="Next">Next</a>',
       '<p class="dhonishow-paging hideable-paging">@current of @allpages</p>',
@@ -365,6 +365,7 @@ DhoniShow.fn.effect.fx.resize.prototype = {
     next_element.fadeOut( duration * 1000 );
     current_element.fadeIn( duration * 1000 );
   },
+  
   center: function(center){
     this.parent.parent.dom.element.css({width: center.dimensions[this.parent.parent.current_index].width+"px"});
     this.parent.parent.dom.elements.parent().css({height: center.dimensions[this.parent.parent.current_index].height+"px"});
@@ -392,11 +393,10 @@ DhoniShow.fn.hide = function(value, parent){
       };
     }
   });
-
   for(var hide in value){ this[hide](value[hide]); }
   
 
-  if(value == undefined || (value && !value.buttons)){
+  if(value == undefined || !value.buttons){
     this.parent.queue.register("updaters", this, this.previous_button).call(this);
     this.parent.queue.register("updaters", this, this.next_button).call(this);
   }
@@ -520,8 +520,10 @@ DhoniShow.fn.center.prototype = {
 
 DhoniShow.fn.autoplay = function(value, parent){
 	this.parent = parent;
-	this.create(value);
-	this.parent.queue.register("updaters", this, this.reset);
+  if(value){
+	  this.create(value);
+	  this.parent.queue.register("updaters", this, this.reset);
+	}
 };
 
 DhoniShow.fn.autoplay.prototype = {
