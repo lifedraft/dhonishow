@@ -13,6 +13,7 @@ var DhoniShow = function(element, options) {
 
     this.options = jQuery.extend(jQuery.extend(DhoniShow.defaultOptions, options), new this.options(element));
     this.queue.invokeModulesQueue(this, this.options);
+    
   }
 };
 
@@ -100,12 +101,18 @@ DhoniShow.prototype.options = function(element) {
     var value = this.recognizeValue(option[4]);
 
     switch(typeof option[3]){
-      case "undefined": // Matches (option_value)
+      case "undefined": // Matches (option_value) for cool browsers
         this[option[1]] = value;
       break;
       case "string": // Matches (option-suboption_value)
-        if(!this[option[2]] || this[option[2]].constructor != Object){ this[option[2]] = {};}
-        this[option[2]][option[3]] = value;
+        if(option[3].length){
+          if(!this[option[2]] || this[option[2]].constructor != Object){ this[option[2]] = {};}
+          this[option[2]][option[3]] = value;
+        } else if (option[2].length == 0 && jQuery.browser.msie){
+          /* Cool browsers match from /((\w*)-(\w*)|\w*)_(\w*)/ > ["option_value", undefined, undefined, "value"]
+            IE > ["option_value", "", "", "value"] */
+          this[option[1]] = value;
+        }
       break;
     };
 
@@ -194,7 +201,7 @@ DhoniShow.helper = {
       if(this.src && this.src.length > 0) to.attr("src", this.src);
     });
     return to;
-  }
+  }  
 };
 
 // ###########################################################################
