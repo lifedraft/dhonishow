@@ -35,14 +35,14 @@ DhoniShow.prototype = {
       "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
     return false;
   },
-  
+
   invokeOptionsQueue: function(optionsQueue){
     var optionsQueue = optionsQueue.split(".");
 
     for (var i=0; i < optionsQueue.length; i++) {
       this[optionsQueue[i]] = new DhoniShow.fn[optionsQueue[i]](this.options[optionsQueue[i]], this);
     }
-  }  
+  }
 };
 
 DhoniShow.prototype.queue = function(){
@@ -52,7 +52,7 @@ DhoniShow.prototype.queue = function(){
 
 DhoniShow.prototype.queue.prototype = {
   moduleQueue: ["preloader","duration","hide","effect","autoplay","center"],
-  
+
   register: function(type, scope, func /*, nArgs */){
     this.queues[type] = this.queues[type] || [];
     var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
@@ -65,7 +65,7 @@ DhoniShow.prototype.queue.prototype = {
       this.setWaiter(jQuery.makeArray(arguments));
       return;
     }
-    
+
     for (var i=0; i < this.queues[type].length; i++) {
       if(arguments.length > 1){
         var args = jQuery.makeArray(arguments);
@@ -75,7 +75,7 @@ DhoniShow.prototype.queue.prototype = {
       this.queues[type][i].func.apply(this.queues[type][i].scope, this.queues[type][i].args);
     }
   },
-  
+
   invokeModulesQueue: function(_this, options){
     var optionsQueue = this.moduleQueue;    
     for (var i=0; i < optionsQueue.length; i++) {
@@ -83,6 +83,7 @@ DhoniShow.prototype.queue.prototype = {
       this.invoked.push(optionsQueue[i]);
     }
   },
+
   setWaiter: function(args){
     var _this = this;
     return setTimeout(function(){
@@ -131,9 +132,9 @@ DhoniShow.prototype.options.prototype.recognizeValue = function(value){
 // ###########################################################################
 
 DhoniShow.helper = {
-  
+
   image: function ( element  ) {
-    
+
     var img;
     element = (typeof element == "object" && element.nodeType == "undefined" || element.length) ? element[0] : element;
     if(element.nodeName.toLowerCase() != "img") {
@@ -177,7 +178,7 @@ DhoniShow.helper = {
       this.onload = null; // prevent IE memory leaks
       jQuery(this).unbind("onload");
     });
-    
+
     this.clone_attributes(image, preloaderImage);
     jQuery(image).replaceWith(preloaderImage);
 
@@ -188,7 +189,7 @@ DhoniShow.helper = {
     if(!!!dimensions.width || !!!dimensions.height){
       if( ( image = jQuery(this.image(scope)) ).length > 0 ) {
         this.delayed_image_load(image, func, scope, args);
-      }      
+      }
     }
   },
 
@@ -355,7 +356,7 @@ DhoniShow.fn.effect.fx.appear.prototype = {
 
     this.parent.parent.dom.element.css({width: center.dimensions.max.width+"px"});
     this.parent.parent.dom.elements.parent().css({height: center.dimensions.max.height+"px"});
-    
+
     if(center.value){
       this.parent.parent.dom.elements.each(function(index){
         jQuery(this).css(center.dimensions[index].center);
@@ -371,10 +372,11 @@ DhoniShow.fn.effect.fx.appear.prototype = {
 
 DhoniShow.fn.effect.fx.resize = function(parent){
   this.parent = parent;
-  jQuery(this.parent.parent.dom.elements.get().reverse()).each(function(index){
-    jQuery(this).css( "z-index", index + 1 );
-  });
-
+  var elements = jQuery(this.parent.parent.dom.elements.get().reverse());
+  for (var i=0; i < elements.length; i++) {
+    jQuery(elements[i]).css( "z-index", i + 1 );
+    if(i != (elements.length-1 - this.parent.parent.current_index)) jQuery(elements[i]).hide();
+  }
 };
 
 DhoniShow.fn.effect.fx.resize.prototype = {
@@ -382,16 +384,15 @@ DhoniShow.fn.effect.fx.resize.prototype = {
     var dimensions = this.parent.parent.center.dimensions[this.parent.parent.current_index];
 
     this.parent.parent.dom.elements.parent().animate( { height: dimensions.height }, duration * 1000 );
-
     this.parent.parent.dom.element.animate( { width: dimensions.width }, duration * 1000 );
 
-    next_element.fadeOut( duration * 1000 );
-    current_element.fadeIn( duration * 1000 );
+    current_element.animate({ opacity: "toggle" }, duration*1000);
+    next_element.animate({ opacity: "toggle" }, duration*1000);
   },
-  
+
   center: function(){
     var center = this.parent.parent.center;
-    
+
     this.parent.parent.dom.element.css({width: center.dimensions[this.parent.parent.current_index].width+"px"});
     this.parent.parent.dom.elements.parent().css({height: center.dimensions[this.parent.parent.current_index].height+"px"});
   }
@@ -419,7 +420,7 @@ DhoniShow.fn.hide = function(value, parent){
     }
   });
   for(var hide in value){ this[hide](value[hide]); }
-  
+
 
   if(value == undefined || !value.buttons){
     this.parent.queue.register("updaters", this, this.previous_button).call(this);
@@ -428,7 +429,7 @@ DhoniShow.fn.hide = function(value, parent){
 };
 
 DhoniShow.fn.hide.prototype = {
-  
+
   buttons: function(hide){
     if(hide) {
       jQuery(".dhonishow-previous-button", this.parent.dom.element).hide();
@@ -447,21 +448,21 @@ DhoniShow.fn.hide.prototype = {
   next_button: function() {
     if(!this.parent.dom.next_button)  
       this.parent.dom.next_button = this.parent.dom.element.find(".dhonishow-next-button");
-    
+
     this.parent.dom.next_button.hide();
     if( this.parent.current_index != (this.parent.dom.elements.length - 1)) this.parent.dom.next_button.show();
   },
 
   not_current: function(){
     var element, current = this.parent.current_index;
-  
+
     jQuery(this.parent.dom.elements).each(function(index){
       if(index != current)
         jQuery(this).hide();
       else
         element = jQuery(this);
     });
-  
+
     return element;
   }
 };
@@ -477,14 +478,14 @@ DhoniShow.fn.center = function(value, parent){
         height: 0
       }
   };
-  
+
   this.set_dimensions();
 };
 
 DhoniShow.fn.center.prototype = {
   set_dimensions: function(){
     var _this = this;
-    
+
     this.parent.dom.elements.each(function (index) {
 
       var dimensions = arguments[2] ? arguments[2] : DhoniShow.helper.dimensions_give(this);
@@ -496,12 +497,12 @@ DhoniShow.fn.center.prototype = {
 
       _this.dimensions.max.height = (dimensions.height > _this.dimensions.max.height) ? dimensions.height : _this.dimensions.max.height;
       _this.dimensions.max.width = (dimensions.width > _this.dimensions.max.width) ? dimensions.width : _this.dimensions.max.width;
-      
+
       _this.dimensions[index] = {
         width: dimensions.width,
         height: dimensions.height
       };
-      
+
       if(_this.value == true) {
         for(var index in _this.dimensions){
           if(index != "max"){
@@ -532,10 +533,10 @@ DhoniShow.fn.center.prototype = {
             css.paddingTop = 0;
             css.marginTop = offsetHeight - offsetHeight - offsetHeight + "px";
           } else css.paddingTop = offsetHeight - offsetHeight - offsetHeight + "px";
-        
+
           _this.dimensions[index].center = css;
         }
-      }      
+      }
       _this.parent.queue.invokeAll("loaded_one", index);
 
     });
@@ -545,11 +546,11 @@ DhoniShow.fn.center.prototype = {
 // ###########################################################################
 
 DhoniShow.fn.autoplay = function(value, parent){
-	this.parent = parent;
+  this.parent = parent;
   if(value){
-	  this.create(value);
-	  this.parent.queue.register("updaters", this, this.reset);
-	}
+    this.create(value);
+    this.parent.queue.register("updaters", this, this.reset);
+  }
 };
 
 DhoniShow.fn.autoplay.prototype = {
@@ -627,9 +628,8 @@ DhoniShow.fn.preloader.prototype = {
   },
 
   loadedOne: function ( position ) {
-    if(this.elements.push(position) == this.parent.dom.elements.length){
+    if(this.elements.push(position) == this.parent.dom.elements.length)
       this.parent.queue.invokeAll("loaded_all");
-    }
 
     if(this.value) this.template.find("li").eq(position+1).addClass("loaded");
 
