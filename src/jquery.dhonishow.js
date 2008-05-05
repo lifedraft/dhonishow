@@ -12,7 +12,7 @@ var DhoniShow = function(element, options) {
     this.dom = new this.dom(element, this);
 
     this.options = jQuery.extend(jQuery.extend(DhoniShow.defaultOptions, options), new this.options(element));
-    this.invokeOptionsQueue(this.queue.moduleQueue);
+    this.queue.invokeModulesQueue(this, this.options);
   }
 };
 
@@ -47,10 +47,11 @@ DhoniShow.prototype = {
 
 DhoniShow.prototype.queue = function(){
   this.queues = {};
+  this.invoked = [];
 };
 
 DhoniShow.prototype.queue.prototype = {
-  moduleQueue: "preloader.duration.hide.effect.autoplay.center",
+  moduleQueue: ["preloader","duration","hide","effect","autoplay","center"],
   
   register: function(type, scope, func /*, nArgs */){
     this.queues[type] = this.queues[type] || [];
@@ -60,7 +61,12 @@ DhoniShow.prototype.queue.prototype = {
   },
 
   invokeAll: function(type /*, nArgs */) {
-    for (var i=0; i < this.queues[type].length; i++){
+    if(this.invoked.length != this.moduleQueue.length) { // Cache invokes until all modules have ran
+      this.setWaiter(jQuery.makeArray(arguments));
+      return;
+    }
+    
+    for (var i=0; i < this.queues[type].length; i++) {
       if(arguments.length > 1){
         var args = jQuery.makeArray(arguments);
         args.shift();
@@ -68,6 +74,24 @@ DhoniShow.prototype.queue.prototype = {
       }
       this.queues[type][i].func.apply(this.queues[type][i].scope, this.queues[type][i].args);
     }
+  },
+  
+  invokeModulesQueue: function(_this, options){
+    var optionsQueue = this.moduleQueue;    
+    for (var i=0; i < optionsQueue.length; i++) {
+      _this[optionsQueue[i]] = new DhoniShow.fn[optionsQueue[i]](options[optionsQueue[i]], _this);
+      this.invoked.push(optionsQueue[i]);
+    }
+  },
+  setWaiter: function(args){
+    var _this = this;
+    return setTimeout(function(){
+     if(_this.invoked.length != _this.moduleQueue.length) {
+       setTimeout(arguments.callee, 100);
+     } else {
+       _this.invokeAll.apply(_this, args);
+     }
+   }, 100); 
   }
 };
 // ###########################################################################
