@@ -109,8 +109,8 @@ DhoniShow.prototype.options = function(element) {
           if(!this[option[2]] || this[option[2]].constructor != Object){ this[option[2]] = {};}
           this[option[2]][option[3]] = value;
         } else if (option[2].length == 0 && jQuery.browser.msie){
-          /* Cool browsers match from /((\w*)-(\w*)|\w*)_(\w*)/ > ["option_value", undefined, undefined, "value"]
-            IE > ["option_value", "", "", "value"] */
+          /* All browsers should match: /((\w*)-(\w*)|\w*)_(\w*)/ > ["option_value", undefined, undefined, "value"]
+             but IEs matches > ["option_value", "", "", "value"] */
           this[option[1]] = value;
         }
       break;
@@ -441,16 +441,16 @@ DhoniShow.fn.hide.prototype = {
     if(!this.parent.dom.previous_button)  
       this.parent.dom.previous_button = this.parent.dom.element.find(".dhonishow-previous-button");
     
-    this.parent.dom.previous_button.hide();
-    if( this.parent.current_index != 0) this.parent.dom.previous_button.show();
+    this.parent.dom.previous_button.css("visibility", "hidden");
+    if( this.parent.current_index != 0) this.parent.dom.previous_button.css("visibility", "");
   },
 
   next_button: function() {
     if(!this.parent.dom.next_button)  
       this.parent.dom.next_button = this.parent.dom.element.find(".dhonishow-next-button");
 
-    this.parent.dom.next_button.hide();
-    if( this.parent.current_index != (this.parent.dom.elements.length - 1)) this.parent.dom.next_button.show();
+    this.parent.dom.next_button.css("visibility", "hidden");
+    if( this.parent.current_index != (this.parent.dom.elements.length - 1)) this.parent.dom.next_button.css("visibility", "");
   },
 
   not_current: function(){
@@ -602,7 +602,7 @@ DhoniShow.fn.preloader = function(value, parent){
 DhoniShow.fn.preloader.prototype = {
   
   build: function ( quantity ) {
-    this.template = jQuery(['<ul class="dhonishow-preloader">',
+    this.template = jQuery(['<div class="dhonishow-preloader-wrapper"><ol class="dhonishow-preloader">',
       '<li class="dhonishow-preloader-loading">Loading <span>...</span></li>',
         (function () {
           var str = "";
@@ -611,7 +611,7 @@ DhoniShow.fn.preloader.prototype = {
           }
           return str;
           })(),
-          '</ul>'].join("") );
+          '</ol></div>'].join("") );
       return this.parent.dom.element.find(".dhonishow-elements").before(this.template);
   },
 
@@ -638,7 +638,7 @@ DhoniShow.fn.preloader.prototype = {
   loadedAll: function () {
     if(this.value){
       this.unsetLoading();
-      this.parent.dom.element.find(".dhonishow-preloader").fadeOut(600);
+      this.parent.dom.element.find(".dhonishow-preloader-wrapper").fadeOut(600);
     }
   }
 };

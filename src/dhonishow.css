@@ -1,136 +1,143 @@
 .dhonishow {
-overflow: hidden;
-font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
-position: relative;
+  overflow: hidden;
+  font: 10px/1.2em "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
+  position: relative;
+  border-bottom: 1px solid #fff;  
+  border-top: 1px solid #fff;
 }
 
 .dhonishow * {
-	list-style: none;
-	border:  none;
-	padding: 0;
-	margin: 0;
+  list-style: none;
+  border:  none;
+  padding: 0;
+  margin: 0;
 }
 
-.dhonishow-preloader {
-	background: #defb00;
-	position: absolute;
-	margin-right: 2em;
-	overflow: hidden;
-	z-index: 1000;
-	padding: 2em;
-	width: auto;
-	left: 2em;
-	top: 2em;
+.dhonishow .dhonishow-preloader-wrapper {
+  left: 25%;
+  top: 25%;
+  width: 50%;
+  position: absolute;
+  z-index: 1000;
+  background: url("dhonishow-preloader-wrapper_background.png");
 }
 
-.dhonishow-preloader li {
-	margin-bottom: .3em;
-	margin-right: .3em;
-	line-height: 2em;
-	background: #000;
-	display: block;
-	padding: 0 1em;
-	float: left;
+.dhonishow .dhonishow-preloader-wrapper ol {
+  overflow: hidden;
+  padding: 2em 2em 1em 2em;
+}
+
+.dhonishow .dhonishow-preloader li {
+  margin-bottom: .3em;
+  margin-right: .3em;
+  line-height: 2em;
+  background: #fff;
+  display: block;
+  padding: 0 1em;
+  float: left;
+  color: #00062D;
 }
   
-.dhonishow-preloader li.loaded {
-	background: #00AAEF;
+.dhonishow .dhonishow-preloader li.loaded {
+  background: #00AAEF;
+  color: #fff;
 }
 
-.dhonishow-preloader .dhonishow-preloader-loading {
-	background: none;
-	color: #000;
-	float: none;
-	padding: 0;
+.dhonishow .dhonishow-preloader .dhonishow-preloader-loading {
+  background: none;
+  color: #fff;
+  float: none;
+  padding: 0;
 }
 
-.dhonishow-preloader .dhonishow-preloader-loading span {}
+.dhonishow .dhonishow-preloader .dhonishow-preloader-loading span {}
 
-.dhonishow-elements {
-	display: block;
-	overflow: hidden;
-	text-align: left;
-	position: relative;
+.dhonishow .dhonishow-elements {
+  display: block;
+  overflow: hidden;
+  text-align: left;
+  position: relative;
 }
 
-.element {
-	position: absolute;  
-	overflow: visible;
-	line-height: 1px;
-	padding: 0;
-	margin: 0;
-	left: 0;
-	top: 0;
+.dhonishow .element {
+  position: absolute;  
+  overflow: visible;
+  line-height: 1px;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  top: 0;
 }
 
-.element * {
+.dhonishow .element * {
   line-height: 1px;
 }
 
-.element p {
-  line-height: 1.2em;
+.dhonishow .dhonishow-navi {
+  color: #00062d;
+  position: absolute;
+  z-index: 10000;
+  bottom: 0;
+  background: url("dhonishow-navi_background.png");
+  width: 100%;
 }
 
-.dhonishow-navi {  
-	border-bottom: 1px solid #fff;  
-	border-top: 1px solid #fff;
-	padding: 5px 0 5px 0;
-	margin-bottom: 2px;
-	overflow: hidden;
-	color: #fff;
-	width: 100%;
-
+.dhonishow .dhonishow-picture-alt {
+  font-weight: bold;
+  line-height: 16px;  
+  text-align: left;
+  padding: 4px 10em 4px 7px;
 }
 
-.dhonishow-picture-alt {
-	font-weight: bold;
-	line-height: 16px;	
-	text-align: left;
-	font-size: 11px;
-	float: left;
-}          
+.dhonishow .dhonishow-paging-buttons {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-right: 5px;
+  width: 10em;
+}
 
-.dhonishow-navi .dhonishow-next-button,
-.dhonishow-navi .dhonishow-previous-button {
-	text-indent: -10000em;
-	-moz-outline: none;
-	cursor:  pointer;
-	float: right;
-	height: 18px;
-	width: 16px;
-	margin: 0;
+.dhonishow .dhonishow-next-button,
+.dhonishow .dhonishow-previous-button {
+  text-indent: -10000em;
+  -moz-outline: none;
+  cursor:  pointer;
+  float: right;
+  width: 15px;
+  height: 15px;
+  margin: 0;
 }
                    
-.dhonishow-navi .dhonishow-next-button {
-	background: url("next.gif") no-repeat;
-	margin-left: 10px;
+.dhonishow .dhonishow-next-button {
+  background: url("dhonishow-next-button.png") 50% 50% no-repeat;
+  margin-left: 5px;
 }
 
-.dhonishow-previous-button {
-	background: url("previous.gif") no-repeat;
+.dhonishow .dhonishow-previous-button {
+  background: url("dhonishow-previous-button.png") 50% 50% no-repeat;
 }
 
-.dhonishow-next-button:hover {
-	background: url("next_hover.gif") no-repeat;
+.dhonishow .dhonishow-next-button:hover {
+  background-image: url("dhonishow-next-button_hover.png");
 }
 
-.dhonishow-previous-button:hover {
-	background: url("previous_hover.gif") no-repeat;
+.dhonishow .dhonishow-previous-button:hover {
+  background-image: url("dhonishow-previous-button_hover.png");
 }
 
-.dhonishow-navi .dhonishow-paging {
-	margin-left: 10px;
-	line-height: 20px;
-	font-size: 22px;
-	float: right;
+.dhonishow .dhonishow-paging {
+  margin-left: 5px;
+  float: right;
+  padding-bottom: 6px;
+  margin-top: 2px;
 }
 
 .dhonishow .error {
-	background: #ea2032;
-	text-align: center;
-	line-height: 18px;
-	padding-top: 1em;
-	font-size: 10px;	
-	width: 300px;
-	height: 5em;
+  background: #ea2032;
+  text-align: center;
+  line-height: 18px;
+  padding-top: 1em;
+  font-size: 10px;  
+  width: 300px;
+  height: 5em;
 }
