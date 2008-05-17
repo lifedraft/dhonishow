@@ -4,6 +4,7 @@
   position: relative;
   border-bottom: 1px solid #fff;  
   border-top: 1px solid #fff;
+  color: #00062d;
 }
 
 .dhonishow * {
@@ -73,20 +74,21 @@
   line-height: 1px;
 }
 
-.dhonishow .dhonishow-navi {
-  color: #00062d;
-  position: absolute;
-  z-index: 10000;
-  bottom: 0;
-  background: url("dhonishow-navi_background.png");
-  width: 100%;
-}
 
-.dhonishow .dhonishow-picture-alt {
+.dhonishow .dhonishow-alt {
   font-weight: bold;
   line-height: 16px;  
   text-align: left;
-  padding: 4px 10em 4px 7px;
+  padding: 4px 0;
+  background: url("dhonishow-navi_background.png");
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.dhonishow .dhonishow_module_alt {
+  padding: 0 10em 0 7px;
+  display: block;
 }
 
 .dhonishow .dhonishow-paging-buttons {
@@ -94,8 +96,12 @@
   bottom: 0;
   right: 0;
   padding-right: 5px;
+  height: auto;
+  padding-top: 4px;
   width: 10em;
 }
+
+.dhonishow .dhonishow-paging-button .dhonishow-theme-helper {}
 
 .dhonishow .dhonishow-next-button,
 .dhonishow .dhonishow-previous-button {
@@ -140,4 +146,138 @@
   font-size: 10px;  
   width: 300px;
   height: 5em;
+}
+
+/* Navigation Builder */
+
+/* DhoniShow alt Right ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+.align-alt_inside-top-right .dhonishow_module_alt,
+.align-alt_inside-bottom-right .dhonishow_module_alt,
+.align-alt_bottom-right .dhonishow_module_alt {
+  padding: 0 7px 0 10em;
+}
+
+.align-alt_inside-top-right .dhonishow-alt,
+.align-alt_inside-bottom-right .dhonishow-alt,
+.align-alt_bottom-right .dhonishow-alt {
+  right: auto;
+  left: 0;
+  padding-right: 0;
+  padding-left: 5px;
+}
+
+/* DhoniShow alt Right ------------------------------------------------------*/
+
+
+
+/* DhoniShow Paging and Buttons Left ++++++++++++++++++++++++++++++++++++++++*/
+
+.align-paging-buttons_inside-top .dhonishow-paging-buttons,
+.align-paging-buttons_inside-bottom .dhonishow-paging-buttons,
+.align-paging-buttons_bottom .dhonishow-paging-buttons {
+  right: auto;
+  left: 0;
+  width: 8em;
+}
+
+/* DhoniShow Paging and Buttons left ++++++++++++++++++++++++++++++++++++++++*/
+
+
+
+/* DhoniShow Alt, Paging and Butons top +++++++++++++++++++++++++++++++++++++*/
+
+.align-alt_inside-top .dhonishow-alt,
+.align-alt_inside-top-right .dhonishow-alt,
+.align-paging-buttons_inside-top .dhonishow-paging-buttons,
+.align-paging-buttons_inside-top-right .dhonishow-paging-buttons {
+  bottom: auto;
+  top: 0;
+}
+
+/* DhoniShow Alt, Paging and Butons top -------------------------------------*/
+
+/* ALIGN_INSIDE-BOTTOM IS SET */
+
+/* DhoniShow Alt bottom +++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+.align-alt_bottom .dhonishow-alt,
+.align-alt_bottom-right .dhonishow-alt {
+  position: relative;
+}
+
+/* DhoniShow Alt bottom -----------------------------------------------------*/
+
+.dhonishow.align-paging-buttons_inside-top-right .dhonishow-paging-buttons,
+.dhonishow.align-paging-buttons_bottom-right .dhonishow-paging-buttons,
+.dhonishow.align-paging-buttons_inside-top .dhonishow-paging-buttons,
+.dhonishow.align-paging-buttons_bottom .dhonishow-paging-buttons,
+.dhonishow.align-alt_inside-top .dhonishow-paging-buttons,
+.dhonishow.align-alt_inside-top-right .dhonishow-paging-buttons {
+ background: url("dhonishow-navi_background.png"); 
+ width: 100%;
+}
+
+.align-paging-buttons_inside-top .dhonishow-paging-buttons .dhonishow-theme-helper,
+.align-paging-buttons_bottom .dhonishow-paging-buttons .dhonishow-theme-helper {
+  overflow: hidden;
+  width: 8em;
+}
+
+.align-alt_inside-top.align-paging-buttons_inside-top-right .dhonishow-paging-buttons,
+.align-alt_inside-top-right.align-paging-buttons_inside-top .dhonishow-paging-buttons,
+.align-paging-buttons_bottom-right.align-alt_inside-bottom .dhonishow-paging-buttons,
+.align-alt_inside-bottom-right.align-paging-buttons_bottom .dhonishow-paging-buttons,
+.align-alt_bottom-right.align-paging-buttons_bottom .dhonishow-paging-buttons,
+.align-paging-buttons_bottom-right.align-alt_bottom .dhonishow-paging-buttons {
+  background: none;
+  width: 8em;
+}
+
+/*Buttons in the middle +++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+.align-paging-buttons_inside-middle.align-alt_inside-top-right .dhonishow-paging-buttons,
+.align-paging-buttons_inside-middle.align-alt_inside-top .dhonishow-paging-buttons,
+.align-paging-buttons_inside-middle.align-alt_inside-bottom .dhonishow-paging-buttons,
+.align-paging-buttons_inside-middle.align-alt_inside-bottom-right .dhonishow-paging-buttons,
+.align-paging-buttons_inside-middle.align-alt_bottom .dhonishow-paging-buttons,
+.align-paging-buttons_inside-middle.align-alt_bottom-right .dhonishow-paging-buttons {
+  background: none;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-paging-buttons {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 190;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-paging {
+  display: none;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-next-button,
+.align-paging-buttons_inside-middle .dhonishow-previous-button {
+  float: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: url("dhonishow-next-button_big.png") 80% 50% no-repeat;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-previous-button {
+  right: auto;
+  left: 0; 
+  background: url("dhonishow-previous-button_big.png") 20% 50% no-repeat;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-next-button:hover {
+  background: url("dhonishow-next-button_big_hover.png") 81% 50% no-repeat;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-previous-button:hover {
+  background: url("dhonishow-previous-button_big_hover.png") 19% 50% no-repeat;
 }

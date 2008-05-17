@@ -13,7 +13,7 @@ var DhoniShow = function(element, options) {
 
     this.options = jQuery.extend(jQuery.extend(DhoniShow.defaultOptions, options), new this.options(element));
     this.queue.invokeModulesQueue(this, this.options);
-    
+
   }
 };
 
@@ -45,7 +45,7 @@ DhoniShow.prototype.queue = function(){
 };
 
 DhoniShow.prototype.queue.prototype = {
-  moduleQueue: ["preloader","duration","hide","effect","autoplay","center"],
+  moduleQueue: ["preloader","duration","hide","effect","autoplay","center", "align"],
 
   register: function(type, scope, func /*, nArgs */){
     this.queues[type] = this.queues[type] || [];
@@ -221,14 +221,14 @@ DhoniShow.prototype.dom = function(element, parent){
 
 DhoniShow.prototype.dom.prototype = {
   template : ['<ol class="dhonishow-elements">@images</ol>',
-  '<div class="dhonishow-navi hideable-navigation">',
-    '<p class="dhonishow-picture-alt hideable-alt">@alt</p>',
+    '<p class="dhonishow-alt hideable-alt">@alt</p>',
     '<div class="dhonishow-paging-buttons hideable-buttons">',
-      '<a class="dhonishow-next-button" title="Next">Next</a>',
-      '<p class="dhonishow-paging hideable-paging">@current of @allpages</p>',
-      '<a class="dhonishow-previous-button" title="Previous">Back</a>',
-    "</div>",
-  '</div>'].join(""),
+      '<div class="dhonishow-theme-helper">',
+        '<a class="dhonishow-next-button" title="Next">Next</a>',
+        '<p class="dhonishow-paging hideable-paging">@current of @allpages</p>',
+        '<a class="dhonishow-previous-button" title="Previous">Back</a>',
+      '</div>',
+    "</div>"].join(""),
 
   elementWrapper : "<li class='element'></li>",
 
@@ -640,6 +640,13 @@ DhoniShow.fn.preloader.prototype = {
       this.unsetLoading();
       this.parent.dom.element.find(".dhonishow-preloader-wrapper").fadeOut(600);
     }
+  }
+};
+
+DhoniShow.fn.align = function(options, parent){
+  for(var option in options){
+    console.log(option, options[option]);
+    parent.dom.element.addClass("align-"+option+"_"+options[option]);
   }
 };
 
