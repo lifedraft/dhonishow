@@ -13,7 +13,6 @@ var DhoniShow = function(element, options) {
 
     this.options = jQuery.extend(jQuery.extend(DhoniShow.defaultOptions, options), new this.options(element));
     this.queue.invokeModulesQueue(this, this.options);
-
   }
 };
 
@@ -414,7 +413,7 @@ DhoniShow.fn.hide = function(value, parent){
   this.parent.dom.element.find("*").each(function(index, element){
     var hideable = /hideable-(\w*)/.exec(this.className);
     if(hideable){
-      _this[hideable[1]] = function(value){
+      _this[hideable[1]] = _this[hideable[1]] || function(value){
         if(hide) jQuery(element).hide();
       };
     }
@@ -503,7 +502,7 @@ DhoniShow.fn.center.prototype = {
         height: dimensions.height
       };
 
-      if(_this.value == true) {
+      if(_this.value == true || _this.value.elements == true) {
         for(var index in _this.dimensions){
           if(index != "max"){
             _this.dimensions[index].center = {
