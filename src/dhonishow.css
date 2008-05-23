@@ -96,9 +96,8 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  padding-right: 5px;
   height: auto;
-  padding-top: 4px;
+  padding: 4px 5px 5px;
   width: 10em;
   z-index: 100;
 }
@@ -136,7 +135,6 @@
 .dhonishow .dhonishow-paging {
   margin-left: 5px;
   float: right;
-  padding-bottom: 6px;
   margin-top: 2px;
 }
 
@@ -148,6 +146,16 @@
   font-size: 10px;  
   width: 300px;
   height: 5em;
+}
+
+/* Hide */
+
+.hide-alt_true .dhonishow-alt,
+.hide-buttons_true .dhonishow-paging-buttons,
+.hide-paging_true .dhonishow-paging,
+.hide-navigation_true .dhonishow-alt,
+.hide-navigation_true .dhonishow-paging-buttons {
+  display: none;
 }
 
 /* Navigation Builder */
@@ -215,7 +223,8 @@
 .dhonishow.align-paging-buttons_inside-top .dhonishow-paging-buttons,
 .dhonishow.align-paging-buttons_bottom .dhonishow-paging-buttons,
 .dhonishow.align-alt_inside-top .dhonishow-paging-buttons,
-.dhonishow.align-alt_inside-top-right .dhonishow-paging-buttons {
+.dhonishow.align-alt_inside-top-right .dhonishow-paging-buttons,
+.dhonishow.hide-alt_true .dhonishow-paging-buttons {
  background: url("dhonishow-navi_background.png"); 
  width: 100%;
 }

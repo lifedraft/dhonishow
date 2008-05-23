@@ -220,11 +220,11 @@ DhoniShow.prototype.dom = function(element, parent){
 
 DhoniShow.prototype.dom.prototype = {
   template : ['<ol class="dhonishow-elements">@images</ol>',
-    '<p class="dhonishow-alt hideable-alt">@alt</p>',
-    '<div class="dhonishow-paging-buttons hideable-buttons">',
+    '<p class="dhonishow-alt">@alt</p>',
+    '<div class="dhonishow-paging-buttons">',
       '<div class="dhonishow-theme-helper">',
         '<a class="dhonishow-next-button" title="Next">Next</a>',
-        '<p class="dhonishow-paging hideable-paging">@current of @allpages</p>',
+        '<p class="dhonishow-paging">@current of @allpages</p>',
         '<a class="dhonishow-previous-button" title="Previous">Back</a>',
       '</div>',
     "</div>"].join(""),
@@ -409,18 +409,6 @@ DhoniShow.fn.hide = function(value, parent){
 
   this.parent = parent;
 
-  var _this = this;
-  this.parent.dom.element.find("*").each(function(index, element){
-    var hideable = /hideable-(\w*)/.exec(this.className);
-    if(hideable){
-      _this[hideable[1]] = _this[hideable[1]] || function(value){
-        if(hide) jQuery(element).hide();
-      };
-    }
-  });
-  for(var hide in value){ this[hide](value[hide]); }
-
-
   if(value == undefined || !value.buttons){
     this.parent.queue.register("updaters", this, this.previous_button).call(this);
     this.parent.queue.register("updaters", this, this.next_button).call(this);
@@ -428,13 +416,6 @@ DhoniShow.fn.hide = function(value, parent){
 };
 
 DhoniShow.fn.hide.prototype = {
-
-  buttons: function(hide){
-    if(hide) {
-      jQuery(".dhonishow-previous-button", this.parent.dom.element).hide();
-      jQuery(".dhonishow-next-button", this.parent.dom.element).hide();
-    }
-  },
 
   previous_button: function(){
     if(!this.parent.dom.previous_button)  
