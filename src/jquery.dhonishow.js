@@ -19,7 +19,7 @@ var DhoniShow = function(element, options) {
 DhoniShow.defaultOptions = {
   preloader : true,
   duration : 0.6,
-  center : true,
+  center : { elements: true },
   effect : 'appear'
 };
 
@@ -229,8 +229,6 @@ DhoniShow.prototype.dom.prototype = {
       '</div>',
     "</div>"].join(""),
 
-  elementWrapper : "<li class='element'></li>",
-
   saveChildren: function(){
     this.children = jQuery(this.element).children();
     this.element.text("");
@@ -257,9 +255,9 @@ DhoniShow.prototype.dom.prototype = {
   images: function(placeholder){
     var _this = this;
     this.children || [];
-
+    
     placeholder.replaceWith(this.children);
-    this.elements = jQuery(this.children).wrap(this.elementWrapper).parent();
+    this.elements = jQuery(this.children).wrap(arguments.callee.wrapper).parent();
   },
 
   alt: function(placeholder){
@@ -288,6 +286,8 @@ DhoniShow.prototype.dom.prototype = {
     placeholder.text(this.elements.length);
   }
 };
+
+DhoniShow.prototype.dom.prototype.images.wrapper = "<li class='element'></li>";
 
 // ###########################################################################
 
@@ -502,7 +502,7 @@ DhoniShow.fn.center.prototype = {
         height: dimensions.height
       };
 
-      if(_this.value == true || _this.value.elements == true) {
+      if(_this.value == true || _this.value.elements) {
         for(var index in _this.dimensions){
           if(index != "max"){
             _this.dimensions[index].center = {
@@ -511,7 +511,7 @@ DhoniShow.fn.center.prototype = {
             };
           }
         }
-      } else if(_this.value.width || _this.value.height) {
+      } else if((_this.value.width || _this.value.height) && _this.value.elements) {
         for(var index in _this.dimensions){
           var element_dimensions = {
             width : new Number((_this.value.width) ? _this.value.width : _this.dimensions.max.width),
@@ -644,7 +644,6 @@ DhoniShow.fn.preloader.prototype = {
 
 DhoniShow.fn.align = function(options, parent){
   for(var option in options){
-    console.log(option, options[option]);
     parent.dom.element.addClass("align-"+option+"_"+options[option]);
   }
 };
