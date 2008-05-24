@@ -31,7 +31,7 @@ DhoniShow.prototype = {
   elementsSet: function(element) {
     if ( jQuery( element ).children().length > 0 ) return true;
 
-    jQuery( element ).append("<p>Plese read instructions about using DhoniShow on <br />"+
+    jQuery( element ).append("<p>Plese read instructions about using DhoniShow on "+
       "<a href='http://dhonishow.de' style='color: #fff;' title='to DhoniShow site'>DhoniShow's website</a></p>").find("p").addClass("error");
     return false;
   }
