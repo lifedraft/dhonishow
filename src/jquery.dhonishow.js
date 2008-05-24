@@ -105,7 +105,9 @@ DhoniShow.prototype.options = function(element) {
       break;
       case "string": // Matches (option-suboption_value)
         if(option[3].length){
-          if(!this[option[2]] || this[option[2]].constructor != Object){ this[option[2]] = {};}
+          if(!this[option[2]] || this[option[2]].constructor != Object){
+            this[option[2]] = {};
+          }
           this[option[2]][option[3]] = value;
         } else if (option[2].length == 0 && jQuery.browser.msie){
           /* All browsers should match: /((\w*)-(\w*)|\w*)_(\w*)/ > ["option_value", undefined, undefined, "value"]
@@ -356,10 +358,12 @@ DhoniShow.fn.effect.fx.appear.prototype = {
     this.parent.parent.dom.element.css({width: center.dimensions.max.width+"px"});
     this.parent.parent.dom.elements.parent().css({height: center.dimensions.max.height+"px"});
 
-    if(center.value){
-      this.parent.parent.dom.elements.each(function(index){
-        jQuery(this).css(center.dimensions[index].center);
-      });
+    if(center.value) {
+      if(center.value.elements || center.value.elements == undefined) {
+        this.parent.parent.dom.elements.each(function(index){
+          jQuery(this).css(center.dimensions[index].center);
+        });
+      }
 
       if(center.value.width) this.parent.parent.dom.element.css({width: center.value.width+"px"});
       if(center.value.height) this.parent.parent.dom.elements.parent().css({height: center.value.height+"px"});
@@ -492,13 +496,14 @@ DhoniShow.fn.center.prototype = {
             };
           }
         }
-      } else if((_this.value.width || _this.value.height) && _this.value.elements) {
+      } else if((_this.value.width || _this.value.height) && (_this.value.elements || _this.value.elements == undefined)) {
         for(var index in _this.dimensions){
+          
           var element_dimensions = {
             width : new Number((_this.value.width) ? _this.value.width : _this.dimensions.max.width),
             height : new Number((_this.value.height) ? _this.value.height : _this.dimensions.max.height)
           };
-
+          
           var css = {};
           var offsetWidth = ( _this.dimensions[index].width - element_dimensions.width ) / 2;
           var offsetHeight = ( _this.dimensions[index].height - element_dimensions.height ) / 2;
@@ -507,7 +512,6 @@ DhoniShow.fn.center.prototype = {
             css.paddingLeft = 0;
             css.marginLeft = offsetWidth - offsetWidth - offsetWidth + "px";
           } else css.paddingLeft = offsetWidth - offsetWidth - offsetWidth + "px";
-
 
           if(offsetHeight > 0){
             css.paddingTop = 0;
