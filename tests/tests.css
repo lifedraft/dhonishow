@@ -28,7 +28,8 @@ h1 {
 	letter-spacing: 1px;
 }
 
-h1 span {
+h1 span,
+.dp-highlighter {
   font-family: "Consolas", Monaco, "Courier New", Courier;
 }
 
@@ -136,6 +137,7 @@ h3 {
 .dp-highlighter {
   background: #00aaef;
   padding: 10px;
+  font-size: 12px;
 }
 
 .dp-highlighter li {
