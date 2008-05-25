@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>Functional tests - </title>
+	<link rel="stylesheet" href="../tests.css" type="text/css" media="screen" charset="utf-8" />
+	<!--[if lt IE 8]>
+		<link rel="stylesheet" href="../tests_ie.css" type="text/css" media="screen" charset="utf-8" />
+	<![endif]-->
+	<link rel="stylesheet" href="../../src/dhonishow.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+</head>
+<body>
+	<h1>Functional tests</h1>
+	
+	<script src="../../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script type="text/javascript" charset="utf-8">
+    var Fixtures = {
+      defaultBigDom: [
+      '<div>',
+        '  <img src="../assets/1.jpg" />',
+        '  <img src="../assets/2.jpg" />',
+        '  <img src="../assets/3.jpg" />',
+        '  <img src="../assets/4.jpg" />',
+        '</div>'
+      ].join("\n"),
+
+      defaultSmallDom: [
+      '<div>',
+        '  <img src="../assets/1_small.jpg" />',
+        '  <img src="../assets/2_small.jpg" />',
+        '  <img src="../assets/3_small.jpg" />',
+        '  <img src="../assets/4_small.jpg" />',
+      '</div>'
+      ].join("\n"),
+
+      defaultBigSmallDom: [
+      '<div>',
+        '  <img src="../assets/1_small.jpg" />',
+        '  <img src="../assets/2.jpg" />',
+        '  <img src="../assets/3_small.jpg" />',
+        '  <img src="../assets/4.jpg" />',
+      '</div>'
+      ].join("\n")
+    };
+      
+    var tests = {
+      effect:   [{classNames: "effect_appear", dom: Fixtures.defaultBigSmallDom}, 
+                {classNames: "effect_resize", dom: Fixtures.defaultBigSmallDom}],
+               
+      duration: [{classNames: "duration_0", dom: Fixtures.defaultBigDom},
+                {classNames: "duration_0dot6", dom: Fixtures.defaultBigDom},
+                {classNames: "duration_2", dom: Fixtures.defaultBigDom},
+                {classNames: "duration_2dot5", dom: Fixtures.defaultBigDom}],
+                 
+      preloader:[{classNames: "preloader_false", dom: Fixtures.defaultBigDom},
+                {classNames: "preloader_true", dom: Fixtures.defaultBigDom}],
+                  
+      autoplay: [{classNames: "autoplay_1 duration_3", dom: Fixtures.defaultBigDom}, 
+                {classNames: "autoplay_4 duration_1", dom: Fixtures.defaultBigDom},
+                {classNames: "autoplay_4dot5 effect_resize", dom: Fixtures.defaultBigSmallDom}],
+                 
+      hide:     [{classNames: "hide-paging_true", dom: Fixtures.defaultBigDom},
+                {classNames: "hide-alt_true", dom: Fixtures.defaultBigDom},
+                {classNames: "hide-navigation_true", dom: Fixtures.defaultBigDom},
+                {classNames: "hide-buttons_true", dom: Fixtures.defaultBigDom}],
+             
+      center:   [{classNames: "center_true", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-elements_true", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center_false", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-elements_false", dom: Fixtures.defaultBigSmallDom},                
+                {classNames: "center_true effect_resize", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_480 center-width_480", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_480 center-width_480 center-elements_false", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-width_480", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_480", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-width_280", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_280", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_100 center-width_100", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_100 center-width_100 center-elements_false", dom: Fixtures.defaultBigSmallDom},
+                {classNames: "center-height_100 center-width_100 effect_resize", dom: Fixtures.defaultBigSmallDom}],
+
+      other:    [{title: "multiple shows", classNames: "", dom: Fixtures.defaultBigDom+"\n\n"+Fixtures.defaultSmallDom},
+                {title: "Images wrapped", classNames: "", dom: ['<div>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/1_small.jpg" /></a>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/2.jpg" /></a>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/3_small.jpg" /></a>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/4.jpg" /></a>',
+                  '</div>'
+                  ].join("\n")
+                },
+                {title: "Links in alt attribute", classNames: "", dom: ['<div>',
+                    '  <img src="../assets/1_small.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
+                    '  <img src="../assets/2.jpg" alt="<a href=\'http://dhonishow.de\'>Excepteur sint occaecat</a> cupidatat non proident, sunt in <a href=\'http://dhonishow.de\' title=\'DhoniShow Rock\'>culpa qui officia deserunt</a> mollit anim id est laborum." />',
+                    '  <img src="../assets/3_small.jpg" alt="<a href=\'http://dhonishow.de\'>Excepteur sint occaecat</a> cupidatat non proident, sunt in <a href=\'http://dhonishow.de\' title=\'DhoniShow Rock\'>culpa qui officia deserunt</a> mollit anim id est laborum." />',
+                    '  <img src="../assets/4.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
+                  '</div>'
+                  ].join("\n")},
+                {title: "No images set", classNames: "", dom: "<div></div>"}],
+              
+      NavigationBuilder:
+                [{classNames: "align-navi_inside-bottom", dom: Fixtures.defaultBigDom}]
+    };
+    
+    jQuery.fn.testNavigation = function(tests){
+
+      for(var module in tests){
+        var moduleLi = jQuery("<li></li>");
+        moduleLi.append("<h2><a href='#'>"+module+"</a></h2>");
+        
+        jQuery(this).append(moduleLi);
+        
+        if(tests[module]){
+          var moduleUl = jQuery("<ul></ul>");
+          moduleLi.append(moduleUl);
+          
+          var test = tests[module];
+          for(var i = 0; i < test.length; i++){
+            var moduleUlLi = jQuery("<li></li>");
+            moduleUl.append(moduleUlLi);
+
+            var title = test[i].title || test[i].classNames;
+            var testA = jQuery('<a>'+title+'</a>');
+            moduleUlLi.append(testA);
+
+            testA.bind("click", test[i], function(event){
+              parent.sandbox.location.reload();
+              Test = event.data;
+            });
+          }
+        }
+      }
+
+    };
+
+    jQuery(function(){
+      jQuery("body").append('<ul id="navigation"></ul>');
+      jQuery("#navigation").testNavigation(tests);
+
+      jQuery("#navigation ul").hide();
+
+      jQuery("#navigation").click(function(e){
+        if(jQuery(e.target).parents("h2").size() > 0){
+          jQuery("#navigation h2:not(:contains("+e.target.innerHTML+")) + ul:visible").animate({
+            opacity: "toggle",
+            height: "toggle"
+          });
+
+          jQuery(e.target).parents("h2").next().animate({
+            opacity: "toggle",
+            height: "toggle"
+          });
+          return false;
+        }
+        jQuery(".active").toggleClass("active");
+        jQuery(e.target).addClass("active");
+        return false;
+      });
+
+    });
+
+  </script>
+</body>
+</html>

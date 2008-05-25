@@ -1,0 +1,143 @@
+* {
+	padding: 0;
+	margin: 0;
+	border: 0;
+}
+
+html {
+	font-size: 10px;
+	height: 100%;
+}
+
+body {
+	font: 1em/1.8em "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif;
+	background: #00062D;
+	color: #fff;
+	padding: 2em 0 2em 1em;
+}
+
+frameset {
+	border-color: #fff;
+}
+
+h1 {
+	display: block;
+	line-height: 1.8em;
+	font-family: Georgia;
+	font-weight: normal;
+	letter-spacing: 1px;
+}
+
+h1 span {
+  font-family: "Consolas", Monaco, "Courier New", Courier;
+}
+
+h3 {
+  clear: both;
+  font-family: Georgia;
+  font-weight: normal;
+  padding-top: 2em;
+  margin-bottom: 0.5em;
+  font-size: 1.5em;
+}
+
+#navigation {
+	width: 260px;
+	float: left;
+	margin-right: 3em;
+}
+
+#navigation a,
+#navigation li li h2 a {
+	display: block;
+	text-decoration: none;
+	color: #fff;
+	-moz-outline: none;
+	background: none;
+}
+
+#navigation li li h2 a {
+  padding-left: 0;
+  text-decoration: underline;
+}
+#navigation li li h2 a:hover {
+  text-decoration: none;
+}
+
+#navigation a:hover {
+	text-decoration: underline;
+}
+
+#navigation li {
+	list-style: none;
+	margin-bottom: 2px;
+}
+
+#navigation h2,
+#navigation li li h2 {
+	background: #00AAEF;
+	color: #fff;	
+	font-weight: normal;
+	font-size: 1.2em;
+	padding-left: 2px;
+	line-height: 1.8em;
+	display: block;
+	font-weight: bold;
+}
+
+#navigation li li h2 {
+  background: none;
+  font-weight: normal;
+  border-bottom: 1px solid #fff;
+  margin-left: 10px;
+  padding-left: 0;
+}
+
+#navigation li ul {
+	padding-bottom: 1em;
+}
+
+#navigation li ul ul {
+  padding-bottom: 2px;
+}
+
+#navigation li li {
+	margin-top: 1px;
+	display: block;
+	margin-bottom: 0;
+}
+
+#navigation li li a {
+	background: #fff;
+	color: #00062D;
+	padding-left: 2px;
+	cursor: pointer;
+}
+
+#navigation li li a.active {
+  background: #ea2032;
+  color: #fff;
+}
+
+#navigation li li li {
+  padding-left: 10px;
+}
+
+#navigation li li li a {
+}
+
+.dhonishow {
+  float: left;
+  margin-right: 1em;
+}
+
+/* Syntax Highlighter */
+
+.dp-highlighter {
+  background: #00aaef;
+  padding: 10px;
+}
+
+.dp-highlighter li {
+  list-style: none;
+}

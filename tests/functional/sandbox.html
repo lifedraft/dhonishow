@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <title>Functional tests - </title>
+  <link rel="stylesheet" href="../tests.css" type="text/css" media="screen" charset="utf-8" />
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="../tests_ie.css" type="text/css" media="screen" charset="utf-8" />
+  <![endif]-->
+  <link rel="stylesheet" href="../../src/dhonishow.css" type="text/css" media="screen" title="no title" charset="utf-8" />
+  <link rel="stylesheet" href="dpSyntaxHighlighter.css" type="text/css" media="screen" charset="utf-8" />  
+</head>
+<body>
+  <h1>Test sandbox</h1>
+  
+
+  <script src="../../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+  <script src="../../src/jquery.dhonishow.js" type="text/javascript" charset="utf-8"></script>
+
+  <script type="text/javascript" charset="utf-8">
+    var createTest = function(obj) {
+      var dh = jQuery(obj.dom).addClass("dhonishow " + obj.classNames);
+      jQuery("body").append(dh);
+      dh.dhonishow();
+      
+      jQuery("h1")[0].innerHTML = obj.classNames ?
+        ("Used option: <span>" + obj.classNames + "</span>") :
+        obj.title;
+
+      jQuery("body").append(jQuery('<h3>Code</h3><pre name="code" class="html:nocontrols"></div>'));
+      jQuery("pre").append(jQuery(obj.dom).addClass("dhonishow " + obj.classNames));
+    };
+
+    jQuery(function() {
+      if(parent.navigation.window.Test){
+        createTest(parent.navigation.window.Test);
+       return;
+      }
+     createTest(parent.navigation.window.tests.effect[0]);
+   });
+  </script>
+  <script src="shCore.js" type="text/javascript" charset="utf-8"></script>
+  <script src="shBrushXml.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    jQuery(function(){
+      dp.SyntaxHighlighter.HighlightAll('code');
+    });
+  
+  </script>
+</body>
+</html>

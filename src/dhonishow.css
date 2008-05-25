@@ -142,10 +142,9 @@
   background: #ea2032;
   text-align: center;
   line-height: 18px;
-  padding-top: 1em;
-  font-size: 10px;  
-  width: 300px;
-  height: 5em;
+  padding: 1em;
+  font-size: 10px;
+  color: #fff;
 }
 
 /* Hide */
