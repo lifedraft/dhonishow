@@ -100,8 +100,46 @@
                   ].join("\n")},
                 {title: "No images set", classNames: "", dom: "<div></div>"}],
               
-      NavigationBuilder:
-                [{classNames: "align-navi_inside-bottom", dom: Fixtures.defaultBigDom}]
+      align:
+                [{classNames: "align-alt_inside-top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_bottom", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_bottom-right", dom: Fixtures.defaultBigDom},
+                
+                {classNames: "align-paging-buttons_inside-top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-paging-buttons_inside-top-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
+                {classNames: "align-paging-buttons_bottom", dom: Fixtures.defaultBigDom},
+                {classNames: "align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom},
+                
+                {classNames: "align-alt_inside-top align-paging-buttons_inside-top-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top align-paging-buttons_bottom", dom: Fixtures.defaultBigDom},
+                
+                {classNames: "align-alt_inside-top-right align-paging-buttons_inside-top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top-right align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top-right align-paging-buttons_bottom", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-top-right align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom},
+                
+                {classNames: "align-alt_inside-bottom align-paging-buttons_inside-top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom align-paging-buttons_inside-top-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom},
+                
+                {classNames: "align-alt_inside-bottom-right align-paging-buttons_top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom-right align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom-right align-paging-buttons_inside-top-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom-right align-paging-buttons_bottom", dom: Fixtures.defaultBigDom},
+                
+                
+                {classNames: "align-alt_bottom align-paging-buttons_inside-top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_bottom align-paging-buttons_inside-top-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_bottom align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_bottom align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom},
+                ]
     };
     
     jQuery.fn.testNavigation = function(tests){
