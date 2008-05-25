@@ -197,9 +197,9 @@ DhoniShow.helper = {
   clone_attributes: function (from, to ) {
 
     jQuery.each(from, function () {
-      if(this.title && this.title.length > 0) to.attr("title", this.title);
-      if(this.alt && this.alt.length > 0) to.attr("alt", this.alt);
-      if(this.src && this.src.length > 0) to.attr("src", this.src);
+      if(this.title && this.title.length) to.attr("title", this.title);
+      if(this.alt && this.alt.length) to.attr("alt", this.alt);
+      if(this.src && this.src.length) to.attr("src", this.src);
     });
     return to;
   }  
@@ -214,10 +214,7 @@ DhoniShow.prototype.dom = function(element, parent){
   this.placeholders();
   this.invokeModules();
 
-  this.parent.queue.register("updaters", this, this.alt, this.giveModluePlaceholder("alt"));
-  this.parent.queue.register("updaters", this, this.current, this.giveModluePlaceholder("current"));
-  this.parent.queue.register("updaters", this, this.allpages, this.giveModluePlaceholder("allpages"));
-
+  this.setUpdaters();
 };
 
 DhoniShow.prototype.dom.prototype = {
@@ -230,13 +227,19 @@ DhoniShow.prototype.dom.prototype = {
         '<a class="dhonishow-previous-button" title="Previous">Back</a>',
       '</div>',
     "</div>"].join(""),
-
+  
+  setUpdaters: function() {
+    this.parent.queue.register("updaters", this, this.alt, this.giveModluePlaceholder("alt"));
+    this.parent.queue.register("updaters", this, this.current, this.giveModluePlaceholder("current"));
+    this.parent.queue.register("updaters", this, this.allpages, this.giveModluePlaceholder("allpages"));
+  },
+  
   saveChildren: function(){
     this.children = jQuery(this.element).children();
     this.element.text("");
   },
 
-  placeholders: function(element){
+  placeholders: function() {
     var modulePlaceholders = {};
     jQuery(this.element).append(this.template.replace(/@(\w*)/g, function(searchResultWithExpression, searchResult){
       modulePlaceholders[searchResult] = ".dhonishow_module_"+searchResult;
@@ -410,7 +413,6 @@ DhoniShow.fn.duration = function (value, parent) {
 // ###########################################################################
 
 DhoniShow.fn.hide = function(value, parent){
-
   this.parent = parent;
 
   if(value == undefined || !value.buttons){
@@ -422,7 +424,7 @@ DhoniShow.fn.hide = function(value, parent){
 DhoniShow.fn.hide.prototype = {
 
   previous_button: function(){
-    if(!this.parent.dom.previous_button)  
+    if(!this.parent.dom.previous_button)
       this.parent.dom.previous_button = this.parent.dom.element.find(".dhonishow-previous-button");
     
     this.parent.dom.previous_button.css("visibility", "hidden");
@@ -430,7 +432,7 @@ DhoniShow.fn.hide.prototype = {
   },
 
   next_button: function() {
-    if(!this.parent.dom.next_button)  
+    if(!this.parent.dom.next_button)
       this.parent.dom.next_button = this.parent.dom.element.find(".dhonishow-next-button");
 
     this.parent.dom.next_button.css("visibility", "hidden");

@@ -55,6 +55,7 @@ h3 {
 	color: #fff;
 	-moz-outline: none;
 	background: none;
+	padding-left: 2px;
 }
 
 #navigation li li h2 a {
@@ -80,7 +81,6 @@ h3 {
 	color: #fff;	
 	font-weight: normal;
 	font-size: 1.2em;
-	padding-left: 2px;
 	line-height: 1.8em;
 	display: block;
 	font-weight: bold;
@@ -115,7 +115,7 @@ h3 {
 	cursor: pointer;
 }
 
-#navigation li li a.active {
+#navigation a.active {
   background: #ea2032;
   color: #fff;
 }
@@ -142,4 +142,36 @@ h3 {
 
 .dp-highlighter li {
   list-style: none;
+}
+
+/* Testlog */
+
+table {
+  width: 100%;
+  font-size: 12px;
+  border-collapse: collapse;
+  border-bottom: 1px solid #fff;
+  line-height: 1.8em;
+}
+
+thead th {
+  text-align: left;
+  padding-left: 2px;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 1px;
+}
+
+td {
+  border-bottom: 1px solid #fff;
+}
+
+.passed td,
+.failed td {
+  padding-left: 2px;
+  padding-right: 2px;
+  border-bottom: 1px solid #fff;
+}
+
+.failed td {
+  background: #ea2032;
 }

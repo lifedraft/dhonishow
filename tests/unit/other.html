@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>DhoniShow Unit Tests</title>
+		<link rel="stylesheet" href="../tests.css" type="text/css" media="screen" charset="utf-8" />
+		<link rel="stylesheet" href="../../src/dhonishow.css" type="text/css" media="screen" charset="utf-8" />
+  </head>
+  <body id="unit_tests">
+    <h1>Align unit tests</h1>
+    <div id="testlog"></div>
+    <div id="sandbox"></div>
+    
+    <script src="../../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      jQuery.noConflict();
+    </script>
+    <script src="../../src/jquery.dhonishow.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="prototype.js" type="text/javascript" charset="utf-8"></script>
+    <script src="unittest.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      var sandbox = $("sandbox");
+      var testShows = [];
+      jQuery.fn.dhonishow = function(options){
+        return jQuery.each(this, function(index){
+          testShows.push(new DhoniShow(this, options, index));
+        });
+      };
+      
+      var Fixtures = {
+        defaultBigDom: [
+        '<div class="dhonishow">',
+          '<img src="../assets/1.jpg" />',
+          '<img src="../assets/2.jpg" />',
+          '<img src="../assets/3.jpg" />',
+          '<img src="../assets/4.jpg" />',
+        '</div>'
+        ].join(""),
+
+        defaultSmallDom: [
+        '<div class="dhonishow">',
+          '<img src="../assets/1_small.jpg" />',
+          '<img src="../assets/2_small.jpg" />',
+          '<img src="../assets/3_small.jpg" />',
+          '<img src="../assets/4_small.jpg" />',
+        '</div>'
+        ].join(""),
+
+        defaultBigSmallDom: [
+        '<div class="dhonishow">',
+          '<img src="../assets/1_small.jpg" />',
+          '<img src="../assets/2.jpg" />',
+          '<img src="../assets/3_small.jpg" />',
+          '<img src="../assets/4.jpg" />',
+        '</div>'
+        ].join("")
+      };
+
+      new Test.Unit.Runner({
+        setup: function(){},
+        teardown: function(){
+          testShows.each(function(show){
+            for(var prop in show) delete show[prop];
+            delete show;
+          });
+          testShows = [];
+          sandbox.innerHTML = "";
+        },
+        testDhoniShowAlign: function(){with(this){
+          jQuery("#sandbox").append("<div class='dhonishow'></div>");          
+          jQuery(".dhonishow").dhonishow();
+          
+          wait(3000, function(){
+            assertEqual(1, jQuery(".error").length);
+          });
+        }}
+      });      
+    </script>
+    
+  </body>
+</html>

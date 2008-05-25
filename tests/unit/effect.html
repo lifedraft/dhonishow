@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>DhoniShow Unit Tests</title>
+		<link rel="stylesheet" href="../tests.css" type="text/css" media="screen" charset="utf-8" />
+		<link rel="stylesheet" href="../../src/dhonishow.css" type="text/css" media="screen" charset="utf-8" />
+  </head>
+  <body id="unit_tests">
+    <h1>Effect unit tests</h1>
+    <div id="testlog"></div>
+    <div id="sandbox"></div>
+    
+    <script src="../../lib/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+      jQuery.noConflict();
+    </script>
+    <script src="../../src/jquery.dhonishow.js" type="text/javascript" charset="utf-8"></script>
+
+    <script src="prototype.js" type="text/javascript" charset="utf-8"></script>
+    <script src="unittest.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript" charset="utf-8">
+      var sandbox = $("sandbox");
+      var testShows = [];
+      jQuery.fn.dhonishow = function(options){
+        return jQuery.each(this, function(index){
+          testShows.push(new DhoniShow(this, options, index));
+        });
+      };
+      
+      var Fixtures = {
+        defaultBigDom: [
+        '<div class="dhonishow">',
+          '<img src="../assets/1.jpg" />',
+          '<img src="../assets/2.jpg" />',
+          '<img src="../assets/3.jpg" />',
+          '<img src="../assets/4.jpg" />',
+        '</div>'
+        ].join(""),
+
+        defaultSmallDom: [
+        '<div class="dhonishow">',
+          '<img src="../assets/1_small.jpg" />',
+          '<img src="../assets/2_small.jpg" />',
+          '<img src="../assets/3_small.jpg" />',
+          '<img src="../assets/4_small.jpg" />',
+        '</div>'
+        ].join(""),
+
+        defaultBigSmallDom: [
+        '<div class="dhonishow">',
+          '<img src="../assets/1_small.jpg" />',
+          '<img src="../assets/2.jpg" />',
+          '<img src="../assets/3_small.jpg" />',
+          '<img src="../assets/4.jpg" />',
+        '</div>'
+        ].join("")      
+      };
+      
+      
+      new Test.Unit.Runner({
+        setup: function(){},
+        teardown: function(){
+          testShows.each(function(show){
+            for(var prop in show) delete show[prop];
+            delete show;
+          });
+          sandbox.innerHTML = "";
+        },
+        
+        testDhoniShowEffectCore: function() {with(this) {
+          var last;
+          var previous;
+          var Effect = DhoniShow.fn.effect;
+          jQuery("#sandbox").append(Fixtures.defaultBigSmallDom);
+          
+          var dh = {
+            queue: new DhoniShow.prototype.queue(),
+            dom: {
+              element: jQuery(".dhonishow"),
+              elements: jQuery(".dhonishow *")
+            },
+            animating: function(){ return false; },
+            options: DhoniShow.defaultOptions
+          };
+          dh.hide = new DhoniShow.fn.hide({}, dh);
+          
+          Effect.fx.test = function(parent){
+            this.parent = parent;
+          };
+          
+          Effect.fx.test.prototype = {
+            update: function(next_element, current_element, duration){
+              assert(true);
+              assertEqual(duration, this.parent.parent.options.duration);
+              last = next_element;
+            },
+            center: function(){
+              assert(true); // Center is invoked only one time on initilize 
+            }
+          };
+          
+          Effect = new Effect("test", dh);          
+          Effect.next({ data: Effect });
+          
+          Effect.effect.update = function(next_element, current_element, duration){
+            assertEqual(current_element[0], last[0]);
+            previous = next_element;
+          };
+          Effect.next({ data: Effect });
+          
+          Effect.effect.update = function(next_element, current_element, duration){
+            assertEqual(next_element[0], previous[0]);
+          };
+          Effect.previous({ data: Effect });
+          
+        }}
+      });
+      
+    </script>
+    
+  </body>
+</html>
