@@ -10,20 +10,22 @@ var DhoniShow = function(element, options) {
     this.current_index = 0;
     this.queue = new this.queue();
     this.dom = new this.dom(element, this);
-
-    this.options = jQuery.extend(jQuery.extend(DhoniShow.defaultOptions, options), new this.options(element));
+    this.options = jQuery.extend(jQuery.extend(this.defaultOptions(), options), new this.options(element));
+    
     this.queue.invokeModulesQueue(this, this.options);
   }
 };
 
-DhoniShow.defaultOptions = {
-  preloader : true,
-  duration : 0.6,
-  center : { elements: true },
-  effect : 'appear'
-};
-
 DhoniShow.prototype = {
+  defaultOptions: function(){
+    return {
+      preloader : true,
+      duration : 0.6,
+      center : { elements: true },
+      effect : 'appear'
+    };
+  },
+  
   animating: function() {
     return this.dom.element.find("*:animated").length;
   },
