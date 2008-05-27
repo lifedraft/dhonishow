@@ -157,7 +157,7 @@
   display: none;
 }
 
-/* Navigation Builder */
+/* Align */
 
 /* DhoniShow alt Right ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
@@ -260,7 +260,6 @@
   left: 0;
   height: 100%;
   width: 100%;
-  z-index: 190;
 }
 
 .align-paging-buttons_inside-middle .dhonishow-paging {
@@ -290,4 +289,30 @@
 
 .align-paging-buttons_inside-middle .dhonishow-previous-button:hover {
   background: url("dhonishow-previous-button_big_hover.png") 19% 50% no-repeat;
+}
+
+.align-paging-buttons_inside-top .dhonishow_module_alt,
+.align-paging-buttons_inside-top-right .dhonishow_module_alt,
+.align-paging-buttons_inside-middle .dhonishow_module_alt,
+.align-paging-buttons_bottom .dhonishow_module_alt,
+.align-paging-buttons_bottom-right .dhonishow_module_alt,
+.align-alt_inside-top .dhonishow_module_alt,
+.align-alt_inside-top-right .dhonishow_module_alt,
+.align-alt_inside-bottom .dhonishow_module_alt,
+.align-alt_inside-bottom-right .dhonishow_module_alt,
+.align-alt_bottom .dhonishow_module_alt,
+.align-alt_bottom-right .dhonishow_module_alt,
+.hide-buttons_true .dhonishow_module_alt {
+ padding-right: 7px; 
+}
+
+.align-paging-buttons_inside-top.align-alt_inside-top-right .dhonishow_module_alt,
+.align-paging-buttons_inside-top-right.align-alt_inside-top .dhonishow_module_alt,
+.align-paging-buttons_bottom.align-alt_inside-bottom-right .dhonishow_module_alt,
+.align-paging-buttons_bottom-right.align-alt_inside-bottom .dhonishow_module_alt {
+ padding-right: 10em;
+}
+
+.align-paging-buttons_inside-middle .dhonishow-alt {
+  z-index: 1000;
 }

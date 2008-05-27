@@ -81,24 +81,6 @@
                 {classNames: "center-height_100 center-width_100", dom: Fixtures.defaultBigSmallDom},
                 {classNames: "center-height_100 center-width_100 center-elements_false", dom: Fixtures.defaultBigSmallDom},
                 {classNames: "center-height_100 center-width_100 effect_resize", dom: Fixtures.defaultBigSmallDom}],
-
-      other:    [{title: "multiple shows", classNames: "", dom: Fixtures.defaultBigDom+"\n\n"+Fixtures.defaultSmallDom},
-                {title: "Images wrapped", classNames: "", dom: ['<div>',
-                    '  <a href="http://dhonishow.de"><img src="../assets/1_small.jpg" /></a>',
-                    '  <a href="http://dhonishow.de"><img src="../assets/2.jpg" /></a>',
-                    '  <a href="http://dhonishow.de"><img src="../assets/3_small.jpg" /></a>',
-                    '  <a href="http://dhonishow.de"><img src="../assets/4.jpg" /></a>',
-                  '</div>'
-                  ].join("\n")
-                },
-                {title: "Links in alt attribute", classNames: "", dom: ['<div>',
-                    '  <img src="../assets/1_small.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
-                    '  <img src="../assets/2.jpg" alt="<a href=\'http://dhonishow.de\'>Excepteur sint occaecat</a> cupidatat non proident, sunt in <a href=\'http://dhonishow.de\' title=\'DhoniShow Rock\'>culpa qui officia deserunt</a> mollit anim id est laborum." />',
-                    '  <img src="../assets/3_small.jpg" alt="<a href=\'http://dhonishow.de\'>Excepteur sint occaecat</a> cupidatat non proident, sunt in <a href=\'http://dhonishow.de\' title=\'DhoniShow Rock\'>culpa qui officia deserunt</a> mollit anim id est laborum." />',
-                    '  <img src="../assets/4.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
-                  '</div>'
-                  ].join("\n")},
-                {title: "No images set", classNames: "", dom: "<div></div>"}],
               
       align:
                 [{classNames: "align-alt_inside-top", dom: Fixtures.defaultBigDom},
@@ -138,7 +120,37 @@
                 {classNames: "align-alt_bottom align-paging-buttons_inside-top", dom: Fixtures.defaultBigDom},
                 {classNames: "align-alt_bottom align-paging-buttons_inside-top-right", dom: Fixtures.defaultBigDom},
                 {classNames: "align-alt_bottom align-paging-buttons_inside-middle", dom: Fixtures.defaultBigDom},
-                {classNames: "align-alt_bottom align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_bottom align-paging-buttons_bottom-right", dom: Fixtures.defaultBigDom}],
+                
+      other:    [{title: "multiple shows", classNames: "", dom: Fixtures.defaultBigDom+"\n\n"+Fixtures.defaultSmallDom},
+                {title: "Images wrapped", classNames: "", dom: ['<div>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/1_small.jpg" /></a>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/2.jpg" /></a>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/3_small.jpg" /></a>',
+                    '  <a href="http://dhonishow.de"><img src="../assets/4.jpg" /></a>',
+                  '</div>'
+                  ].join("\n")
+                },
+                {title: "Links in alt attribute", classNames: "", dom: ['<div>',
+                    '  <img src="../assets/1_small.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
+                    '  <img src="../assets/2.jpg" alt="<a href=\'http://dhonishow.de\'>Excepteur sint occaecat</a> cupidatat non proident, sunt in <a href=\'http://dhonishow.de\' title=\'DhoniShow Rock\'>culpa qui officia deserunt</a> mollit anim id est laborum." />',
+                    '  <img src="../assets/3_small.jpg" alt="<a href=\'http://dhonishow.de\'>Excepteur sint occaecat</a> cupidatat non proident, sunt in <a href=\'http://dhonishow.de\' title=\'DhoniShow Rock\'>culpa qui officia deserunt</a> mollit anim id est laborum." />',
+                    '  <img src="../assets/4.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
+                  '</div>'
+                  ].join("\n")},
+                {title: "No images set", classNames: "", dom: "<div></div>"},
+                {title: "Repeated images", classNames: "", dom: ["<div>",
+                '  <img src="../assets/1_small.jpg" />',
+                '  <img src="../assets/1_small.jpg" />',
+                '  <img src="../assets/1_small.jpg" />',
+                '  <img src="../assets/1_small.jpg" />',
+                "</div>",
+                "<div>",
+                '  <img src="../assets/1_small.jpg" />',
+                '  <img src="../assets/1_small.jpg" />',
+                '  <img src="../assets/1_small.jpg" />',
+                '  <img src="../assets/1_small.jpg" />',
+                "</div>"].join("\n")},
                 ]
     };
     

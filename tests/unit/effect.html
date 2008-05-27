@@ -83,7 +83,7 @@
               elements: jQuery(".dhonishow *")
             },
             animating: function(){ return false; },
-            options: DhoniShow.defaultOptions
+            options: DhoniShow.prototype.defaultOptions()
           };
           dh.hide = new DhoniShow.fn.hide({}, dh);
           
