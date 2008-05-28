@@ -94,11 +94,11 @@ DhoniShow.prototype.queue.prototype = {
 
 DhoniShow.prototype.options = function(element) {
 
-  var names = element.className.match(/((\w*)-(\w*)|\w*)_(\w*)/g) || [];
+  var names = element.className.match(/((\w*)-(\w*)|\w*)_(\w*-\w*-\w*|\w*-\w*|\w*)/g) || [];
 
   for (var i = 0; i < names.length; i++) {
 
-    var option = /((\w*)-(\w*)|\w*)_(\w*)/.exec(names[i]);
+    var option = /((\w*)-(\w*)|\w*)_(\w*-\w*-\w*|\w*-\w*|\w*)/.exec(names[i]);
     var value = this.recognizeValue(option[4]);
 
     switch(typeof option[3]){
