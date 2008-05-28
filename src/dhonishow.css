@@ -182,9 +182,9 @@
 
 /* DhoniShow Paging and Buttons Left ++++++++++++++++++++++++++++++++++++++++*/
 
-.align-paging-buttons_inside-top .dhonishow-paging-buttons,
-.align-paging-buttons_inside-bottom .dhonishow-paging-buttons,
-.align-paging-buttons_bottom .dhonishow-paging-buttons {
+.align-pagingbuttons_inside-top .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-bottom .dhonishow-paging-buttons,
+.align-pagingbuttons_bottom .dhonishow-paging-buttons {
   right: auto;
   left: 0;
   width: 8em;
@@ -198,8 +198,8 @@
 
 .align-alt_inside-top .dhonishow-alt,
 .align-alt_inside-top-right .dhonishow-alt,
-.align-paging-buttons_inside-top .dhonishow-paging-buttons,
-.align-paging-buttons_inside-top-right .dhonishow-paging-buttons {
+.align-pagingbuttons_inside-top .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-top-right .dhonishow-paging-buttons {
   bottom: auto;
   top: 0;
 }
@@ -217,10 +217,10 @@
 
 /* DhoniShow Alt bottom -----------------------------------------------------*/
 
-.dhonishow.align-paging-buttons_inside-top-right .dhonishow-paging-buttons,
-.dhonishow.align-paging-buttons_bottom-right .dhonishow-paging-buttons,
-.dhonishow.align-paging-buttons_inside-top .dhonishow-paging-buttons,
-.dhonishow.align-paging-buttons_bottom .dhonishow-paging-buttons,
+.dhonishow.align-pagingbuttons_inside-top-right .dhonishow-paging-buttons,
+.dhonishow.align-pagingbuttons_bottom-right .dhonishow-paging-buttons,
+.dhonishow.align-pagingbuttons_inside-top .dhonishow-paging-buttons,
+.dhonishow.align-pagingbuttons_bottom .dhonishow-paging-buttons,
 .dhonishow.align-alt_inside-top .dhonishow-paging-buttons,
 .dhonishow.align-alt_inside-top-right .dhonishow-paging-buttons,
 .dhonishow.hide-alt_true .dhonishow-paging-buttons {
@@ -228,46 +228,46 @@
  width: 100%;
 }
 
-.align-paging-buttons_inside-top .dhonishow-paging-buttons .dhonishow-theme-helper,
-.align-paging-buttons_bottom .dhonishow-paging-buttons .dhonishow-theme-helper {
+.align-pagingbuttons_inside-top .dhonishow-paging-buttons .dhonishow-theme-helper,
+.align-pagingbuttons_bottom .dhonishow-paging-buttons .dhonishow-theme-helper {
   overflow: hidden;
   width: 8em;
 }
 
-.align-alt_inside-top.align-paging-buttons_inside-top-right .dhonishow-paging-buttons,
-.align-alt_inside-top-right.align-paging-buttons_inside-top .dhonishow-paging-buttons,
-.align-paging-buttons_bottom-right.align-alt_inside-bottom .dhonishow-paging-buttons,
-.align-alt_inside-bottom-right.align-paging-buttons_bottom .dhonishow-paging-buttons,
-.align-alt_bottom-right.align-paging-buttons_bottom .dhonishow-paging-buttons,
-.align-paging-buttons_bottom-right.align-alt_bottom .dhonishow-paging-buttons {
+.align-alt_inside-top.align-pagingbuttons_inside-top-right .dhonishow-paging-buttons,
+.align-alt_inside-top-right.align-pagingbuttons_inside-top .dhonishow-paging-buttons,
+.align-pagingbuttons_bottom-right.align-alt_inside-bottom .dhonishow-paging-buttons,
+.align-alt_inside-bottom-right.align-pagingbuttons_bottom .dhonishow-paging-buttons,
+.align-alt_bottom-right.align-pagingbuttons_bottom .dhonishow-paging-buttons,
+.align-pagingbuttons_bottom-right.align-alt_bottom .dhonishow-paging-buttons {
   background: none;
   width: 8em;
 }
 
 /*Buttons in the middle +++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-.align-paging-buttons_inside-middle.align-alt_inside-top-right .dhonishow-paging-buttons,
-.align-paging-buttons_inside-middle.align-alt_inside-top .dhonishow-paging-buttons,
-.align-paging-buttons_inside-middle.align-alt_inside-bottom .dhonishow-paging-buttons,
-.align-paging-buttons_inside-middle.align-alt_inside-bottom-right .dhonishow-paging-buttons,
-.align-paging-buttons_inside-middle.align-alt_bottom .dhonishow-paging-buttons,
-.align-paging-buttons_inside-middle.align-alt_bottom-right .dhonishow-paging-buttons {
+.align-pagingbuttons_inside-middle.align-alt_inside-top-right .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-middle.align-alt_inside-top .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-middle.align-alt_inside-bottom .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-middle.align-alt_inside-bottom-right .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-middle.align-alt_bottom .dhonishow-paging-buttons,
+.align-pagingbuttons_inside-middle.align-alt_bottom-right .dhonishow-paging-buttons {
   background: none;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-paging-buttons {
+.align-pagingbuttons_inside-middle .dhonishow-paging-buttons {
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-paging {
+.align-pagingbuttons_inside-middle .dhonishow-paging {
   display: none;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-next-button,
-.align-paging-buttons_inside-middle .dhonishow-previous-button {
+.align-pagingbuttons_inside-middle .dhonishow-next-button,
+.align-pagingbuttons_inside-middle .dhonishow-previous-button {
   float: none;
   position: absolute;
   top: 0;
@@ -277,25 +277,25 @@
   background: url("dhonishow-next-button_big.png") 80% 50% no-repeat;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-previous-button {
+.align-pagingbuttons_inside-middle .dhonishow-previous-button {
   right: auto;
   left: 0; 
   background: url("dhonishow-previous-button_big.png") 20% 50% no-repeat;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-next-button:hover {
+.align-pagingbuttons_inside-middle .dhonishow-next-button:hover {
   background: url("dhonishow-next-button_big_hover.png") 81% 50% no-repeat;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-previous-button:hover {
+.align-pagingbuttons_inside-middle .dhonishow-previous-button:hover {
   background: url("dhonishow-previous-button_big_hover.png") 19% 50% no-repeat;
 }
 
-.align-paging-buttons_inside-top .dhonishow_module_alt,
-.align-paging-buttons_inside-top-right .dhonishow_module_alt,
-.align-paging-buttons_inside-middle .dhonishow_module_alt,
-.align-paging-buttons_bottom .dhonishow_module_alt,
-.align-paging-buttons_bottom-right .dhonishow_module_alt,
+.align-pagingbuttons_inside-top .dhonishow_module_alt,
+.align-pagingbuttons_inside-top-right .dhonishow_module_alt,
+.align-pagingbuttons_inside-middle .dhonishow_module_alt,
+.align-pagingbuttons_bottom .dhonishow_module_alt,
+.align-pagingbuttons_bottom-right .dhonishow_module_alt,
 .align-alt_inside-top .dhonishow_module_alt,
 .align-alt_inside-top-right .dhonishow_module_alt,
 .align-alt_inside-bottom .dhonishow_module_alt,
@@ -306,13 +306,13 @@
  padding-right: 7px; 
 }
 
-.align-paging-buttons_inside-top.align-alt_inside-top-right .dhonishow_module_alt,
-.align-paging-buttons_inside-top-right.align-alt_inside-top .dhonishow_module_alt,
-.align-paging-buttons_bottom.align-alt_inside-bottom-right .dhonishow_module_alt,
-.align-paging-buttons_bottom-right.align-alt_inside-bottom .dhonishow_module_alt {
+.align-pagingbuttons_inside-top.align-alt_inside-top-right .dhonishow_module_alt,
+.align-pagingbuttons_inside-top-right.align-alt_inside-top .dhonishow_module_alt,
+.align-pagingbuttons_bottom.align-alt_inside-bottom-right .dhonishow_module_alt,
+.align-pagingbuttons_bottom-right.align-alt_inside-bottom .dhonishow_module_alt {
  padding-right: 10em;
 }
 
-.align-paging-buttons_inside-middle .dhonishow-alt {
+.align-pagingbuttons_inside-middle .dhonishow-alt {
   z-index: 1000;
 }
