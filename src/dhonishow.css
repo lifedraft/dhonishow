@@ -316,3 +316,14 @@
 .align-pagingbuttons_inside-middle .dhonishow-alt {
   z-index: 1000;
 }
+
+/* Effects  */
+
+.effect_slide .dhonishow-effect-helper {
+  position: relative;
+}
+
+.effect_slide .dhonishow-elements {
+  position: absolute;
+  width: 100%;
+}

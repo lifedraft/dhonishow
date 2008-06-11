@@ -204,7 +204,11 @@ DhoniShow.helper = {
       if(this.src && this.src.length) to.attr("src", this.src);
     });
     return to;
-  }  
+  },
+  
+  to_number: function(string){
+    return new Number(string.replace(/dot|px/, ""));
+  }
 };
 
 // ###########################################################################
@@ -220,7 +224,7 @@ DhoniShow.prototype.dom = function(element, parent){
 };
 
 DhoniShow.prototype.dom.prototype = {
-  template : ['<ol class="dhonishow-elements">@images</ol>',
+  template : ['<div class="dhonishow-effect-helper"><ol class="dhonishow-elements">@images</ol></div>',
     '<p class="dhonishow-alt">@alt</p>',
     '<div class="dhonishow-paging-buttons">',
       '<div class="dhonishow-theme-helper">',
@@ -403,6 +407,44 @@ DhoniShow.fn.effect.fx.resize.prototype = {
 
     this.parent.parent.dom.element.css({width: center.dimensions[this.parent.parent.current_index].width+"px"});
     this.parent.parent.dom.elements.parent().css({height: center.dimensions[this.parent.parent.current_index].height+"px"});
+  }
+};
+
+// ###########################################################################
+
+DhoniShow.fn.effect.fx.slide = function(parent){
+  this.parent = parent;
+  this.element = this.parent.parent.dom.element.find(".dhonishow-elements");
+};
+
+DhoniShow.fn.effect.fx.slide.prototype = {
+  update: function(next_element, current_element, duration) {
+
+    this.element.animate({
+      left: this.parent.parent.options.autoplay ? 
+      -DhoniShow.helper.to_number(next_element.css("left")) :
+      -DhoniShow.helper.to_number(current_element.css("left")) + "px" 
+    }, duration*1000);
+    
+  },
+  
+  center: function(){
+    
+    DhoniShow.fn.effect.fx.appear.prototype.center.apply(this);
+    this.dimensions = this.parent.parent.center.dimensions.max;
+    var x = 0;
+    var stepX = this.dimensions.width;
+    this.parent.parent.dom.elements.each(function(){ this.style.left = x+"px"; x += stepX; });
+    
+    this.parent.parent.dom.element.find(".dhonishow-effect-helper").css({
+      height: this.dimensions.height, 
+      width: this.dimensions.width
+    });
+    
+    this.element.css({
+      left: 0,
+      width: this.parent.parent.dom.elements.length*this.dimensions.width
+    });
   }
 };
 
@@ -600,7 +642,7 @@ DhoniShow.fn.preloader.prototype = {
           return str;
           })(),
           '</ol></div>'].join("") );
-      return this.parent.dom.element.find(".dhonishow-elements").before(this.template);
+      return this.parent.dom.element.prepend(this.template);
   },
 
   setLoading: function () {
