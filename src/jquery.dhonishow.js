@@ -308,8 +308,9 @@ DhoniShow.fn = {};
 
 DhoniShow.fn.effect = function(effectName, parent){
   this.parent = parent;
-  if(effectName == undefined) effectName = "appear";
-  this.effect = new DhoniShow.fn.effect.fx[effectName](this);
+  var args = effectName.split("-");
+  if(args.length > 1) { effectName = args[0]; args.shift(); }
+  this.effect = new DhoniShow.fn.effect.fx[effectName](this, args.join("-"));
   this.parent.queue.register("loaded_all", this.effect, this.effect.center);
 
   this.addObservers();
@@ -351,7 +352,7 @@ DhoniShow.fn.effect.fx = {};
 
 // ###########################################################################
 
-DhoniShow.fn.effect.fx.appear = function(parent){
+DhoniShow.fn.effect.fx.appear = function(parent, options){
   this.parent = parent;
   this.parent.parent.hide.not_current();
 };
@@ -382,7 +383,7 @@ DhoniShow.fn.effect.fx.appear.prototype = {
 
 // ###########################################################################
 
-DhoniShow.fn.effect.fx.resize = function(parent){
+DhoniShow.fn.effect.fx.resize = function(parent, options){
   this.parent = parent;
   var elements = jQuery(this.parent.parent.dom.elements.get().reverse());
   for (var i=0; i < elements.length; i++) {
@@ -412,38 +413,47 @@ DhoniShow.fn.effect.fx.resize.prototype = {
 
 // ###########################################################################
 
-DhoniShow.fn.effect.fx.slide = function(parent){
+DhoniShow.fn.effect.fx.slide = function(parent, options){
   this.parent = parent;
   this.element = this.parent.parent.dom.element.find(".dhonishow-elements");
+  this.options = (function(){
+    if(options == "top") return { dimension: "height", side: "top" };
+    return { dimension: "width", side: "left" };
+  })();
 };
 
 DhoniShow.fn.effect.fx.slide.prototype = {
   update: function(next_element, current_element, duration) {
-
-    this.element.animate({
-      left: this.parent.parent.options.autoplay ? 
-      -DhoniShow.helper.to_number(next_element.css("left")) :
-      -DhoniShow.helper.to_number(current_element.css("left")) + "px" 
-    }, duration*1000);
-    
+    var element_option = {};
+    var element = current_element;
+    if(this.parent.parent.options.autoplay){ element = next_element; }
+    element_option[this.options.side] = -DhoniShow.helper.to_number(element.css(this.options.side));
+    this.element.animate(element_option, duration*1000);
   },
-  
+
   center: function(){
-    
     DhoniShow.fn.effect.fx.appear.prototype.center.apply(this);
+
+    var dimension = this.options.dimension;
+    var side = this.options.side;
+    var offset = 0;
+
     this.dimensions = this.parent.parent.center.dimensions.max;
-    var x = 0;
-    var stepX = this.dimensions.width;
-    this.parent.parent.dom.elements.each(function(){ this.style.left = x+"px"; x += stepX; });
-    
-    this.parent.parent.dom.element.find(".dhonishow-effect-helper").css({
-      height: this.dimensions.height, 
-      width: this.dimensions.width
+
+    var step = this.dimensions[dimension];
+    this.parent.parent.dom.elements.each(function(){ 
+      this.style[side] = offset+"px";  offset += step;
     });
-    
-    this.element.css({
-      left: 0,
-      width: this.parent.parent.dom.elements.length*this.dimensions.width
+
+    var element_option = {};
+    element_option[side] = 0;
+    element_option[dimension] = this.parent.parent.dom.elements.length*this.dimensions[dimension];
+
+    this.element.css(element_option);
+
+    this.parent.parent.dom.element.find(".dhonishow-effect-helper").css({
+      height: this.dimensions.height,
+      width: this.dimensions.width
     });
   }
 };
