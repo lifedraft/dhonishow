@@ -87,9 +87,10 @@ DhoniShow.prototype.queue.prototype = {
      } else {
        _this.invokeAll.apply(_this, args);
      }
-   }, 100); 
+   }, 100);
   }
 };
+
 // ###########################################################################
 
 DhoniShow.prototype.options = function(element) {
@@ -224,15 +225,17 @@ DhoniShow.prototype.dom = function(element, parent){
 };
 
 DhoniShow.prototype.dom.prototype = {
-  template : ['<div class="dhonishow-effect-helper"><ol class="dhonishow-elements">@images</ol></div>',
-    '<p class="dhonishow-alt">@alt</p>',
-    '<div class="dhonishow-paging-buttons">',
-      '<div class="dhonishow-theme-helper">',
-        '<a class="dhonishow-next-button" title="Next">Next</a>',
-        '<p class="dhonishow-paging">@current of @allpages</p>',
-        '<a class="dhonishow-previous-button" title="Previous">Back</a>',
-      '</div>',
-    "</div>"].join(""),
+  template : ['<div class="dhonishow-aligner">', // Need this for the align IE6 support, cause double class selectors doesn't work
+      '<div class="dhonishow-effect-helper"><ol class="dhonishow-elements">@images</ol></div>',
+      '<p class="dhonishow-alt">@alt</p>',
+      '<div class="dhonishow-paging-buttons">',
+        '<div class="dhonishow-theme-helper">',
+          '<a class="dhonishow-next-button" title="Next">Next</a>',
+          '<p class="dhonishow-paging">@current of @allpages</p>',
+          '<a class="dhonishow-previous-button" title="Previous">Back</a>',
+        '</div>',
+      "</div>",
+    '</div>'].join(""),
   
   setUpdaters: function() {
     this.parent.queue.register("updaters", this, this.alt, this.giveModluePlaceholder("alt"));
@@ -703,8 +706,16 @@ DhoniShow.fn.center.prototype = {
 DhoniShow.prototype.queue.prototype.moduleQueue.push("align");
 
 DhoniShow.fn.align = function(options, parent){
+  var alignHelper = parent.dom.element.find(".dhonishow-aligner");
   for(var option in options){
-    parent.dom.element.addClass("align-"+option+"_"+options[option]);
+    switch(option){
+      case "alt":
+        parent.dom.element.addClass("align-"+option+"_"+options[option]);
+      break;
+      default:
+        alignHelper.addClass("align-"+option+"_"+options[option]);
+      break;
+    }
   }
 };
 
