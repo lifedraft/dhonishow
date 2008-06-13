@@ -745,7 +745,7 @@ DhoniShow.fn.thumbnails.prototype = {
   },
 
   create_dom: function() {
-    this.lis = this.parent.dom.elements.clone().removeClass("element").css({padding: 0, top: "auto", left: "auto"});
+    this.lis = this.parent.dom.elements.clone().removeClass("element").css({padding: "", top: "", left: "", display: ""});
     this.lis.children().each(function(index){ jQuery(this).wrap('<a href="'+this.src+"#"+index+'"></a>'); });
 
     this.element = jQuery("<ol class='dhonishow-thumbnails'></ol>").append(this.lis);

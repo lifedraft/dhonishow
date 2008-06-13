@@ -319,9 +319,7 @@
 
 /* Effects  */
 
-.effect_slide .dhonishow-effect-helper,
-.effect_slide-left .dhonishow-effect-helper,
-.effect_slide-top .dhonishow-effect-helper {
+.dhonishow-effect-helper {
   position: relative;
   overflow: hidden;
 }
