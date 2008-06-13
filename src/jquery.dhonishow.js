@@ -317,57 +317,14 @@ DhoniShow.fn.preloader = function(value, parent){
   this.elements = [];
   
   this.parent.queue.register("loaded_one", this, this.loadedOne);
-  this.parent.queue.register("loaded_all", this, this.loadedAll);
-  
-  if(this.value){
-    this.build(this.parent.dom.elements.length);
-    this.loadingInterval = this.setLoading();
-  }
 };
 
 // ###########################################################################
 
 DhoniShow.fn.preloader.prototype = {
-  
-  build: function ( quantity ) {
-    this.template = jQuery(['<div class="dhonishow-preloader-wrapper"><ol class="dhonishow-preloader">',
-      '<li class="dhonishow-preloader-loading">Loading <span>...</span></li>',
-        (function () {
-          var str = "";
-          for(var i = 1; i<=quantity; i++) {
-            str+=("<li>"+i+"</li>");
-          }
-          return str;
-          })(),
-          '</ol></div>'].join("") );
-      return this.parent.dom.element.prepend(this.template);
-  },
-
-  setLoading: function () {
-    var span = this.template.find("span")[0];
-    return setInterval(function () {
-      var length = span.innerHTML.length;
-      (length == 3) ? span.innerHTML = "" : span.innerHTML += ".";
-    }, 500);
-  },
-
-  unsetLoading: function () {
-    return clearInterval(this.loadingInterval);
-  },
-
   loadedOne: function ( position ) {
     if(this.elements.push(position) == this.parent.dom.elements.length)
       this.parent.queue.invokeAll("loaded_all");
-
-    if(this.value) this.template.find("li").eq(position+1).addClass("loaded");
-
-  },
-
-  loadedAll: function () {
-    if(this.value){
-      this.unsetLoading();
-      this.parent.dom.element.find(".dhonishow-preloader-wrapper").fadeOut(600);
-    }
   }
 };
 

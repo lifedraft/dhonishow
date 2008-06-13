@@ -14,45 +14,6 @@
   margin: 0;
 }
 
-.dhonishow .dhonishow-preloader-wrapper {
-  left: 25%;
-  top: 25%;
-  width: 50%;
-  position: absolute;
-  z-index: 1000;
-  background: url("dhonishow-preloader-wrapper_background.png");
-}
-
-.dhonishow .dhonishow-preloader-wrapper ol {
-  overflow: hidden;
-  padding: 2em 2em 1em 2em;
-}
-
-.dhonishow .dhonishow-preloader li {
-  margin-bottom: .3em;
-  margin-right: .3em;
-  line-height: 2em;
-  background: #fff;
-  display: block;
-  padding: 0 1em;
-  float: left;
-  color: #00062D;
-}
-  
-.dhonishow .dhonishow-preloader li.loaded {
-  background: #00AAEF;
-  color: #fff;
-}
-
-.dhonishow .dhonishow-preloader .dhonishow-preloader-loading {
-  background: none;
-  color: #fff;
-  float: none;
-  padding: 0;
-}
-
-.dhonishow .dhonishow-preloader .dhonishow-preloader-loading span {}
-
 .dhonishow .dhonishow-elements {
   display: block;
   overflow: hidden;
