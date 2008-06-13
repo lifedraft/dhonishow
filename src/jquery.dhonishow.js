@@ -767,9 +767,9 @@ DhoniShow.fn.thumbnails.prototype = {
   },
 
   addObservers: function(){
-    this.lis.find("a").bind("click", this, function(event){
-      var _this = event.data,
-      index = new Number(this.href.split("#")[1]),
+    var _this = this;
+    this.lis.find("a").bind("click", function(event){
+      var index = new Number(this.href.split("#")[1]),
       current_index = _this.parent.current_index;
       
       _this.parent.current_index = index;
