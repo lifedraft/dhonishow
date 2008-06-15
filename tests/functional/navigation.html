@@ -110,7 +110,7 @@
                 {classNames: "align-alt_inside-bottom align-pagingbuttons_inside-top-right", dom: Fixtures.defaultBigDom},
                 {classNames: "align-alt_inside-bottom align-pagingbuttons_bottom-right", dom: Fixtures.defaultBigDom},
                 
-                {classNames: "align-alt_inside-bottom-right align-pagingbuttons_top", dom: Fixtures.defaultBigDom},
+                {classNames: "align-alt_inside-bottom-right align-pagingbuttons_inside-top", dom: Fixtures.defaultBigDom},
                 {classNames: "align-alt_inside-bottom-right align-pagingbuttons_inside-middle", dom: Fixtures.defaultBigDom},
                 {classNames: "align-alt_inside-bottom-right align-pagingbuttons_inside-top-right", dom: Fixtures.defaultBigDom},
                 {classNames: "align-alt_inside-bottom-right align-pagingbuttons_bottom", dom: Fixtures.defaultBigDom},
@@ -138,20 +138,7 @@
                     '  <img src="../assets/4.jpg" alt="Lorem ipsum dolor <a href=\'http://dhonishow.de/\'>dhonishow</a>, consectetur adipisicing elit" />',
                   '</div>'
                   ].join("\n")},
-                {title: "No images set", classNames: "", dom: "<div></div>"},
-                {title: "Repeated images", classNames: "", dom: ["<div>",
-                '  <img src="../assets/1_small.jpg" />',
-                '  <img src="../assets/1_small.jpg" />',
-                '  <img src="../assets/1_small.jpg" />',
-                '  <img src="../assets/1_small.jpg" />',
-                "</div>",
-                "<div>",
-                '  <img src="../assets/1_small.jpg" />',
-                '  <img src="../assets/1_small.jpg" />',
-                '  <img src="../assets/1_small.jpg" />',
-                '  <img src="../assets/1_small.jpg" />',
-                "</div>"].join("\n")},
-                ]
+                {title: "No images set", classNames: "", dom: "<div></div>"}]
     };
     
     jQuery.fn.testNavigation = function(tests){

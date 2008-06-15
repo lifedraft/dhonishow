@@ -231,7 +231,7 @@ DhoniShow.prototype.dom.prototype = {
       '<div class="dhonishow-paging-buttons">',
         '<div class="dhonishow-theme-helper">',
           '<a class="dhonishow-next-button" title="Next">Next</a>',
-          '<p class="dhonishow-paging">@current of @allpages</p>',
+          '<p class="dhonishow-paging">@current/@allpages</p>',
           '<a class="dhonishow-previous-button" title="Previous">Back</a>',
         '</div>',
       "</div>",

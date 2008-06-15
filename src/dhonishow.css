@@ -37,16 +37,27 @@
 
 
 .dhonishow .dhonishow-alt {
-  font-weight: bold;
-  line-height: 16px;  
+  line-height: 16px;
   text-align: left;
-  padding: 4px 0;
-  background: url("dhonishow-navi_background.png");
+  padding: 4px 0;  
   position: absolute;
   bottom: 0;
   width: 100%;
   z-index: 100;
+  background: url("dhonishow-navi_background.png");
 }
+
+* html .dhonishow .dhonishow-alt,
+* html .align-pagingbuttons_inside-top-right .dhonishow-paging-buttons,
+* html .align-pagingbuttons_bottom-right .dhonishow-paging-buttons,
+* html .align-pagingbuttons_inside-top .dhonishow-paging-buttons,
+* html .align-pagingbuttons_bottom .dhonishow-paging-buttons,
+* html .align-alt_inside-top .dhonishow-paging-buttons,
+* html .align-alt_inside-top-right .dhonishow-paging-buttons,
+* html .hide-alt_true .dhonishow-paging-buttons {
+  background: #fff;
+}
+
 
 .dhonishow .dhonishow_module_alt {
   padding: 0 10em 0 7px;
@@ -81,8 +92,18 @@
   margin-left: 5px;
 }
 
+* html .dhonishow .dhonishow-next-button {
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/src/dhonishow-next-button.png', sizingMethod='image');
+}
+
 .dhonishow .dhonishow-previous-button {
   background: url("dhonishow-previous-button.png") 50% 50% no-repeat;
+}
+
+* html .dhonishow .dhonishow-previous-button {
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/src/dhonishow-previous-button.png', sizingMethod='image');
 }
 
 .dhonishow .dhonishow-next-button:hover {
@@ -245,11 +266,11 @@
 }
 
 .align-pagingbuttons_inside-middle .dhonishow-next-button:hover {
-  background: url("dhonishow-next-button_big_hover.png") 81% 50% no-repeat;
+  background-image: url("dhonishow-next-button_big_hover.png");
 }
 
 .align-pagingbuttons_inside-middle .dhonishow-previous-button:hover {
-  background: url("dhonishow-previous-button_big_hover.png") 19% 50% no-repeat;
+  background-image: url("dhonishow-previous-button_big_hover.png");
 }
 
 .align-pagingbuttons_inside-top .dhonishow_module_alt,
