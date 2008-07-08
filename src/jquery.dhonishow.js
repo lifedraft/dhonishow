@@ -3,6 +3,8 @@
 Copyright (c) 2008 Stanislav Müller
 http://lifedraft.de
 
+Version: 1.0
+
 */
 
 var DhoniShow = function(element, options) {
@@ -113,7 +115,7 @@ DhoniShow.prototype.options = function(element) {
           }
           this[option[2]][option[3]] = value;
         } else if (option[2].length == 0 && jQuery.browser.msie){
-          /* All browsers should match: /((\w*)-(\w*)|\w*)_(\w*)/ > ["option_value", undefined, undefined, "value"]
+          /* All good browsers match: /((\w*)-(\w*)|\w*)_(\w*)/ > ["option_value", undefined, undefined, "value"]
              but IEs matches > ["option_value", "", "", "value"] */
           this[option[1]] = value;
         }
