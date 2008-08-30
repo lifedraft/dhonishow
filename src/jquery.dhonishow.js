@@ -3,7 +3,7 @@
 Copyright (c) 2008 Stanislav Müller
 http://lifedraft.de
 
-Version: 1.0
+Version: 1.1
 
 */
 
@@ -139,8 +139,7 @@ DhoniShow.prototype.options.prototype.recognizeValue = function(value){
 
 DhoniShow.helper = {
 
-  image: function ( element  ) {
-
+  image: function ( element ) {
     var img;
     element = (typeof element == "object" && element.nodeType == "undefined" || element.length) ? element[0] : element;
     if(element.nodeName.toLowerCase() != "img") {
@@ -153,62 +152,29 @@ DhoniShow.helper = {
     return element;
   },
 
-  dimensions_give: function ( element, hund ) {
-
-    var element = jQuery(element),
-    image,
-    width = element.width(),
-    height = element.height();
-    
-    if(width == 0 || height == 0) {
-
-      if(element[0] != (image = this.image(element))){
-        width = image.width;
-        height = image.height;
-      } else {
-        if(!height) height = element.children().height();
-        if(!width) width = element.children().width();
-      }
-    }
-    return { width: width, height: height };
-  },
-
   delayed_image_load: function ( image, func, scope, args ) {
-    var preloaderImage = jQuery("<img>").load(function (){
+    var src = image.attr("src");
+    image.attr("src", "#");
+    image.bind("load", function (){
       if(args) {
         var arg = jQuery.makeArray(args);
         arg.push({width: this.width, height: this.height});
       }
-
       func.apply(scope, arg || []);
-      this.onload = null; // prevent IE memory leaks
-      jQuery(this).unbind("onload");
+      jQuery(this).unbind("load");
     });
-
-    this.clone_attributes(image, preloaderImage);
-    jQuery(image).replaceWith(preloaderImage);
-
+    image.attr("src", src);
   },
 
-  delayed_dimensions_load: function(dimensions, func, scope, args){
+  delayed_dimensions_load: function(dimensions, func, scope, args) {
     var image;
-    if(!!!dimensions.width || !!!dimensions.height){
-      if( ( image = jQuery(this.image(scope)) ).length > 0 ) {
+    if(!!!dimensions.width && !!!dimensions.height){
+      if( ( image = jQuery(this.image(scope)) ).length > 0 ) { 
         this.delayed_image_load(image, func, scope, args);
       }
     }
   },
-
-  clone_attributes: function (from, to ) {
-
-    jQuery.each(from, function () {
-      if(this.title && this.title.length) to.attr("title", this.title);
-      if(this.alt && this.alt.length) to.attr("alt", this.alt);
-      if(this.src && this.src.length) to.attr("src", this.src);
-    });
-    return to;
-  },
-  
+    
   to_number: function(string){
     return new Number(string.replace(/dot|px/, ""));
   }
@@ -435,7 +401,6 @@ DhoniShow.fn.effect.fx = {};
 
 DhoniShow.fn.effect.fx.appear = function(parent, options){
   this.parent = parent;
-  this.parent.parent.hide.not_current();
 };
 
 DhoniShow.fn.effect.fx.appear.prototype = {
@@ -443,7 +408,9 @@ DhoniShow.fn.effect.fx.appear.prototype = {
     current_element.animate({ opacity: "toggle" }, duration*1000);
     next_element.animate({ opacity: "toggle" }, duration*1000);
   },
-  center: function(){
+  center: function(hide){
+    if(!hide) this.parent.parent.hide.not_current();
+    
     var center = this.parent.parent.center;
 
     this.parent.parent.dom.element.css({width: center.dimensions.max.width+"px"});
@@ -466,11 +433,6 @@ DhoniShow.fn.effect.fx.appear.prototype = {
 
 DhoniShow.fn.effect.fx.resize = function(parent, options){
   this.parent = parent;
-  var elements = jQuery(this.parent.parent.dom.elements.get().reverse());
-  for (var i=0; i < elements.length; i++) {
-    jQuery(elements[i]).css( "z-index", i + 1 );
-    if(i != (elements.length-1 - this.parent.parent.current_index)) jQuery(elements[i]).hide();
-  }
 };
 
 DhoniShow.fn.effect.fx.resize.prototype = {
@@ -485,6 +447,12 @@ DhoniShow.fn.effect.fx.resize.prototype = {
   },
 
   center: function(){
+    var elements = jQuery(this.parent.parent.dom.elements.get().reverse());
+    for (var i=0; i < elements.length; i++) {
+      jQuery(elements[i]).css( "z-index", i + 1 );
+      if(i != (elements.length-1 - this.parent.parent.current_index)) jQuery(elements[i]).hide();
+    }
+    
     var center = this.parent.parent.center;
 
     this.parent.parent.dom.element.css({width: center.dimensions[this.parent.parent.current_index].width+"px"});
@@ -517,7 +485,8 @@ DhoniShow.fn.effect.fx.slide.prototype = {
   },
 
   center: function(){
-    DhoniShow.fn.effect.fx.appear.prototype.center.apply(this);
+    
+    DhoniShow.fn.effect.fx.appear.prototype.center.apply(this, [true]);
 
     var dimension = this.options.dimension;
     var side = this.options.side;
@@ -609,7 +578,7 @@ DhoniShow.fn.center.prototype = {
 
     this.parent.dom.elements.each(function (index) {
 
-      var dimensions = arguments[2] ? arguments[2] : DhoniShow.helper.dimensions_give(this);
+      var dimensions = arguments[2] ? arguments[2] : {width: 0, height: 0};
 
       DhoniShow.helper.delayed_dimensions_load(dimensions, arguments.callee, this, arguments);
 
