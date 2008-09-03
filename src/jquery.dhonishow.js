@@ -713,6 +713,41 @@ DhoniShow.fn.thumbnails.prototype = {
 
 // ###########################################################################
 
+DhoniShow.prototype.queue.prototype.moduleQueue.push("randomautoplay");
+
+DhoniShow.fn.randomautoplay = function(value, parent){
+  this.parent = parent;
+  if(value){
+    this.create(value);
+    this.parent.queue.register("updaters", this, this.reset);
+  }
+};
+
+DhoniShow.fn.randomautoplay.prototype = {
+  create: function(duration) {
+    var _this = this;
+    this.executer = setInterval(function(){
+      var lastIndex = _this.parent.current_index;
+      _this.parent.current_index = Math.round(Math.random() * (_this.parent.dom.elements.length-1));
+      
+      _this.parent.effect.effect.update(
+        jQuery(_this.parent.dom.elements[lastIndex]), 
+        jQuery(_this.parent.dom.elements[_this.parent.current_index]),
+        _this.parent.options.duration
+      );
+      _this.parent.queue.invokeAll("updaters");
+    }, duration*1000);
+  },
+
+  reset: function () {
+    clearInterval(this.executer);
+    this.executer = null;
+    this.create(this.parent.options.randomautoplay);
+  }
+};
+
+// ###########################################################################
+
 jQuery.fn.dhonishow = function(options){
   return jQuery.each(this, function(index){
     new DhoniShow(this, options, index);
