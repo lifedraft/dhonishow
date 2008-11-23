@@ -1,7 +1,10 @@
 var DhoniShow = function(element, options, index){
   var Class = new DhoniShow.Class(this);
 
-  this.options = jQuery.extend(new this.options(element.className), options);
+  this.options = jQuery.extend(this.options, new this.options(element.className), options);
+  this.share = {
+    element: element
+  };
   
   for(var module in this.modules) {
     jQuery.extend(this.modules[module].prototype, Class, { options: this.options[module] });
