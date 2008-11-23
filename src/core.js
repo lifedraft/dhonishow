@@ -3,7 +3,7 @@ var DhoniShow = function(element, options, index){
 
   this.options = jQuery.extend(this.options, new this.options(element.className), options);
   this.share = {
-    element: element
+    element: jQuery(element)
   };
   
   for(var module in this.modules) {

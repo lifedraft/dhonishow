@@ -1,14 +1,3 @@
-(function(){
-  var elements = DhoniShow.register("elements", function(){
-    
-  });
-  
-  elements.prototype = {
-    
-  };
-
-})();
-
 /*
 
   <div class="dhonishow">
@@ -36,3 +25,9 @@
   </div>
   
 */
+
+(function(){
+  var elements = DhoniShow.register("elements", function(){
+    this.parent.share.elements = this.parent.share.element.find("> img, > li, >.dhonishow-element");
+  });
+})();
