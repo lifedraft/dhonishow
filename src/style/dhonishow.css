@@ -343,3 +343,9 @@
   width: 53px;
   height: 53px;
 }
+
+.dhonishow .dhonishow-image-loading {
+  position: absolute;
+  top: -1000em;
+  left: -1000em;
+}
