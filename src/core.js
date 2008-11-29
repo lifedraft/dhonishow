@@ -5,6 +5,7 @@ var DhoniShow = function(element, options, index){
   this.share = {
     element: jQuery(element)
   };
+  this.event = new DhoniShow.event();
   
   for(var module in this.modules) {
     jQuery.extend(this.modules[module].prototype, Class, { options: this.options[module] });
@@ -14,37 +15,56 @@ var DhoniShow = function(element, options, index){
 
 DhoniShow.prototype = {
   modules: {},
-  event: {
-    addEventListener: function(event, scope, method /*, n args */) {
-      if(!(event in this.events)) this.events[event] = [];
-
-      var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
-
-      this.events[event].push({
-        method: method,
-        scope: scope,
-        args: args
-      });
-    },
-
-    dispatchEvent: function(event /*, n args */) {
-      if(!(event in this.events)) return false;
-
-      var _args = []; for (var i = 1; i < arguments.length; i++) _args.push(arguments[i]);
-
-      for (var i=0; i < this.events[event].length; i++) {
-        var eventScope = this.events[event][i];
-
-        if(arguments.length > 1) { var args = [].concat(eventScope.args).concat(_args); }
-
-        eventScope.method.apply(eventScope.scope, args || eventScope.args);
-      }
-    },
-    events: {}
-  },
   options: {} 
 };
 
+DhoniShow.event = function(){};
+
+DhoniShow.event.prototype = {
+  addEventListener: function(event, scope, method, notrepeatable /*, n args */) {
+    if(!(event in this.events)) this.events[event] = [];
+    
+    /*
+    * notRepeatable == one time executed
+    */
+    if(!(event in this.notrepeatable) && notrepeatable) this.notrepeatable[event] = false;
+
+    var args = []; for (var i = 3; i < arguments.length; i++) args.push(arguments[i]);
+
+    /**
+    * If this.notrepeatable[event] property is already set to true, than 
+    * dispatchEvent(event) was already called and now we get ride of the already 
+    * executed triggers
+    */
+    
+    if(notrepeatable && this.notrepeatable[event]) this.events[event] = [];
+
+    this.events[event].push({
+      method: method,
+      scope: scope,
+      args: args
+    });
+
+    if(notrepeatable && this.notrepeatable[event]) this.dispatchEvent(event);
+  },
+
+  dispatchEvent: function(event /*, n args */) {
+    if(!(event in this.events)) return false;
+    if(event in this.notrepeatable) this.notrepeatable[event] = true;
+
+    var _args = []; for (var i = 1; i < arguments.length; i++) _args.push(arguments[i]);
+
+    for (var i=0; i < this.events[event].length; i++) {
+      var eventScope = this.events[event][i];
+
+      if(arguments.length > 1) { var args = [].concat(eventScope.args).concat(_args); }
+
+      eventScope.method.apply(eventScope.scope, args || eventScope.args);
+    }
+  },
+  events: {},
+  notrepeatable: {}
+};
 
 DhoniShow.Class = function(parent){
   this.parent = parent;
@@ -59,10 +79,33 @@ DhoniShow.Class.prototype = {
   }
 };
 
-DhoniShow.register = function(name, method, options) {
-  this.prototype.modules[name] = method;
+DhoniShow.path = function(path, destination) {
+  path = path.split(".");
   
-  if(options){ this.prototype.options[name] = options; }
+  if(path.length > 0) {
+    for (var i=0; i < path.length; i++) {
+      if(i != path.length-1) {
+        if(!(path[i] in destination)) destination[path[i]] = {};
+        destination = destination[path[i]];
+      } else {
+      }
+    };
+  }
+  
+  return {
+    destination: destination,
+    name: path.length > 0 ? path[path.length-1] : path
+  };
+};
 
-  return this.prototype.modules[name];
+DhoniShow.register = function(name, method, options) {
+  var path = this.path(name, this.prototype.modules);
+  
+  path.destination[path.name] = method;
+  
+  if(options && path.destination == this.prototype.modules){
+    this.prototype.options[name] = options; 
+  }
+  
+  return path.destination[path.name];
 };

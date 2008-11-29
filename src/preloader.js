@@ -36,7 +36,8 @@
     var elements = this.parent.share.element.children();
     this.loadedElements = elements.length;
     this.addEventListener("loadedImagedElement", this, this.loadedImagedElement);
-
+    this.addEventListener("loaded", this, function(){}, true);
+    
     elements.each(function(index, element) {
       dimensions[index] = {};
 
@@ -53,7 +54,7 @@
             height: 0,
             image: images[i]
           };
-          
+
           if(images[i].width > 0 && images[i].height > 0) {
             _this.dispatchEvent("loadedImagedElement", images.length-1, allImagesLoaded++, images[i], i, index);
           } else {
@@ -69,7 +70,7 @@
 
         }
       } else {
-        console.log("no images set");
+        throw("No images set");
       }
     });
 
@@ -80,11 +81,13 @@
       var dimensions = this.parent.share.dimensions[currentElementIndex][currentImageIndex];
       dimensions.width = image.width;
       dimensions.height = image.height;
-      
+
       if(totalImages == loadedImages){
         this.loadedElements--;
         this.dispatchEvent("loadedOne");
-        if(!this.loadedElements) this.dispatchEvent("loaded");
+        if(this.loadedElements < 1){
+          this.dispatchEvent("loaded");
+        }
       }
     }
   };
