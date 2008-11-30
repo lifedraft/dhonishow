@@ -9,6 +9,16 @@ var DhoniShow = function(element, options, index){
   this.event = new DhoniShow.event();
   
   for(var module in this.modules) {
+    
+    // alias options implementation
+    if(this.options_aliases[module] && this.options[module]) {
+      for (var i=0; i < this.options_aliases[module].length; i++) {
+        if(this.options[this.options_aliases[module][i]]){
+          jQuery.extend(this.options[module], this.options[this.options_aliases[module][i]]);
+        }
+      };
+    }
+    
     jQuery.extend(this.modules[module].prototype, Class, { options: this.options[module] });
     new this.modules[module]();
   }
@@ -16,7 +26,8 @@ var DhoniShow = function(element, options, index){
 
 DhoniShow.prototype = {
   modules: {},
-  options: {} 
+  options: {},
+  options_aliases: {}
 };
 
 DhoniShow.event = function(){};
@@ -106,13 +117,14 @@ DhoniShow.path = function(path, destination) {
   };
 };
 
-DhoniShow.register = function(name, method, options) {
+DhoniShow.register = function(name, method, options, aliases) {
   var path = this.path(name, this.prototype.modules);
   
   path.destination[path.name] = method;
   
   if(options && path.destination == this.prototype.modules){
-    this.prototype.options[name] = options; 
+    this.prototype.options[name] = options;
+    if(aliases) this.prototype.options_aliases[name] = aliases;
   }
   
   return path.destination[path.name];
