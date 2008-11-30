@@ -3,7 +3,8 @@ var DhoniShow = function(element, options, index){
 
   this.options = jQuery.extend(this.options, new this.options(element.className), options);
   this.share = {
-    element: jQuery(element)
+    element: jQuery(element),
+    current: 0
   };
   this.event = new DhoniShow.event();
   
@@ -76,6 +77,13 @@ DhoniShow.Class.prototype = {
   },
   dispatchEvent: function(){
     this.parent.event.dispatchEvent.apply(this.parent.event, arguments);
+  },
+  share: function(key, value){
+    if(value != undefined) {
+      return this.parent.share[key] = value;
+    }
+    
+    return this.parent.share[key];
   }
 };
 
