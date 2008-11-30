@@ -1,3 +1,32 @@
+/*
+  Allowed element structures:
+  
+  <div class="dhonishow">
+    <img src="#" />
+    <img src="#" />
+    <img src="#" />
+  </div>
+  
+  <ol class="dhonishow">
+    <li><img src="#" /></li>
+    <li><img src="#" /></li>
+    <li><img src="#" /></li>
+  </ol>
+  
+  <ul class="dhonishow">
+    <li><img src="#" /></li>
+    <li><img src="#" /></li>
+    <li><img src="#" /></li>
+  </ul>
+
+  <div class="dhonishow">
+    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
+    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
+    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
+  </div>
+  
+*/
+
 (function(){
 
   var template = DhoniShow.register("template", function() {
@@ -97,23 +126,20 @@
       '<div class="dhonishow-theme-helper">',
         '<a class="dhonishow-next-button next" title="Next">Next</a>',
         '<p class="dhonishow-paging">@current/@allpages</p>',
-        '<a class="dhonishow-previous-button previous" title="Previous">Back</a>',
+        '<a class="dhonishow-previous-button previous" title="Previous">Previous</a>',
       '</div>',
     '</div>'].join(""),
     
     current: function(placeholder){
-      placeholder.text("current");
-      //placeholder.text(this.parent.parent.shared.currentIndex+1);
+      placeholder.text(this.parent.share("current")+1);
     },
     
     allpages: function(placeholder){
-      placeholder.text("allpages");
-      //placeholder.text(this.parent.parent.shared.elements.length);
+      placeholder.text(this.parent.share("dimensions").length);
     },
     
     alt: function(placeholder) {
       placeholder.text("alt");
-      //placeholder.text("alt");
     }
   };
 })();

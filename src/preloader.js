@@ -1,45 +1,23 @@
-/*
-  Allowed element structures:
-  
-  <div class="dhonishow">
-    <img src="#" />
-    <img src="#" />
-    <img src="#" />
-  </div>
-  
-  <ol class="dhonishow">
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-  </ol>
-  
-  <ul class="dhonishow">
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-  </ul>
-
-  <div class="dhonishow">
-    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
-    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
-    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
-  </div>
-  
-*/
 
 (function(){
   var preloader = DhoniShow.register("preloader", function(){
-    var _this = this;
-    
-    var dimensions = this.parent.share.dimensions = [];
-    
-    var elements = this.parent.share.element.children();
-    this.loadedElements = elements.length;
     this.addEventListener("loadedImagedElement", this, this.loadedImagedElement);
     this.addEventListener("loaded", this, function(){}, true);
     
+    var _this = this;
+    
+    var dimensions = this.share("dimensions", []);
+    var elements = this.share("element").children();
+    this.loadedElements = elements.length;
+    this.setInitialWidth(this.share("element"));
+    
     elements.each(function(index, element) {
-      dimensions[index] = {};
+      var element = jQuery(element);
+      dimensions[index] = {
+        element: element,
+        dimensions: { width: element.width(), height: element.height()},
+        children: []
+      };
 
       var directChildrenImages = jQuery(this).filter("img").get();
       var childrenImages = jQuery(this).find("img").get();
@@ -49,7 +27,7 @@
 
       if(images.length > 0) {
         for (var i=0; i < images.length; i++) {
-          dimensions[index][i] = {
+          dimensions[index].children[i] = {
             width: 0,
             height: 0,
             image: images[i]
@@ -61,9 +39,7 @@
             
             images[i].onload = function(){
               var imageIndex = i;
-              /*
-                TODO i wird immer images.length-1 sein. Warum den wohl?
-              */
+              // TODO i wird immer images.length-1 sein. Warum den wohl?
               _this.dispatchEvent("loadedImagedElement", images.length-1, allImagesLoaded++, this, imageIndex, index);
             };
           }
@@ -78,7 +54,7 @@
 
   preloader.prototype = {
     loadedImagedElement: function(totalImages, loadedImages, image, currentImageIndex, currentElementIndex) {
-      var dimensions = this.parent.share.dimensions[currentElementIndex][currentImageIndex];
+      var dimensions = this.share("dimensions")[currentElementIndex].children[currentImageIndex];
       dimensions.width = image.width;
       dimensions.height = image.height;
 
@@ -89,6 +65,10 @@
           this.dispatchEvent("loaded");
         }
       }
+    },
+    
+    setInitialWidth: function(element){
+      element.css("width", element.width());
     }
   };
 })();

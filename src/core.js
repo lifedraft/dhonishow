@@ -37,7 +37,7 @@ DhoniShow.event.prototype = {
     if(!(event in this.events)) this.events[event] = [];
     
     /*
-    * notRepeatable == one time executed
+    * notrepeatable == one time executed
     */
     if(!(event in this.notrepeatable) && notrepeatable) this.notrepeatable[event] = false;
 
