@@ -37,6 +37,9 @@
         height = this.max.height;
       }
 
+      this.share("width", width);
+      this.share("height", height);
+
       if(this.options.elements == true) {
       
         for (var i=0; i < this.elements.length; i++) {
