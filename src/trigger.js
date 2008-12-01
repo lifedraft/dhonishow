@@ -2,6 +2,8 @@
   
   var trigger = DhoniShow.register("trigger", function(){
     this.addEventListener("loaded", this, this.addListeners, true);
+  }, {
+    endless: true
   });
   
   trigger.prototype = {
@@ -13,12 +15,30 @@
     
     next: function(element){
       var current = this.share("current");
-      this.dispatchEvent("update", current, this.share("current", ++current));
+      var total = this.share("dimensions").length;
+      if(!(current+1 < total) && this.options.endless) {
+        this.dispatchEvent("update", current, this.share("current", 0));
+        this.dispatchEvent("firstElement");
+      }
+      
+      if(current+1 < total) {
+        this.dispatchEvent("update", current, this.share("current", ++current));
+        if(current+1 < total) this.dispatchEvent("lastElement");
+      }
     },
     
     previous: function(element){
       var current = this.share("current");
-      this.dispatchEvent("update", current, this.share("current", --current));
+      var total = this.share("dimensions").length;
+      if(!(current > 0) && this.options.endless) {
+        this.dispatchEvent("update", current, this.share("current", total-1));
+        this.dispatchEvent("lastElement");
+      }
+      
+      if(current > 0) {
+        this.dispatchEvent("update", current, this.share("current", --current));
+        if(current > 0 ) this.dispatchEvent("firstElement");
+      }
     },
 
     events: {},
