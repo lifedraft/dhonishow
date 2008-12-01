@@ -1,10 +1,11 @@
 (function(){
   
   var autoplay = DhoniShow.register("autoplay", function(){
-
-    if(this.options == true || this.options.each > this.options.duration ) {
-      this.addEventListener("loaded", this, this.create, true);
-      this.addEventListener("update", this, this.create);
+    this.share("autoplay", this);
+    this.state = "stop";
+    
+    if(this.options.each > this.options.duration ) {
+      this.addEventListener("loaded", this, this.play, true);
     }
     
   }, {
@@ -13,9 +14,9 @@
   }, ["effect", "trigger"]);
   
   autoplay.prototype = {
-    create: function(){
+    play: function(){
       var _this = this;
-      this.executer = setTimeout(function(){
+      this.interval = setInterval(function(){
         
         if(_this.options.endless && !_this.options.random) _this.share("trigger").next();
         if(_this.options.random) {
@@ -24,8 +25,13 @@
           
           _this.share("trigger").next({}, next);
         }
-        
       }, this.options.each*1000);
+      return this.state = "play";
+    },
+    
+    stop: function(){
+      clearInterval(this.interval);
+      return this.state = "stop";
     }
   };
   
