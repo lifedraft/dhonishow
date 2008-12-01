@@ -18,12 +18,15 @@
       var _this = this;
       this.interval = setInterval(function(){
         
-        if(_this.options.endless && !_this.options.random) _this.share("trigger").next();
-        if(_this.options.random) {
+        if(_this.options.endless && !_this.options.random) {
+          _this.share("trigger").next();
+        } else if(_this.options.random) {
           var next = Math.round(Math.random() * (_this.share("dimensions").length-1));
           if(_this.share("current") == next) { _this.create(); return; }
           
           _this.share("trigger").next({}, next);
+        } else {
+          // TODO handle this like options.endless.
         }
       }, this.options.each*1000);
       return this.state = "play";
