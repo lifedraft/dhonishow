@@ -35,8 +35,8 @@
     // Initialize the templateReady as throttled event
     this.addEventListener("templateReady", this, function(){}, true);
     
-    this.element = this.parent.share.element;
-    this.dimensions = this.parent.share.dimensions;
+    this.element = this.share("element");
+    this.dimensions = this.share("dimensions");
 
     var Class = new this.Class(this);
 
@@ -101,7 +101,7 @@
       this.parent.element.children().wrap("<li class='dhonishow_module_base-element'></li>").
       parent().wrapAll('<ol class="dhonishow_module_base-elements"></ol>');
     }
-    
+    this.parent.share("dimensionsWrapper", this.parent.share("element").find(".dhonishow_module_base-elements"));
     this.dispatchEvent("templateBaseReady");
   });
 

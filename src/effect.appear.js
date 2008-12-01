@@ -14,7 +14,7 @@
     
     center: function() {
       this.parent.share("element").css("width", this.parent.share("width")+"px");
-      this.parent.share("element").find(".dhonishow_module_base-elements").css("height", this.parent.share("height"));
+      this.parent.share("dimensionsWrapper").css("height", this.parent.share("height"));
       var elements = this.parent.share("dimensions");
       var currenIndex = this.parent.share("current");
       
