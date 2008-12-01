@@ -2,7 +2,7 @@
   
   var effect = DhoniShow.register("effect", function(){
     var Class = new this.Class(this);
-    
+
     jQuery.extend(this.effects[this.options.name].prototype, Class, { options: this.options });
     new this.effects[this.options.name]();
     
