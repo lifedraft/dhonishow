@@ -1,0 +1,11 @@
+/* Effects  */
+
+.dhonishow-effect-helper {
+  position: relative;
+  overflow: hidden;
+}
+
+.effect_slide .dhonishow-elements {
+  position: absolute;
+  width: 100%;
+}

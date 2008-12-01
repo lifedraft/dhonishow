@@ -98,7 +98,8 @@
       this.parent.element[0].className = "";
       this.parent.element = newParent;
     } else {
-      this.parent.element.children().wrap("<li></li>").parent().wrapAll('<ol class="dhonishow_module_base-elements"></ol>');
+      this.parent.element.children().wrap("<li class='dhonishow_module_base-element'></li>").
+      parent().wrapAll('<ol class="dhonishow_module_base-elements"></ol>');
     }
     
     this.dispatchEvent("templateBaseReady");
