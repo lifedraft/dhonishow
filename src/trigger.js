@@ -4,7 +4,7 @@
     this.addEventListener("loaded", this, this.addListeners, true);
   }, {
     endless: true
-  });
+  }, ["paging"]);
   
   trigger.prototype = {
 
@@ -19,15 +19,17 @@
       if(!(current+1 < total) && this.options.endless) {
         this.dispatchEvent("update", current, this.share("current", 0));
         this.dispatchEvent("firstElement");
+        return false;
       }
       
       if(current+1 < total) {
         this.dispatchEvent("update", current, this.share("current", ++current));
         if(current+1 < total) this.dispatchEvent("lastElement");
+        return false;
       }
     },
     
-    previous: function(element){
+    previous: function(element) {
       var current = this.share("current");
       var total = this.share("dimensions").length;
       if(!(current > 0) && this.options.endless) {
