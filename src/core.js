@@ -1,20 +1,23 @@
 var DhoniShow = function(element, options, index){
   var Class = new DhoniShow.Class(this);
-
-  this.options = jQuery.extend(this.options, new this.options(element.className), options);
+  
+  var cssOptions = new this.options(element.className);
+  
+  this.options = cssOptions.extend(cssOptions.extend(this.options, cssOptions), options);
+  
   this.share = {
     element: jQuery(element),
     current: 0
   };
   this.event = new DhoniShow.event();
-  
+
   for(var module in this.modules) {
-    
-    // alias options implementation
-    if(this.options_aliases[module] && this.options[module]) {
-      for (var i=0; i < this.options_aliases[module].length; i++) {
-        if(this.options[this.options_aliases[module][i]]){
-          jQuery.extend(this.options[module], this.options[this.options_aliases[module][i]]);
+
+    // mixins options implementation
+    if(this.options[module] && this.options[module].mixins) {
+      for (var i=0; i < this.options[module].mixins.length; i++) {
+        if(this.options[this.options[module].mixins[i]]){
+          cssOptions.extend(this.options[module], this.options[this.options[module].mixins[i]]);
         }
       };
     }
@@ -117,14 +120,14 @@ DhoniShow.path = function(path, destination) {
   };
 };
 
-DhoniShow.register = function(name, method, options, aliases) {
+DhoniShow.register = function(name, method, options, mixins) {
   var path = this.path(name, this.prototype.modules);
   
   path.destination[path.name] = method;
   
   if(options && path.destination == this.prototype.modules){
-    this.prototype.options[name] = options;
-    if(aliases) this.prototype.options_aliases[name] = aliases;
+    this.prototype.options[path.name] = options;
+    if(mixins) this.prototype.options[path.name].mixins = mixins;
   }
   
   return path.destination[path.name];

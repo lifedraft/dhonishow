@@ -41,3 +41,15 @@ DhoniShow.prototype.options.prototype.recognizeValue = function(value){
   }
   return value;
 };
+
+DhoniShow.prototype.options.prototype.extend = function(root, second) {
+  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || smth.constructor === Array) };
+  var obj = root;
+  
+  for(var prop in second){
+    if(!(prop in obj) || isFlat(second[prop])){ obj[prop] = second[prop]; continue; }
+    obj[prop] = this.extend(obj[prop], second[prop]);
+  }
+
+  return obj;
+};
