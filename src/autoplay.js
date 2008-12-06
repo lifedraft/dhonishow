@@ -9,25 +9,26 @@
     }
   }, {
     each: 0,
-    random: false,
-    mixins: ["effect", "trigger"]
+    random: false
   });
   
   autoplay.prototype = {
-    play: function(){
+    play: function() {
       var _this = this;
       this.stop();
       this.interval = setInterval(function(){
-        
-        if(_this.options.endless && !_this.options.random) {
-          _this.share("trigger").next();
-        } else if(_this.options.random) {
-          var next = Math.round(Math.random() * (_this.share("dimensions").length-1));
+
+        if(!_this.options.random) {
+          if(_this.share("current")+1 == _this.share("elements").length){ 
+            _this.share("trigger").next({}, 0);
+          } else {
+            _this.share("trigger").next();
+          }
+        } else {
+          var next = Math.round(Math.random() * (_this.share("elements").length-1));
           if(_this.share("current") == next) { _this.play(); return; }
           
           _this.share("trigger").next({}, next);
-        } else {
-          // TODO handle this like options.endless.
         }
       }, this.options.each*1000);
       return this.state = "play";

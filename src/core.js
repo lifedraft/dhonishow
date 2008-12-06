@@ -1,6 +1,6 @@
 var DhoniShow = function(element, options, index){
   var Class = new DhoniShow.Class(this);
-    
+
   this.options = DhoniShow.mixin(this.options, new this.options(element.className), options);
   
   this.share = {
@@ -98,8 +98,8 @@ DhoniShow.Class.prototype = {
   }
 };
 
-DhoniShow.mixin = function (root){
-  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || smth.constructor === Array) };
+DhoniShow.mixin = function (root) {
+  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || smth.constructor === Array || smth.constructor === Boolean) };
   var obj = root;
   
   for (var i=1; i < arguments.length; i++) {

@@ -3,7 +3,7 @@
   var preloader = DhoniShow.register("preloader", function() {
     this.addEventListener("loadedImagedElement", this, this.loadedImagedElement);
     this.addEventListener("loaded", this, function(){}, true);
-    this.addEventListener("templateReady", this, this.templateBaseReady, true);
+    this.addEventListener("afterTemplate", this, this.templateBaseReady, true);
   });
 
   preloader.prototype = {

@@ -1,10 +1,10 @@
 (function(){
 
   var template = DhoniShow.register("template", function() {
+    this.addEventListener("beforeTemplate", this, function(){}, true);
 
-    // Initialize the templateReady as throttled event
-    this.addEventListener("templateReady", this, function(){}, true);
-    
+    this.addEventListener("afterTemplate", this, function(){}, true);
+
     var Class = new this.Class(this);
 
     for(var module in this.modules) {
@@ -12,7 +12,7 @@
       new this.modules[module]();
     }
 
-    this.dispatchEvent("templateReady");
+    this.dispatchEvent("afterTemplate");
   });
 
   template.prototype.Class = function(parent){
