@@ -7,7 +7,7 @@
 
   appear.prototype = {
     update: function(current, next) {
-      var elements = this.parent.share("dimensions");
+      var elements = this.parent.share("elements");
       elements[current].element.animate({ opacity: "toggle" }, this.options.duration*1000);
       elements[next].element.animate({ opacity: "toggle" }, this.options.duration*1000);
     },
@@ -15,7 +15,7 @@
     center: function() {
       this.parent.share("element").css("width", this.parent.share("width")+"px");
       this.parent.share("dimensionsWrapper").css("height", this.parent.share("height"));
-      var elements = this.parent.share("dimensions");
+      var elements = this.parent.share("elements");
       var currenIndex = this.parent.share("current");
       
       for (var i=0; i < elements.length; i++) {

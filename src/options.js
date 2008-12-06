@@ -13,7 +13,7 @@ DhoniShow.prototype.options = function(string) {
       if(path.indexOf("-") != -1) {
         var path = path.split("-");
 
-        for(var j = 0; j < path.length; j++ ){
+        for(var j = 0; j < path.length; j++ ) {
           name = path[j];
           
           if(!(name in destination)) {
@@ -33,23 +33,11 @@ DhoniShow.prototype.options = function(string) {
   }
 };
 
-DhoniShow.prototype.options.prototype.recognizeValue = function(value){
+DhoniShow.prototype.options.prototype.recognizeValue = function(value) {
   if(value == "true") return true;
   if(value == "false") return false;
   if( (/dot/).test(value) ){
     return value = Number( value.replace(/dot/, ".") );
   }
   return value;
-};
-
-DhoniShow.prototype.options.prototype.extend = function(root, second) {
-  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || smth.constructor === Array) };
-  var obj = root;
-  
-  for(var prop in second){
-    if(!(prop in obj) || isFlat(second[prop])){ obj[prop] = second[prop]; continue; }
-    obj[prop] = this.extend(obj[prop], second[prop]);
-  }
-
-  return obj;
 };

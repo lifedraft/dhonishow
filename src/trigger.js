@@ -1,11 +1,12 @@
 (function(){
   
-  var trigger = DhoniShow.register("trigger", function(){
+  var trigger = DhoniShow.register("trigger", function() {
     this.addEventListener("loaded", this, this.addListeners, true);
     this.share("trigger", this);
   }, {
-    endless: true
-  }, ["paging"]);
+    endless: true,
+    mixins: ["paging"]
+  });
   
   trigger.prototype = {
 
@@ -16,7 +17,7 @@
     
     next: function(element, next){
       var current = this.share("current");
-      var total = this.share("dimensions").length;
+      var total = this.share("elements").length;
       
       if(next) {
         next = next;
@@ -31,7 +32,7 @@
     
     previous: function(element, next) {
       var current = this.share("current");
-      var total = this.share("dimensions").length;
+      var total = this.share("elements").length;
 
       if(next) {
         next = next;

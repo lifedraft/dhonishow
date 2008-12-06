@@ -1,7 +1,7 @@
 (function(){
   
   var center = DhoniShow.register("center", function(){
-    this.elements = this.share("dimensions");
+    this.elements = this.share("elements");
     this.max = { width: 0, height: 0 };
     
     this.addEventListener("loaded", this, this.center, true);
@@ -14,13 +14,13 @@
   
   center.prototype = {
     center: function() {
+      var elements = this.share("elements");
       for (var i=0; i < this.elements.length; i++) {
-        var element = this.share("dimensions")[i].element = this.elements[i].element.parent();
-        var dimensions = this.share("dimensions")[i].dimensions;
+        var dimensions = elements[i].dimensions;
         if(this.max.width < dimensions.width) this.max.width = dimensions.width;
         if(this.max.height < dimensions.height) this.max.height = dimensions.height;
       };
-      
+
       var width;
       if(this.options.fullwidth) {
         width = this.share("element").width();
@@ -57,7 +57,7 @@
             dimensions.paddingTop = 0;
             dimensions.marginTop = -offsetHeight;
           } else dimensions.paddingTop = -offsetHeight;
-        };
+        }
       }
     }
   };

@@ -1,43 +1,10 @@
-/*
-  Allowed element structures:
-  
-  <div class="dhonishow">
-    <img src="#" />
-    <img src="#" />
-    <img src="#" />
-  </div>
-  
-  <ol class="dhonishow">
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-  </ol>
-  
-  <ul class="dhonishow">
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-    <li><img src="#" /></li>
-  </ul>
-
-  <div class="dhonishow">
-    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
-    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
-    <div class="dhonishow-element"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p></div>
-  </div>
-  
-*/
-
 (function(){
 
   var template = DhoniShow.register("template", function() {
-    this.addEventListener("loaded", this, this.loaded, true);
 
     // Initialize the templateReady as throttled event
     this.addEventListener("templateReady", this, function(){}, true);
     
-    this.element = this.share("element");
-    this.dimensions = this.share("dimensions");
-
     var Class = new this.Class(this);
 
     for(var module in this.modules) {
@@ -46,15 +13,7 @@
     }
 
     this.dispatchEvent("templateReady");
-  }, {
-    manipulate: true
   });
-
-  template.prototype = {
-    loaded: function(){
-      
-    }
-  };
 
   template.prototype.Class = function(parent){
     this.parent = parent;
@@ -83,40 +42,55 @@
     },
     
     giveModluePlaceholder: function(name){
-      return this.parent.element.find("."+this._modulePlaceholders[name]);
+      return this.parent.share("element").find("."+this._modulePlaceholders[name]);
     }
   };
   
   var base = DhoniShow.register("template.prototype.modules.base", function(){
     this.addEventListener("templateBaseReady", this, function(){}, true);
-    
-    var tagName = this.parent.element[0].tagName;
-    var classNames = this.parent.element[0].className;
-    if(tagName == "OL"){
+    var element = this.parent.share("element");
+    var tagName = element[0].tagName;
+    var classNames = element[0].className;
+    var elements = [];
+    if(tagName == "OL") {
+
       var newParent = jQuery("<div class='"+classNames+"'></div>");
-      this.parent.element.wrap(newParent);
-      this.parent.element[0].className = "";
-      this.parent.element = newParent;
+      element.wrap(newParent);
+      elements = element.children().addClass("dhonishow_module_base-element");
+      element[0].className = "dhonishow_module_base-elements";
+      this.parent.share("element", element.parent());
+
     } else {
-      this.parent.element.children().wrap("<li class='dhonishow_module_base-element'></li>").
-      parent().wrapAll('<ol class="dhonishow_module_base-elements"></ol>');
+
+      elements = this.parent.share("element").children().wrap("<li class='dhonishow_module_base-element'></li>").parent();
+      elements.wrapAll('<ol class="dhonishow_module_base-elements"></ol>');
     }
+
     this.parent.share("dimensionsWrapper", this.parent.share("element").find(".dhonishow_module_base-elements"));
+    this.setElements(elements);
     this.dispatchEvent("templateBaseReady");
   });
 
+  base.prototype = {
+    setElements: function(elements){
+      var domElements = [];
+      for (var i=0; i < elements.length; i++) {
+        domElements.push({ element: jQuery(elements[i]) });
+      };
+      this.parent.share("elements", domElements);
+    }
+  };
 
-  var navigation = DhoniShow.register("template.prototype.modules.navigation", function(){
+  var navigation = DhoniShow.register("template.prototype.modules.navigation", function() {
     this.addEventListener("templateBaseReady", this, this.templateBaseReady, true);
-    
   });
 
   navigation.prototype = {
     templateBaseReady: function(){
       this.placeholders();
-      this.parent.element.append(this.template);
+      this.parent.share("element").append(this.template);
       this.invokeModules();
-      
+
       this.addEventListener("update", this, this.current, this.giveModluePlaceholder("current"));
       this.addEventListener("update", this, this.allpages, this.giveModluePlaceholder("allpages"));
       this.addEventListener("update", this, this.alt, this.giveModluePlaceholder("alt"));
@@ -136,7 +110,7 @@
     },
     
     allpages: function(placeholder){
-      placeholder.text(this.parent.share("dimensions").length);
+      placeholder.text(this.parent.share("elements").length);
     },
     
     alt: function(placeholder) {

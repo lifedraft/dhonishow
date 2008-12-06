@@ -3,26 +3,27 @@
   var autoplay = DhoniShow.register("autoplay", function(){
     this.share("autoplay", this);
     this.state = "stop";
-    
-    if(this.options.each > this.options.duration ) {
+
+    if(this.options.each) {
       this.addEventListener("loaded", this, this.play, true);
     }
-    
   }, {
-    each: 2,
-    random: true
-  }, ["effect", "trigger"]);
+    each: 0,
+    random: false,
+    mixins: ["effect", "trigger"]
+  });
   
   autoplay.prototype = {
     play: function(){
       var _this = this;
+      this.stop();
       this.interval = setInterval(function(){
         
         if(_this.options.endless && !_this.options.random) {
           _this.share("trigger").next();
         } else if(_this.options.random) {
           var next = Math.round(Math.random() * (_this.share("dimensions").length-1));
-          if(_this.share("current") == next) { _this.create(); return; }
+          if(_this.share("current") == next) { _this.play(); return; }
           
           _this.share("trigger").next({}, next);
         } else {

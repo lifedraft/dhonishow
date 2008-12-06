@@ -1,9 +1,7 @@
 var DhoniShow = function(element, options, index){
   var Class = new DhoniShow.Class(this);
-  
-  var cssOptions = new this.options(element.className);
-  
-  this.options = cssOptions.extend(cssOptions.extend(this.options, cssOptions), options);
+    
+  this.options = DhoniShow.mixin(this.options, new this.options(element.className), options);
   
   this.share = {
     element: jQuery(element),
@@ -16,10 +14,10 @@ var DhoniShow = function(element, options, index){
     // mixins options implementation
     if(this.options[module] && this.options[module].mixins) {
       for (var i=0; i < this.options[module].mixins.length; i++) {
-        if(this.options[this.options[module].mixins[i]]){
-          cssOptions.extend(this.options[module], this.options[this.options[module].mixins[i]]);
+        if(this.options[this.options[module].mixins[i]]) {
+          DhoniShow.mixin(this.options[module], this.options[this.options[module].mixins[i]]);
         }
-      };
+      }
     }
     
     jQuery.extend(this.modules[module].prototype, Class, { options: this.options[module] });
@@ -29,8 +27,7 @@ var DhoniShow = function(element, options, index){
 
 DhoniShow.prototype = {
   modules: {},
-  options: {},
-  options_aliases: {}
+  options: {}
 };
 
 DhoniShow.event = function(){};
@@ -101,6 +98,21 @@ DhoniShow.Class.prototype = {
   }
 };
 
+DhoniShow.mixin = function (root){
+  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || smth.constructor === Array) };
+  var obj = root;
+  
+  for (var i=1; i < arguments.length; i++) {
+    var extender = arguments[i];
+
+    for(var prop in extender){
+      if(!(prop in obj) || isFlat(extender[prop])){ obj[prop] = extender[prop]; continue; }
+      obj[prop] = this.mixin(obj[prop], extender[prop]);
+    }
+  };
+  return obj;
+};
+
 DhoniShow.path = function(path, destination) {
   path = path.split(".");
   
@@ -109,7 +121,6 @@ DhoniShow.path = function(path, destination) {
       if(i != path.length-1) {
         if(!(path[i] in destination)) destination[path[i]] = {};
         destination = destination[path[i]];
-      } else {
       }
     };
   }
@@ -127,7 +138,6 @@ DhoniShow.register = function(name, method, options, mixins) {
   
   if(options && path.destination == this.prototype.modules){
     this.prototype.options[path.name] = options;
-    if(mixins) this.prototype.options[path.name].mixins = mixins;
   }
   
   return path.destination[path.name];
