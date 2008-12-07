@@ -1,38 +1,21 @@
 /* Thumbnails */
 
-.dhonishow .dhonishow-thumbnails {
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;
-  padding-top: 3px;
-  margin-bottom: -1px;
+.dhonishow .dhonishow_module_thumbnails-wrapper {
   overflow: hidden;
   width: 100%;
 }
 
-.dhonishow .dhonishow-thumbnails li {
+.dhonishow .dhonishow_module_thumbnails-wrapper li {
   float: left;
   overflow: hidden;
-  margin-right: 3px;
-  margin-bottom: 3px;
-  width: 55px;
-  height: 55px;
   position: relative;
 }
 
-.dhonishow .dhonishow-thumbnails li * {
-  position: absolute;
+.dhonishow .dhonishow_module_thumbnails-wrapper li * {
+/*  position: absolute;*/
 }
 
-.dhonishow .dhonishow-thumbnails .active {
+.dhonishow .dhonishow_module_thumbnails-wrapper .thumbnail_active a.dhonishow_change{
+  border-top: 10px solid #0096FF;
   display: block;
-  border: 1px solid #fff;
-  position: relative;
-  width: 53px;
-  height: 53px;
-}
-
-.dhonishow .dhonishow-image-loading {
-  position: absolute;
-  top: -1000em;
-  left: -1000em;
 }

@@ -1,6 +1,7 @@
 (function(){
 
   var template = DhoniShow.register("template", function() {
+    this.share("template", this);
     this.addEventListener("beforeTemplate", this, function(){}, true);
 
     this.addEventListener("afterTemplate", this, function(){}, true);

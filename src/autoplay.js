@@ -19,7 +19,7 @@
       this.interval = setInterval(function(){
 
         if(!_this.options.random) {
-          if(_this.share("current")+1 == _this.share("elements").length){ 
+          if(_this.share("current")+1 == _this.share("elements").length) {
             _this.share("trigger").next({}, 0);
           } else {
             _this.share("trigger").next();

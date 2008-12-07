@@ -18,8 +18,8 @@
     next: function(element, next){
       var current = this.share("current");
       var total = this.share("elements").length;
-      
-      if(next) {
+
+      if(next || next == 0) {
         next = next;
       } else if(!(current+1 < total) && this.options.endless) {
         next = 0;
@@ -34,7 +34,7 @@
       var current = this.share("current");
       var total = this.share("elements").length;
 
-      if(next) {
+      if(next || next == 0) {
         next = next;
       } else if(!(current > 0) && this.options.endless) {
         next = total-1;
@@ -46,16 +46,16 @@
     },
 
     events: {},
-    delegate: function(event, className, func, target){
+    delegate: function(event, className, func, target) {
       this.bind(event, target || this.share("element"));
       if(!(event in this.events)) this.events[event] = {};
       this.events[event][className] = func;
     },
     
-    bind: function(event, target){
+    bind: function(event, target) {
       var _this = this;
       if(!(event in this.events)) {
-        target.bind(event, (function(){
+        target.bind(event, (function(){ 
           return function(){
             return _this.event.apply(_this, arguments);
         };})());

@@ -36,10 +36,8 @@
             if(images[i].width > 0 && images[i].height > 0) {
               _this.dispatchEvent("loadedImagedElement", images.length-1, allImagesLoaded++, images[i], i, index);
             } else {
-
-              images[i].onload = function(){
-                var imageIndex = i;
-                // TODO i wird immer images.length-1 sein. Warum den wohl?
+              var imageIndex = i;
+              images[i].onload = function() {
                 _this.dispatchEvent("loadedImagedElement", images.length-1, allImagesLoaded++, this, imageIndex, index);
               };
             }
@@ -52,9 +50,15 @@
     },
     
     loadedImagedElement: function(totalImages, loadedImages, image, currentImageIndex, currentElementIndex) {
-      var dimensions = this.share("elements")[currentElementIndex].children[currentImageIndex];
-      dimensions.width = image.width;
-      dimensions.height = image.height;
+      var dimensions = this.share("elements");
+      dimensions[currentElementIndex].children[currentImageIndex].width = image.width;
+      dimensions[currentElementIndex].children[currentImageIndex].height = image.height;
+      var wrapperElement = dimensions[currentElementIndex].element;
+      dimensions[currentElementIndex].dimensions.width = wrapperElement.width();
+      dimensions[currentElementIndex].dimensions.height = wrapperElement.height();
+      
+      this.share("elements", dimensions);
+      
 
       if(totalImages == loadedImages){
         this.loadedElements--;
