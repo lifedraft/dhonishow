@@ -5,7 +5,8 @@ var DhoniShow = function(element, options, index){
   
   this.share = {
     element: jQuery(element),
-    current: 0
+    current: 0,
+    index: index
   };
   this.event = new DhoniShow.event();
 
