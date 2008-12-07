@@ -2,8 +2,6 @@
 
   var template = DhoniShow.register("template", function() {
     this.share("template", this);
-    this.addEventListener("beforeTemplate", this, function(){}, true);
-
     this.addEventListener("afterTemplate", this, function(){}, true);
 
     var Class = new this.Class(this);
@@ -47,7 +45,7 @@
     }
   };
   
-  var base = DhoniShow.register("template.prototype.modules.base", function(){
+  var base = DhoniShow.register("template.prototype.modules.base", function() {
     this.addEventListener("templateBaseReady", this, function(){}, true);
     var element = this.parent.share("element");
     var tagName = element[0].tagName;
@@ -64,7 +62,7 @@
     } else {
 
       elements = this.parent.share("element").children().wrap("<li class='dhonishow_module_base-element'></li>").parent();
-      elements.wrapAll('<ol class="dhonishow_module_base-elements"></ol>');
+      elements.wrapAll('<div class="dhonishow_module_base"><ol class="dhonishow_module_base-elements"></ol></div>');
     }
 
     this.parent.share("dimensionsWrapper", this.parent.share("element").find(".dhonishow_module_base-elements"));
@@ -89,7 +87,7 @@
   navigation.prototype = {
     templateBaseReady: function(){
       this.placeholders();
-      this.parent.share("element").append(this.template);
+      this.parent.share("element").find(".dhonishow_module_base").append(this.template);
       this.invokeModules();
 
       this.addEventListener("update", this, this.current, this.giveModluePlaceholder("current"));

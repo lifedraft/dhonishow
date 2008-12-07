@@ -31,8 +31,14 @@
   top: 0;
 }
 
-.dhonishow .dhonishow_module_base-element * {
+/*.dhonishow .dhonishow_module_base-element * {
   line-height: 1px;
+}*/
+
+.dhonishow .dhonishow_module_base {
+  overflow: visible;
+  width: 100%;
+  position: relative;
 }
 
 

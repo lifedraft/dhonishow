@@ -15,8 +15,6 @@
     effects: {}
   };
   
-  // TODO Abstract this one and one in the template class
-  
   effect.prototype.Class = function(parent){
     this.parent = parent;
   };
