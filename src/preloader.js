@@ -20,16 +20,21 @@
       jQuery.each(this.share("elements"), function(index, element) {
         
         var domElement = jQuery(element.element);
-        element.dimensions = { width: domElement.width(), height: domElement.height()};
         element.children = [];
 
-        var directChildrenImages = domElement.filter("img").get();
-        var childrenImages = domElement.find("img").get();
-        var images = directChildrenImages.concat(childrenImages);
+        var childrenElements = domElement.find("*").length;
+
+        
+        var images = domElement.find("img").get();
         var allImagesLoaded = 0;
 
-
         if(images.length > 0) {
+          element.dimensions = { width: domElement.width(), height: domElement.height()};
+          
+          if(childrenElements != images.length) {
+            domElement.removeClass("dhonishow_module_base-element").addClass("dhonishow_module_base-image-text-element");
+          }
+          
           for (var i=0; i < images.length; i++) {
             element.children[i] = {
               width: 0,
@@ -50,7 +55,9 @@
             }
           }
         } else {
-          throw("No images set");
+          domElement.removeClass("dhonishow_module_base-element").addClass("dhonishow_module_base-text-element");
+          element.dimensions = { width: domElement.width(), height: domElement.height()};
+          _this.loadedTextElement();
         }
       });
     },
@@ -71,6 +78,14 @@
         if(this.loadedElements < 1){
           this.dispatchEvent("loaded");
         }
+      }
+    },
+    
+    loadedTextElement: function(){
+      this.loadedElements--;
+      this.dispatchEvent("loadedOne");
+      if(this.loadedElements < 1) {
+        this.dispatchEvent("loaded");
       }
     },
     

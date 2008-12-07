@@ -16,7 +16,7 @@
     mixins: ["trigger"]
   });
 
-  template.prototype.Class = function(parent){
+  template.prototype.Class = function(parent) {
     this.parent = parent;
   };
 
@@ -108,7 +108,7 @@
       '</div>',
     '</div>'].join(""),
     
-    current: function(placeholder){
+    current: function(placeholder) {
       placeholder.text(this.parent.share("current")+1);
     },
     
