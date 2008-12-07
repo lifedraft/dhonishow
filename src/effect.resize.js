@@ -7,7 +7,7 @@
   
   resize.prototype = {
     update: function(current, next){
-      var elements = this.parent.share("dimensions");
+      var elements = this.parent.share("elements");
       var duration = this.options.duration*1000;
       elements[current].element.animate({ opacity: "toggle" }, duration);
       elements[next].element.animate({ opacity: "toggle" }, duration);
@@ -17,7 +17,7 @@
     },
     
     center: function(){
-      var elements = this.parent.share("dimensions");
+      var elements = this.parent.share("elements");
       var reversed = [].concat(elements).reverse(); // Ugly but we want to break the reference
       var current = this.parent.share("current");
       

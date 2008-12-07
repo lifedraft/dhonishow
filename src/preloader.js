@@ -1,5 +1,5 @@
 
-(function(){
+(function() {
   var preloader = DhoniShow.register("preloader", function() {
     this.addEventListener("loadedImagedElement", this, this.loadedImagedElement);
     this.addEventListener("loaded", this, this.hideLoading, true);

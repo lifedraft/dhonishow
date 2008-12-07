@@ -12,6 +12,8 @@
     }
 
     this.dispatchEvent("afterTemplate");
+  }, {
+    mixins: ["trigger"]
   });
 
   template.prototype.Class = function(parent){
@@ -93,6 +95,8 @@
       this.addEventListener("update", this, this.current, this.giveModluePlaceholder("current"));
       this.addEventListener("update", this, this.allpages, this.giveModluePlaceholder("allpages"));
       this.addEventListener("update", this, this.alt, this.giveModluePlaceholder("alt"));
+      this.addEventListener("update", this, this.next, this.parent.share("element").find(".next"));
+      this.addEventListener("update", this, this.previous, this.parent.share("element").find(".previous"));
     },
         
     template: ['<p class="dhonishow-alt">@alt</p>', // TODO Remove this array
@@ -114,6 +118,22 @@
     
     alt: function(placeholder) {
       placeholder.text("alt");
+    },
+    
+    previous: function(placeholder, current, next){
+      if(!this.options.endless && next == 0) {
+        placeholder.css("visibility", "hidden");
+      } else {
+        placeholder.css("visibility", "");
+      }
+    },
+    
+    next: function(placeholder, current, next){
+      if(!this.options.endless && this.parent.share("elements").length-1 == next) {
+        placeholder.css("visibility", "hidden");
+      } else {
+        placeholder.css("visibility", "");
+      }
     }
   };
 })();
