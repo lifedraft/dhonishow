@@ -10,7 +10,7 @@ jQuery.fn.flickrdhonishow = function(){
       buildDom();
     };
 
-    jQuery.getScript(href+"&jsoncallback="+functionName);
+    jQuery.getScript(href+"&format=json&jsoncallback="+functionName);
 
     var buildDom = function() {
       element.text("");
