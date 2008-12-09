@@ -1,6 +1,8 @@
 (function(){
   
-  var autoplay = DhoniShow.register("autoplay", function(){
+  var autoplay = DhoniShow.register("autoplay", function(parent){
+    this.parent = parent;
+    
     this.share("autoplay", this);
     this.state = "stop";
 

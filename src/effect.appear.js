@@ -1,6 +1,8 @@
 (function(){
   
-  var appear = DhoniShow.register("effect.prototype.effects.appear", function(){
+  var appear = DhoniShow.register("effect.prototype.effects.appear", function(parent){
+    this.parent = parent;
+    
     this.addEventListener("loaded", this, this.center, true);
     this.addEventListener("update", this, this.update);
   });

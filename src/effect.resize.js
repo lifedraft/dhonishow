@@ -1,6 +1,8 @@
 (function(){
   
-  var resize = DhoniShow.register("effect.prototype.effects.resize", function(){
+  var resize = DhoniShow.register("effect.prototype.effects.resize", function(parent){
+    this.parent = parent;
+    
     this.addEventListener("loaded", this, this.center, true);
     this.addEventListener("update", this, this.update);
   });

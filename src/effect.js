@@ -1,23 +1,21 @@
 (function(){
   
-  var effect = DhoniShow.register("effect", function(){
-    var Class = new this.Class(this);
+  var effect = DhoniShow.register("effect", function(parent){
+    this.parent = parent;
+    
+    var Class = new this.Class();
 
     jQuery.extend(this.effects[this.options.name].prototype, Class, { options: this.options });
-    new this.effects[this.options.name]();
+    new this.effects[this.options.name](this);
     
   }, {
     name: "appear",
     duration: 0.6
   });
   
-  effect.prototype = {
-    effects: {}
-  };
+  effect.prototype = {};
   
-  effect.prototype.Class = function(parent){
-    this.parent = parent;
-  };
+  effect.prototype.Class = function(){};
   
   effect.prototype.Class.prototype = {
     addEventListener: function(){

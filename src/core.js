@@ -1,5 +1,5 @@
 var DhoniShow = function(element, options, index){
-  var Class = new DhoniShow.Class(this);
+  var Class = new DhoniShow.Class();
 
   this.options = DhoniShow.mixin(this.options, new this.options(element.className), options);
   
@@ -21,20 +21,22 @@ var DhoniShow = function(element, options, index){
       }
     }
     
-    jQuery.extend(this.modules[module].prototype, Class, { options: this.options[module] });
-    new this.modules[module]();
+    var ModuleInstance = this.modules[module];
+    ModuleInstance.prototype = DhoniShow.mixin({}, this.modules[module].prototype, Class, { options: this.options[module] });
+    new ModuleInstance(this);
   }
 };
 
-DhoniShow.prototype = {
-  modules: {},
-  options: {}
-};
+DhoniShow.prototype = {};
 
-DhoniShow.event = function(){};
+DhoniShow.event = function(){
+  this.events = {};
+  this.notrepeatable = {};
+};
 
 DhoniShow.event.prototype = {
   addEventListener: function(event, scope, method, notrepeatable /*, n args */) {
+    
     if(!(event in this.events)) this.events[event] = [];
     
     /*
@@ -74,13 +76,11 @@ DhoniShow.event.prototype = {
 
       eventScope.method.apply(eventScope.scope, args || eventScope.args);
     }
-  },
-  events: {},
-  notrepeatable: {}
+  }
 };
 
-DhoniShow.Class = function(parent){
-  this.parent = parent;
+DhoniShow.Class = function() {
+  // this.parent = parent;
 };
 
 DhoniShow.Class.prototype = {
@@ -100,7 +100,8 @@ DhoniShow.Class.prototype = {
 };
 
 DhoniShow.mixin = function (root) {
-  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || smth.constructor === Array || smth.constructor === Boolean) };
+  var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || 
+    smth.constructor === Array || smth.constructor === Boolean) };
   var obj = root;
   
   for (var i=1; i < arguments.length; i++) {
@@ -133,11 +134,12 @@ DhoniShow.path = function(path, destination) {
 };
 
 DhoniShow.register = function(name, method, options, mixins) {
-  var path = this.path(name, this.prototype.modules);
+  var path = this.path(name, this.prototype.modules ? this.prototype.modules : this.prototype.modules = {});
   
   path.destination[path.name] = method;
   
   if(options && path.destination == this.prototype.modules){
+    if(!this.prototype.options) this.prototype.options = {};
     this.prototype.options[path.name] = options;
   }
   

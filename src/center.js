@@ -1,6 +1,8 @@
 (function(){
   
-  var center = DhoniShow.register("center", function(){
+  var center = DhoniShow.register("center", function(parent){
+    this.parent = parent;
+    
     this.elements = this.share("elements");
     this.max = { width: 0, height: 0 };
     

@@ -1,6 +1,8 @@
 
 (function() {
-  var preloader = DhoniShow.register("preloader", function() {
+  var preloader = DhoniShow.register("preloader", function(parent) {
+    this.parent = parent;
+    
     this.addEventListener("loadedImagedElement", this, this.loadedImagedElement);
     this.addEventListener("loaded", this, this.hideLoading, true);
     this.addEventListener("afterTemplate", this, this.templateBaseReady, true);

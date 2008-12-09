@@ -1,14 +1,16 @@
 (function(){
 
-  var template = DhoniShow.register("template", function() {
+  var template = DhoniShow.register("template", function(parent) {
+    this.parent = parent;
+    
     this.share("template", this);
     this.addEventListener("afterTemplate", this, function(){}, true);
 
-    var Class = new this.Class(this);
+    var Class = new this.Class();
 
     for(var module in this.modules) {
       jQuery.extend(this.modules[module].prototype, Class, { options: this.options, _moduleName: module });
-      new this.modules[module]();
+      new this.modules[module](this);
     }
 
     this.dispatchEvent("afterTemplate");
@@ -16,9 +18,7 @@
     mixins: ["trigger"]
   });
 
-  template.prototype.Class = function(parent) {
-    this.parent = parent;
-  };
+  template.prototype.Class = function() {};
 
   template.prototype.Class.prototype = {
     addEventListener: function(){
@@ -47,7 +47,9 @@
     }
   };
   
-  var base = DhoniShow.register("template.prototype.modules.base", function() {
+  var base = DhoniShow.register("template.prototype.modules.base", function(parent) {
+    this.parent = parent;
+    
     this.addEventListener("templateBaseReady", this, function(){}, true);
     var element = this.parent.share("element");
     var tagName = element[0].tagName;
@@ -82,7 +84,8 @@
     }
   };
 
-  var navigation = DhoniShow.register("template.prototype.modules.navigation", function() {
+  var navigation = DhoniShow.register("template.prototype.modules.navigation", function(parent) {
+    this.parent = parent;
     this.addEventListener("templateBaseReady", this, this.templateBaseReady, true);
   });
 
