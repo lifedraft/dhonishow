@@ -12,10 +12,9 @@
       jQuery.extend(this.modules[module].prototype, Class, { options: this.options, _moduleName: module });
       new this.modules[module](this);
     }
-
     this.dispatchEvent("afterTemplate");
   }, {
-    mixins: ["trigger"]
+    mixins: ["trigger", "effect"]
   });
 
   template.prototype.Class = function() {};
@@ -120,7 +119,15 @@
     },
     
     alt: function(placeholder) {
-      placeholder.text("alt");
+      var titledAltedElements = this.parent.share("elements")[this.parent.share("current")].element.find("*[alt], *[title]");
+      
+      if(titledAltedElements.attr("alt").length != 0) {
+        placeholder.text(titledAltedElements.attr("alt"));
+      }
+      
+      if(titledAltedElements.attr("title").length != 0) {
+        placeholder.text(titledAltedElements.attr("title"));
+      }
     },
     
     previous: function(placeholder, current, next){

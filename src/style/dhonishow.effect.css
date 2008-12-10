@@ -1,11 +1,10 @@
 /* Effects  */
 
-.dhonishow-effect-helper {
+.dhonishow .dhonishow_module_effect_slide-themehelper {
   position: relative;
   overflow: hidden;
 }
 
-.effect_slide .dhonishow-elements {
-  position: absolute;
-  width: 100%;
+.dhonishow_module_effect_slide-themehelper .dhonishow_module_base-elements {
+  overflow: visible;
 }

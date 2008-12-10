@@ -11,16 +11,17 @@ var DhoniShow = function(element, options, index){
   this.event = new DhoniShow.event();
 
   for(var module in this.modules) {
-
+    
     // mixins options implementation
     if(this.options[module] && this.options[module].mixins) {
-      for (var i=0; i < this.options[module].mixins.length; i++) {
-        if(this.options[this.options[module].mixins[i]]) {
-          DhoniShow.mixin(this.options[module], this.options[this.options[module].mixins[i]]);
+      var mixins = this.options[module].mixins;
+      for (var i=0; i < mixins.length; i++) {
+        if(this.options[mixins[i]]) {
+          DhoniShow.mixin(this.options[module], this.options[mixins[i]]);
         }
       }
     }
-    
+
     var ModuleInstance = this.modules[module];
     ModuleInstance.prototype = DhoniShow.mixin({}, this.modules[module].prototype, Class, { options: this.options[module] });
     new ModuleInstance(this);
@@ -101,7 +102,7 @@ DhoniShow.Class.prototype = {
 
 DhoniShow.mixin = function (root) {
   var isFlat = function(smth){ return (smth.constructor === String || smth.constructor === Number || 
-    smth.constructor === Array || smth.constructor === Boolean) };
+    smth.constructor === Array || smth.constructor === Boolean); };
   var obj = root;
   
   for (var i=1; i < arguments.length; i++) {
@@ -127,10 +128,13 @@ DhoniShow.path = function(path, destination) {
     };
   }
   
-  return {
+  var ret = {
     destination: destination,
-    name: path.length > 0 ? path[path.length-1] : path
+    name: path.length > 1 ? path[path.length-1] : path
   };
+  if(path.length > 1) ret.root = path[0];
+  
+  return ret;
 };
 
 DhoniShow.register = function(name, method, options, mixins) {
@@ -138,9 +142,13 @@ DhoniShow.register = function(name, method, options, mixins) {
   
   path.destination[path.name] = method;
   
-  if(options && path.destination == this.prototype.modules){
+  if(options){
     if(!this.prototype.options) this.prototype.options = {};
-    this.prototype.options[path.name] = options;
+    if(path.root) {
+      this.prototype.options[path.root][path.name] = options;
+    } else {
+      this.prototype.options[path.name] = options;
+    }
   }
   
   return path.destination[path.name];

@@ -23,6 +23,9 @@
     },
     dispatchEvent: function(){
       this.parent.parent.event.dispatchEvent.apply(this.parent.parent.event, arguments);
+    },
+    share: function(){
+      return this.parent.share.apply(this.parent, arguments);
     }
   };
 

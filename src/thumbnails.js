@@ -1,7 +1,6 @@
 (function(){
   var thumbnails = DhoniShow.register("thumbnails", function(parent){
     this.parent = parent;
-    
     if(this.options.show) {
       this.addEventListener("loaded", this, this.loaded, true);
       this.addEventListener("update", this, this.update);
