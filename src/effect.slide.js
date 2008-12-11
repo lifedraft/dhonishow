@@ -19,7 +19,7 @@
     this.addEventListener("update", this, this.update);
     
   }, {
-    direction: "bottom"
+    direction: "right"
   });
   
   slide.prototype = {
@@ -65,7 +65,6 @@
         elements[i].element.css(css);
         offset += dimensions[this.updateHelper.dimension];
       };
-      
     }
   };
 })();
