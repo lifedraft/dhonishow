@@ -17,9 +17,10 @@
     
     this.addEventListener("loaded", this, this.center, true);
     this.addEventListener("update", this, this.update);
+    this.parent.share("slide", this);
     
   }, {
-    direction: "right"
+    direction: "left"
   });
   
   slide.prototype = {

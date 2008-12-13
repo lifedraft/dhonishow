@@ -16,7 +16,6 @@
     addListeners: function() {
       this.delegate("click", "next", this.next);
       this.delegate("click", "previous", this.previous);
-      
       if(this.options.keyboard) this.keyboard();
     },
     
@@ -48,6 +47,10 @@
             _this.next();
           break;
         }
+        
+        event.stopPropagation();
+        event.preventDefault();
+        return false;
       });
     },
     
