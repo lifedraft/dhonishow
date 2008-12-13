@@ -104,9 +104,9 @@
     template: ['<p class="dhonishow-alt">@alt</p>', // TODO Remove this array
     '<div class="dhonishow-paging-buttons">',
       '<div class="dhonishow-theme-helper">',
-        '<a class="dhonishow-next-button next" title="Next">Next</a>',
+        '<a class="dhonishow-next-button next" title="Next"><span>Next</span></a>',
         '<p class="dhonishow-paging">@current/@allpages</p>',
-        '<a class="dhonishow-previous-button previous" title="Previous">Previous</a>',
+        '<a class="dhonishow-previous-button previous" title="Previous"><span>Previous</span></a>',
       '</div>',
     '</div>'].join(""),
     

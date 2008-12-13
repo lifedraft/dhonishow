@@ -1,0 +1,74 @@
+
+.dhonishow .dhonishow-alt {
+  line-height: 16px;
+  text-align: left;
+  padding: 4px 0;  
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+  background: url("images/dhonishow-navi_background.png");
+  font-size: 1em;
+}
+
+.dhonishow .dhonishow_module_navigation-alt {
+  padding: 0 10em 0 7px;
+  display: block;
+}
+
+.dhonishow .dhonishow-paging-buttons {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: auto;
+  padding: 4px 5px 5px;
+  width: 10em;
+  z-index: 100;
+}
+
+.dhonishow .dhonishow-paging-button .dhonishow-theme-helper {}
+
+.dhonishow .dhonishow-next-button,
+.dhonishow .dhonishow-previous-button {
+  float: right;
+  cursor: pointer;
+}
+
+.dhonishow .dhonishow-next-button {
+  margin-left: 5px;
+}
+
+.dhonishow .dhonishow-next-button span,
+.dhonishow .dhonishow-previous-button span{
+  display: inline-block;
+  width: 9px;
+  height: 15px;
+  text-indent: -1000px;
+  background: url("images/dhonishow-buttons.png") 0 0 no-repeat;
+}
+
+.dhonishow .dhonishow-next-button:hover span {
+  background-position: -50px 0;
+}
+
+.dhonishow .dhonishow-next-button:active span {
+  background-position: -100px 0;
+}
+
+.dhonishow .dhonishow-previous-button span {
+  background-position: 0 -21px;
+}
+
+.dhonishow .dhonishow-previous-button:hover span {
+  background-position: -50px -21px;
+}
+
+.dhonishow .dhonishow-previous-button:active span {
+  background-position: -100px -21px;
+}
+
+.dhonishow .dhonishow-paging {
+  margin-left: 5px;
+  float: right;
+  margin-top: 2px;
+}

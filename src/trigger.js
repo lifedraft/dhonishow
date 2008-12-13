@@ -106,9 +106,17 @@
       var classNames = event.target.className.split(" ");
       for (var i=0; i < classNames.length; i++) { 
         if(classNames[i] in triggers){
-          triggers[classNames[i]].call(this, event.target);
+          return triggers[classNames[i]].call(this, event.target);
         }
       };
+      
+      var element = jQuery(event.target);
+      for(var className in triggers) {
+        var parents = element.parents("."+className);
+        if(parents.length) {
+          return triggers[className].call(this, event.target);
+        }
+      }
     }
 
   };

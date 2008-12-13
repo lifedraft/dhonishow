@@ -24,6 +24,7 @@
   
   gestures.prototype = {
     touchstart: function(startX, startY){ // mousedown
+      this.moving = false;
       this.startX = startX;
       this.startY = startY;
       
@@ -33,6 +34,7 @@
       return false;
     },
     touchmove: function(endX, endY){ // mousemove
+      this.moving = true;
       this.endX = endX;
       this.endY = endY;
       
@@ -55,6 +57,8 @@
       return false;
     },
     touchend: function(){ // mouseup
+      if(!this.moving) return;
+      this.moving = false;
       var offsetX = this.endX-this.startX;
       var offsetY = this.endY-this.startY;
       
@@ -63,7 +67,6 @@
 
       if(offsetX < 0) offsetX = -offsetX;
       if(offsetY < 0) offsetY = -offsetY;
-      
       
       if(this.options.slide.direction == "left" || this.options.slide.direction == "right") {
         if(this.endX < this.startX && offsetX >= factorX) { // right to left 
@@ -84,7 +87,7 @@
           this.share("dimensionsWrapper").css(this.options.slide.direction, this.origin);
         }
       }
-      
+
       this.startX = 0;
       this.startY = 0;
     },
