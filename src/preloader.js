@@ -15,7 +15,11 @@
       var _this = this;
 
       if(this.options.show) this.createLoading();
-      
+      this.share("element").css({
+        position: "absolute",
+        top: "-10000px",
+        left: "-10000px"
+      });
       this.loadedElements = this.share("elements").length;
       this.share("element").css("width", this.share("element").width());
       
@@ -99,6 +103,13 @@
       if(this.loading){
         this.loading.fadeOut(1000);
       }
+      
+      this.share("element").css({
+        position: "relative",
+        top: 0,
+        left: 0
+      });
+      
     }
   };
 })();

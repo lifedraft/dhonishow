@@ -8,7 +8,7 @@
   }, {
     endless: true,
     keyboard: true,
-    mixins: ["paging"]
+    mixins: ["navigation"]
   });
   
   trigger.prototype = {
