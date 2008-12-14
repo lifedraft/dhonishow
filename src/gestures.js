@@ -39,7 +39,7 @@
       this.endX = endX;
       this.endY = endY;
       
-      switch(this.options.slide.direction) {
+      switch(this.direction) {
         case "left":
           this.share("dimensionsWrapper").css("left", this.origin+(this.endX-this.startX));
         break;
@@ -69,23 +69,23 @@
       if(offsetX < 0) offsetX = -offsetX;
       if(offsetY < 0) offsetY = -offsetY;
       
-      if(this.options.slide.direction == "left" || this.options.slide.direction == "right") {
+      if(this.direction == "left" || this.direction == "right") {
         if(this.endX < this.startX && offsetX >= factorX) { // right to left 
-          this.options.slide.direction == "left" ? this.share("trigger").next() : this.share("trigger").previous();
+          this.direction == "left" ? this.share("trigger").next() : this.share("trigger").previous();
         } else if(offsetX >= factorX) { // left to right 
-          this.options.slide.direction == "right" ? this.share("trigger").next() : this.share("trigger").previous();
+          this.direction == "right" ? this.share("trigger").next() : this.share("trigger").previous();
         } else {
-          this.share("dimensionsWrapper").css(this.options.slide.direction, this.origin);
+          this.share("dimensionsWrapper").css(this.direction, this.origin);
         }
       }
       
-      if(this.options.slide.direction == "top" || this.options.slide.direction == "bottom") {
+      if(this.direction == "top" || this.direction == "bottom") {
         if(this.endY < this.startY && offsetY >= factorY) { // top to bottom 
-          this.options.slide.direction == "top" ? this.share("trigger").next() : this.share("trigger").previous();
+          this.direction == "top" ? this.share("trigger").next() : this.share("trigger").previous();
         } else if(offsetY >= factorY) { // bottom to top 
-          this.options.slide.direction == "bottom" ? this.share("trigger").next() : this.share("trigger").previous();
+          this.direction == "bottom" ? this.share("trigger").next() : this.share("trigger").previous();
         } else {
-          this.share("dimensionsWrapper").css(this.options.slide.direction, this.origin);
+          this.share("dimensionsWrapper").css(this.direction, this.origin);
         }
       }
 
