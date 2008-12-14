@@ -6,7 +6,7 @@
     this.share("trigger", this);
     this.addEventListener("loaded", this, this.addListeners, true);
   }, {
-    endless: true,
+    endless: false,
     keyboard: true,
     mixins: ["navigation"]
   });
@@ -26,17 +26,15 @@
       this.keyboardActive = false;
       
       // source: http://ejohn.org/blog/comparing-document-position/
-      var contains = function(a, b){
-        return a.contains ?
-          a != b && a.contains(b) :
-          !!(a.compareDocumentPosition(b) & 16);
-      }
+      var contains = function(a, b) {
+        return a.contains ? a != b && a.contains(b) : !!(a.compareDocumentPosition(b) & 16);
+      };
       
-      jQuery("body").bind("click", function(event){
+      jQuery("body").bind("click", function(event) {
         _this.keyboardActive = contains(element, event.target);
       });
       
-      jQuery(document).bind("keyup", function(event){
+      jQuery(document).bind("keyup", function(event) {
         if(!_this.keyboardActive) return;
         
         switch(event.keyCode) {
@@ -65,6 +63,8 @@
       } else if (current+1 < total) {
         next = current+1;
       }
+
+      if((current == next) || next == undefined) return;
       this.dispatchEvent("update", current, this.share("current", next));
     },
     
@@ -79,7 +79,8 @@
       } else if(current > 0) {
         next = current-1;
       }
-      
+
+      if((current == next) || next == undefined) return;
       this.dispatchEvent("update", current, this.share("current", next));
     },
 

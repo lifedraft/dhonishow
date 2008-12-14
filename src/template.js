@@ -92,13 +92,13 @@
     templateBaseReady: function(){
       this.placeholders();
       this.parent.share("element").find(".dhonishow_module_base").append(this.template);
-      this.invokeModules();
 
       this.addEventListener("update", this, this.current, this.giveModluePlaceholder("current"));
       this.addEventListener("update", this, this.allpages, this.giveModluePlaceholder("allpages"));
       this.addEventListener("update", this, this.alt, this.giveModluePlaceholder("alt"));
       this.addEventListener("update", this, this.next, this.parent.share("element").find(".next"));
       this.addEventListener("update", this, this.previous, this.parent.share("element").find(".previous"));
+      this.dispatchEvent("update");
     },
         
     template: ['<p class="dhonishow-alt">@alt</p>', // TODO Remove this array
@@ -131,7 +131,7 @@
     },
     
     previous: function(placeholder, current, next){
-      if(!this.options.endless && next == 0) {
+      if(!this.options.endless && (next == 0 || next == undefined)) {
         placeholder.css("visibility", "hidden");
       } else {
         placeholder.css("visibility", "");

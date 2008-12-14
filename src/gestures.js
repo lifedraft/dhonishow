@@ -8,7 +8,7 @@
     this.startX = 0;
     this.startY = 0;
     
-    if(this.options.name != "slide") return;
+    if(this.options.name != "slide" && this.options.enable) return;
     
     this.direction = this.options.slide.direction;
 
