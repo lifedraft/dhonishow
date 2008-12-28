@@ -69,26 +69,26 @@
       if(offsetX < 0) offsetX = -offsetX;
       if(offsetY < 0) offsetY = -offsetY;
       
+      var ret = false;
+      
       if(this.direction == "left" || this.direction == "right") {
         if(this.endX < this.startX && offsetX >= factorX) { // right to left 
-          this.direction == "left" ? this.share("trigger").next() : this.share("trigger").previous();
+          ret = this.direction == "left" ? this.share("trigger").next() : this.share("trigger").previous();
         } else if(offsetX >= factorX) { // left to right 
-          this.direction == "right" ? this.share("trigger").next() : this.share("trigger").previous();
-        } else {
-          this.share("dimensionsWrapper").css(this.direction, this.origin);
+          ret = this.direction == "right" ? this.share("trigger").next() : this.share("trigger").previous();
         }
       }
       
       if(this.direction == "top" || this.direction == "bottom") {
         if(this.endY < this.startY && offsetY >= factorY) { // top to bottom 
-          this.direction == "top" ? this.share("trigger").next() : this.share("trigger").previous();
+          ret = this.direction == "top" ? this.share("trigger").next() : this.share("trigger").previous();
         } else if(offsetY >= factorY) { // bottom to top 
-          this.direction == "bottom" ? this.share("trigger").next() : this.share("trigger").previous();
-        } else {
-          this.share("dimensionsWrapper").css(this.direction, this.origin);
+          ret = this.direction == "bottom" ? this.share("trigger").next() : this.share("trigger").previous();
         }
       }
 
+      if(!ret || ret == undefined) this.share("dimensionsWrapper").css(this.direction, this.origin);
+      
       this.startX = 0;
       this.startY = 0;
     },
