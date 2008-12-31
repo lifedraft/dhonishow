@@ -14,8 +14,8 @@
       elements[current].element.animate({ opacity: "toggle" }, duration);
       elements[next].element.animate({ opacity: "toggle" }, duration);
 
-      this.parent.share("dimensionsWrapper").animate( { height: elements[next].dimensions.height }, duration );
-      this.parent.share("element").animate( { width: elements[next].dimensions.width }, duration);
+      this.parent.share("dimensionsWrapper").animate( { height: elements[next].dimensions.height }, duration, this.easing(this.options.easing));
+      this.parent.share("element").animate( { width: elements[next].dimensions.width }, duration, this.easing(this.options.easing));
     },
     
     center: function(){

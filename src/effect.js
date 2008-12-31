@@ -11,7 +11,9 @@
   }, {
     name: "appear",
     duration: 0.6,
-    mixins: ["trigger"]
+    mixins: ["trigger"],
+    // Easing Plugin should be included http://gsgd.co.uk/sandbox/jquery/easing/
+    easing: "expo" // quad, cubic, quart, quint, sine, expo, circ, elastic, back, bounce
   });
   
   effect.prototype = {};
@@ -27,6 +29,11 @@
     },
     share: function(){
       return this.parent.share.apply(this.parent, arguments);
+    },
+    easing: function(string){
+      if(string == "swing") return "swing";
+      if(!jQuery.easing.easeInOutCubic || string == "linear") return "linear";
+      return "easeInOut"+string[0].toUpperCase()+(string.substring(1).toLowerCase());
     }
   };
 

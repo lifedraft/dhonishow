@@ -53,7 +53,7 @@
         var complete = function(){};
       }
       
-      this.share("dimensionsWrapper").animate(css, this.parent.duration*1000, complete);
+      this.share("dimensionsWrapper").animate(css, this.options.duration*1000, this.easing(this.options.easing), complete);
     },
     
     center: function() {
@@ -92,7 +92,7 @@
         offset += dimensions[this.updateHelper.dimension];
       };
       
-      if(this.parent.options.endless) {
+      if(this.options.endless) {
         var first = elements[0].element.clone();
         elements[elements.length-1].element.after(first);
         first.css(this.updateHelper.position, (this.updateHelper.prefix == "-") ? -offset : offset);

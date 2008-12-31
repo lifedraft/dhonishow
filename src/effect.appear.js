@@ -10,8 +10,8 @@
   appear.prototype = {
     update: function(current, next) {
       var elements = this.parent.share("elements");
-      elements[current].element.animate({ opacity: "toggle" }, this.options.duration*1000);
-      elements[next].element.animate({ opacity: "toggle" }, this.options.duration*1000);
+      elements[current].element.animate({ opacity: "toggle" }, this.options.duration*1000, this.easing(this.options.easing));
+      elements[next].element.animate({ opacity: "toggle" }, this.options.duration*1000, this.easing(this.options.easing));
     },
     
     center: function() {
