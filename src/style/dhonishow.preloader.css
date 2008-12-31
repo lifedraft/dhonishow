@@ -1,10 +1,11 @@
 /* Image generated with http://ajaxload.info/ */
 
-.dhonishow_module_preloader {
+.dhonishow_module-preloader {
   width: 20px;
   height: 20px;
   background: #0096FF url("images/preloader.gif") 50% 50% no-repeat;
   margin-bottom: -20px;
   position: relative;
   z-index: 1000;
+  text-indent: -1000em;
 }

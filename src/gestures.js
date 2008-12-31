@@ -87,7 +87,11 @@
         }
       }
 
-      if(!ret || ret == undefined) this.share("dimensionsWrapper").css(this.direction, this.origin);
+      if(!ret || ret == undefined) {
+        var animate = {};
+        animate[this.direction] = this.origin;
+        this.share("dimensionsWrapper").animate(animate, 200);
+      }
       
       this.startX = 0;
       this.startY = 0;

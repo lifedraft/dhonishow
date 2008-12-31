@@ -10,7 +10,8 @@
     
   }, {
     name: "appear",
-    duration: 0.6
+    duration: 0.6,
+    mixins: ["trigger"]
   });
   
   effect.prototype = {};

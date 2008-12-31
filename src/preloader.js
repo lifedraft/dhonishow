@@ -15,11 +15,6 @@
       var _this = this;
 
       if(this.options.show) this.createLoading();
-      this.share("element").css({
-        position: "absolute",
-        top: "-10000px",
-        left: "-10000px"
-      });
       this.loadedElements = this.share("elements").length;
       this.share("element").css("width", this.share("element").width());
       
@@ -96,7 +91,7 @@
     },
     
     createLoading: function() {
-      this.loading = this.share("element").before('<div class="dhonishow_module_preloader"></div>').prev();
+      this.loading = this.share("element").prev('.dhonishow_module-preloader');
     },
     
     hideLoading: function() {
