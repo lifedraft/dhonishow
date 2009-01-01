@@ -82,10 +82,10 @@
       
       for (var i=0; i < elements.length; i++) {
         var css = {
-          paddingLeft: elements[i].dimensions.paddingLeft,
-          paddingTop: elements[i].dimensions.paddingTop,
-          marginLeft: elements[i].dimensions.marginLeft,
-          marginTop: elements[i].dimensions.marginTop
+          paddingLeft: elements[i].offsets.paddingLeft,
+          paddingTop: elements[i].offsets.paddingTop,
+          marginLeft: elements[i].offsets.marginLeft,
+          marginTop: elements[i].offsets.marginTop
         };
         css[this.updateHelper.position] = (this.updateHelper.prefix == "-") ? -offset : offset;
         elements[i].element.css(css);

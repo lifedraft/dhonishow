@@ -21,12 +21,7 @@
       var currenIndex = this.parent.share("current");
       
       for (var i=0; i < elements.length; i++) {
-        elements[i].element.css({
-          paddingLeft: elements[i].dimensions.paddingLeft,
-          paddingTop: elements[i].dimensions.paddingTop,
-          marginLeft: elements[i].dimensions.marginLeft,
-          marginTop: elements[i].dimensions.marginTop
-        });
+        elements[i].element.css(elements[i].offsets);
         if(i != currenIndex) elements[i].element.hide();
       };
     }

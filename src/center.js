@@ -1,7 +1,8 @@
 (function(){
   
-  var center = DhoniShow.register("center", function(parent){
+  var center = DhoniShow.register("center", function(parent){    
     this.parent = parent;
+    this.share("center", this);
     
     this.elements = this.share("elements");
     this.max = { width: 0, height: 0 };
@@ -45,22 +46,29 @@
       if(this.options.elements == true) {
       
         for (var i=0; i < this.elements.length; i++) {
-          var dimensions = this.elements[i].dimensions;
-          
-          var offsetWidth = (dimensions.width - width) / 2;
-          var offsetHeight = (dimensions.height - height) / 2;
-          
-          if(offsetWidth > 0 ) {
-            dimensions.paddingLeft = 0;
-            dimensions.marginLeft = -offsetWidth;
-          } else dimensions.paddingLeft = -offsetWidth;
-          
-          if(offsetHeight > 0 ) {
-            dimensions.paddingTop = 0;
-            dimensions.marginTop = -offsetHeight;
-          } else dimensions.paddingTop = -offsetHeight;
+          this.elements[i].offsets = 
+          this.calculateOffsets(width, height, this.elements[i].dimensions.width, this.elements[i].dimensions.height);
         }
       }
+    },
+    
+    calculateOffsets: function(outerWidth, outerHeight, innerWidth, innerHeight) {
+      var dimensions = {};
+      
+      var offsetWidth = (innerWidth - outerWidth) / 2;
+      var offsetHeight = (innerHeight - outerHeight) / 2;
+      
+      if(offsetWidth > 0 ) {
+        dimensions.paddingLeft = 0;
+        dimensions.marginLeft = -offsetWidth;
+      } else dimensions.paddingLeft = -offsetWidth;
+      
+      if(offsetHeight > 0 ) {
+        dimensions.paddingTop = 0;
+        dimensions.marginTop = -offsetHeight;
+      } else dimensions.paddingTop = -offsetHeight;
+      
+      return dimensions;
     }
   };
 

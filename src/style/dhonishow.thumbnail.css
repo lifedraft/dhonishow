@@ -11,11 +11,15 @@
   position: relative;
 }
 
-.dhonishow .dhonishow_module_thumbnails-wrapper li * {
-/*  position: absolute;*/
+.dhonishow .dhonishow_module_thumbnails-wrapper .dhonishow-thumbnails_marker {
+  height: 10px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-indent: -1000px;
 }
 
-.dhonishow .dhonishow_module_thumbnails-wrapper .thumbnail_active a.dhonishow_change{
-  border-top: 10px solid #0096FF;
-  display: block;
+.dhonishow .dhonishow_module_thumbnails-wrapper .thumbnail_active .dhonishow-thumbnails_marker {
+  background: #0096FF;
 }
