@@ -54,7 +54,10 @@
           height: dimension,
           marginBottom: this.options.gap,
           padding: 0,
-          display: ""
+          display: "",
+          left: 0,
+          top: 0,
+          position: "relative"
         });
         
         if((i+1) % cols != 0) element.css({ marginRight: this.options.gap });
