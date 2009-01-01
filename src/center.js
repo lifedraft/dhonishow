@@ -48,6 +48,8 @@
         for (var i=0; i < this.elements.length; i++) {
           this.elements[i].offsets = 
           this.calculateOffsets(width, height, this.elements[i].dimensions.width, this.elements[i].dimensions.height);
+          this.elements[i].offsets.width = width-this.elements[i].offsets.paddingLeft;
+          this.elements[i].offsets.height = height-this.elements[i].offsets.paddingTop;
         }
       }
     },
