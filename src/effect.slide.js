@@ -13,7 +13,7 @@
       this.updateHelper = { dimension: "height", side: "bottom", position: "top", prefix: "-" };
     }
     
-    this.themehelper = this.share("dimensionsWrapper").wrapAll("<div class='dhonishow_module_effect_slide-themehelper'></div>").parent();
+    this.themehelper = this.share("dimensionsWrapper").wrapAll("<div class='dhonishow-module-effect_slide-themehelper'></div>").parent();
     
     this.addEventListener("loaded", this, this.center, true);
     this.addEventListener("update", this, this.update);
