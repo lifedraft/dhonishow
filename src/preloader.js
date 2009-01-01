@@ -33,7 +33,7 @@
           element.dimensions = { width: domElement.width(), height: domElement.height()};
           
           if(childrenElements != images.length) {
-            domElement.removeClass("dhonishow_module_base-element").addClass("dhonishow_module_base-image-text-element");
+            domElement.removeClass("dhonishow-module_base-element").addClass("dhonishow-module_base-image-text-element");
           }
           
           for (var i=0; i < images.length; i++) {
@@ -56,7 +56,7 @@
             }
           }
         } else {
-          domElement.removeClass("dhonishow_module_base-element").addClass("dhonishow_module_base-text-element");
+          domElement.removeClass("dhonishow-module_base-element").addClass("dhonishow-module_base-text-element");
           element.dimensions = { width: domElement.width(), height: domElement.height()};
           _this.loadedTextElement();
         }

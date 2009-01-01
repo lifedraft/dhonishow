@@ -17,14 +17,14 @@
   margin: 0;
 }
 
-.dhonishow .dhonishow_module_base-elements {
+.dhonishow .dhonishow-module_base-elements {
   display: block;
   overflow: hidden;
   text-align: left;
   position: relative;
 }
 
-.dhonishow .dhonishow_module_base-element {
+.dhonishow .dhonishow-module_base-element {
   position: absolute;  
   overflow: visible;
   line-height: 1px;
@@ -34,8 +34,8 @@
   top: 0;
 }
 
-.dhonishow .dhonishow_module_base-text-element,
-.dhonishow .dhonishow_module_base-image-text-element {
+.dhonishow .dhonishow-module_base-text-element,
+.dhonishow .dhonishow-module_base-image-text-element {
   position: absolute;
   overflow: visible;
   padding: 0;
@@ -44,7 +44,7 @@
   top: 0;
 }
 
-.dhonishow .dhonishow_module_base {
+.dhonishow .dhonishow-module_base {
   overflow: visible;
   width: 100%;
   position: relative;

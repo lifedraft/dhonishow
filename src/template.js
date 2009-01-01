@@ -58,17 +58,17 @@
 
       var newParent = jQuery("<div class='"+classNames+"'></div>");
       element.wrap(newParent);
-      elements = element.children().addClass("dhonishow_module_base-element");
-      element[0].className = "dhonishow_module_base-elements";
+      elements = element.children().addClass("dhonishow-module_base-element");
+      element[0].className = "dhonishow-module_base-elements";
       this.parent.share("element", element.parent());
 
     } else {
 
-      elements = this.parent.share("element").children().wrap("<li class='dhonishow_module_base-element'></li>").parent();
-      elements.wrapAll('<div class="dhonishow_module_base"><ol class="dhonishow_module_base-elements"></ol></div>');
+      elements = this.parent.share("element").children().wrap("<li class='dhonishow-module_base-element'></li>").parent();
+      elements.wrapAll('<div class="dhonishow-module_base"><ol class="dhonishow-module_base-elements"></ol></div>');
     }
 
-    this.parent.share("dimensionsWrapper", this.parent.share("element").find(".dhonishow_module_base-elements"));
+    this.parent.share("dimensionsWrapper", this.parent.share("element").find(".dhonishow-module_base-elements"));
     this.setElements(elements);
     this.dispatchEvent("templateBaseReady");
   });
@@ -91,7 +91,7 @@
   navigation.prototype = {
     templateBaseReady: function(){
       this.placeholders();
-      this.parent.share("element").find(".dhonishow_module_base").append(this.template);
+      this.parent.share("element").find(".dhonishow-module_base").append(this.template);
 
       this.addEventListener("update", this, this.current, this.giveModluePlaceholder("current"));
       this.addEventListener("update", this, this.allpages, this.giveModluePlaceholder("allpages"));

@@ -1,17 +1,22 @@
 /* Thumbnails */
 
-.dhonishow .dhonishow_module_thumbnails-wrapper {
+.dhonishow .dhonishow-module-thumbnails_wrapper {
   overflow: hidden;
   width: 100%;
+  position: relative;
 }
 
-.dhonishow .dhonishow_module_thumbnails-wrapper li {
+.dhonishow .dhonishow-module-thumbnails_scroll .dhonishow-module_thumbnails {
+  position: absolute;
+}
+
+.dhonishow .dhonishow-module-thumbnails_wrapper li {
   float: left;
   overflow: hidden;
   position: relative;
 }
 
-.dhonishow .dhonishow_module_thumbnails-wrapper .dhonishow-thumbnails_marker {
+.dhonishow-module-thumbnails_wrapper .dhonishow-thumbnails_marker {
   height: 10px;
   width: 100%;
   position: absolute;
@@ -20,6 +25,6 @@
   text-indent: -1000px;
 }
 
-.dhonishow .dhonishow_module_thumbnails-wrapper .thumbnail_active .dhonishow-thumbnails_marker {
+.dhonishow .dhonishow-module-thumbnails_wrapper .thumbnail_active .dhonishow-thumbnails_marker {
   background: #0096FF;
 }

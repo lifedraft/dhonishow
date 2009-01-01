@@ -99,7 +99,6 @@
 
         var last = elements[elements.length-1].element.clone();
         elements[0].element.before(last);
-        
         last.css(this.updateHelper.position, (this.updateHelper.prefix == "-") ? dimensions[this.updateHelper.dimension] : -dimensions[this.updateHelper.dimension]);
       }
     }
