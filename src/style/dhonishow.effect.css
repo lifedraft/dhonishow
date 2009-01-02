@@ -1,12 +1,10 @@
 /* Effects  */
 
-.dhonishow .dhonishow-module-effect_slide-themehelper,
-.dhonishow .dhonishow-module-effect_scroll-themehelper {
+.dhonishow .dhonishow_module_effect_slide-themehelper {
   position: relative;
   overflow: hidden;
 }
 
-.dhonishow-module-effect_slide-themehelper .dhonishow-module_base-elements,
-.dhonishow-module-effect_scroll-themehelper .dhonishow-module_base-elements {
+.dhonishow_module_effect_slide-themehelper .dhonishow-module_base-elements {
   overflow: visible;
 }
