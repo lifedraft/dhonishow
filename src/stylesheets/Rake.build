@@ -1,0 +1,26 @@
+<%= include "../../HEADER" %>
+<%
+all_files = Dir.entries(".")
+blacklist = %w{ .DS_Store dhonishow.css Rake.build }
+important_first = %w{dhonishow.core.css}
+def readfiles (files)
+  output = ""
+  files.each { | file |
+    if File.stat(file).file?
+      output << "\n\n\n\n\n/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+DhoniShow module: #{file}
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+"
+      File.open(file) { | fh |
+        output << fh.readlines.to_s
+      }
+    end
+  }
+  return output
+end
+%>
+<%= readfiles(important_first) %>
+<%= readfiles(all_files-blacklist-important_first) %>
