@@ -1,37 +1,45 @@
-Options
-==============
+h2. Options
 
-Effects
-  * effect-name_appear
-  * effect-name_resize
-  * effect-name_slide
-    * effect-slide-direction_left
-    * effect-slide-direction_top
-    * effect-slide-direction_right
-    * effect-slide-direction_bottom
-  * effect-duration_0dot6
+ <hr/>
 
-Center
-  * center-elements_true
-  * center-fullwidth_true
-  * center-width_320
-  * center-height_400
-  
-Preloader
-  * preloader-show_true
-  
-Autoplay
-  * autoplay-each_5
-  * autoplay-random_true
+h3. Effects
 
-Gestures
-  * gestures-enable_true
+* effect-name_appear
+* effect-name_resize
+* effect-name_slide
+  * effect-slide-direction_left
+  * effect-slide-direction_top
+  * effect-slide-direction_right
+  * effect-slide-direction_bottom
+* effect-duration_0dot6
+
+h3. Center
+
+* center-elements_true
+* center-fullwidth_true
+* center-width_320
+* center-height_400
   
-Thumbnails
-  * thumbnails-show_true
-  * thumbnails-cols_4
-  * thumbnails-gap_10
+h3. Preloader
+
+* preloader-show_true
   
-Trigger / Navigation
-  * trigger-endless_true / navigation-endless_true
-  * trigger-keyboard_true / navigation-keyboard_true
+h3. Autoplay
+
+* autoplay-each_5
+* autoplay-random_true
+
+h3. Gestures
+
+* gestures-enable_true
+  
+h3. Thumbnails
+
+* thumbnails-show_true
+* thumbnails-cols_4
+* thumbnails-gap_10
+  
+h3. Trigger / Navigation
+
+* trigger-endless_true
+* trigger-keyboard_true
