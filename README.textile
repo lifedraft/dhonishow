@@ -7,10 +7,10 @@ h3. Effects
 * effect-name_appear
 * effect-name_resize
 * effect-name_slide
-  * effect-slide-direction_left
-  * effect-slide-direction_top
-  * effect-slide-direction_right
-  * effect-slide-direction_bottom
+** effect-slide-direction_left
+** effect-slide-direction_top
+** effect-slide-direction_right
+** effect-slide-direction_bottom
 * effect-duration_0dot6
 
 h3. Center
